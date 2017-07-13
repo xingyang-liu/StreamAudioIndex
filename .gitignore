@@ -3,3 +3,8 @@ Ii.txt
 Log.txt
 CMakeLists.txt
 
+.DS_Store
+back/
+cmake-build-debug/
+demoC++/
+h5/
