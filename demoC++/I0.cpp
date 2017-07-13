@@ -59,7 +59,7 @@ void I0::I0_sort()
 
 void I0::output()
 {
-    ofstream out("I0_Result.txt");
+    ofstream out("Index/I0_Result.txt");
 //    cout << "I0_count:" << AudioCount << "\n";
     map<string, vector<Fre> >::iterator it;
     for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)

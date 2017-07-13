@@ -34,7 +34,7 @@ void ini(IndexAll &Index)
 {
 	double begin, end;
 	begin = getTime();
-	ifstream info_in("AudioInfo.txt");
+	ifstream info_in("info.txt");
 	if (!info_in) exit(7);
 	string DoubleQuestionMark = "??";
 	string QuestionMark = "?";
@@ -91,7 +91,7 @@ string handleQuery(IndexAll &Index, string query_str)
 	vector<string> query;
 	vector<pair<int, double> > Result;
 	map<int, string> name;
-    ofstream out_res("Result.txt", ofstream::app);
+    ofstream out_res("Log.txt", ofstream::app);
 
     SplitString(query_str, query, stopwords);
     for (int j = 0; j < query.size(); ++j) {

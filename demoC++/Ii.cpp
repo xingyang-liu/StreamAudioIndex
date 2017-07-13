@@ -52,9 +52,9 @@ Ii::Ii(int level0, I0 &Index0)
 
 void Ii::output()
 {
-    string FreName = "I" + Itos(level) + "__postinglist_fre.txt";
-    string SigName = "I" + Itos(level) + "__postinglist_sig.txt";
-    string SimName = "I" + Itos(level) + "__postinglist_sim.txt";
+    string FreName = "Index/I" + Itos(level) + "__postinglist_fre.txt";
+    string SigName = "Index/I" + Itos(level) + "__postinglist_sig.txt";
+    string SimName = "Index/I" + Itos(level) + "__postinglist_sim.txt";
     ofstream out_fre(FreName.c_str());//不存在就创建是默认的
     ofstream out_sig(SigName.c_str());
     ofstream out_sim(SimName.c_str());
