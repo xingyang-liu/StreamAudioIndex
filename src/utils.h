@@ -14,6 +14,7 @@
 #include <cmath>
 #include <sys/time.h>
 #include <sstream>
+#include <cstring>
 #include <limits>
 
 using namespace std;
