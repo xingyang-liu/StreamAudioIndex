@@ -4,9 +4,10 @@
 
 #include "utils.h"
 
-int IndexUnit = 500;
-int AudioSum = 7999;
+int IndexUnit = 20;
+int AudioSum = 999;
 int AnswerNum = 5;
+int IdfNum=0;
 map<string, double> IdfTable;
 
 string Itos(int num)

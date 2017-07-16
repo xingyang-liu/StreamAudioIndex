@@ -31,14 +31,55 @@ public:
 	void MergerIndex(Ii &other);//并未考虑存在相同id的情况，否则请重载部分运算符//新的归并旧的
 
 	void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<string> query, map<int, string> &name);
+//
+//	void *MergerIndexSim(void *arg);
+//
+//	void *MergerIndexSig(void *arg);
+//
+//	void *MergerIndexFre(void *arg);
+
+
+
+	map<string, vector<Fre> > *getPosting(Fre &other)
+	{
+		return TermIndexFre;
+	};
+
+	map<string, vector<Sig> > *getPosting(Sig &other)
+	{
+		return TermIndexSig;
+	};
+
+	map<string, vector<TermFreq> > *getPosting(TermFreq &other)
+	{
+		return TermIndexSim;
+	};
 
 	~Ii()
 	{
-		delete TermIndexFre;
-		delete TermIndexSig;
-		delete TermIndexSim;
-		delete InfoTable;
+		if(TermIndexFre!=NULL) delete TermIndexFre;
+		if(TermIndexSig!=NULL) delete TermIndexSig;
+        if(TermIndexSim!=NULL) delete TermIndexSim;
+        if(InfoTable!=NULL) delete InfoTable;
 	}
 };
+
+class FamilyIi
+{
+public:
+	Ii*me;
+	Ii*him;
+
+	FamilyIi(Ii* myself,Ii* other)
+	{
+		me=myself;
+		him=other;
+	}
+};
+
+
+template <class T>
+void *MergerIndexThread(void *fam);
+
 
 #endif //SAMPLE_CONNECTOR_II_H

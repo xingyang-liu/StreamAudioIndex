@@ -21,12 +21,13 @@ public:
 
     map<int, AudioInfo> *InfoTable;
     map<string, vector<Fre> > *TermIndex;
+	map<string, CMutex> TermMutex;
+	CMutex MutexInfo;
     int AudioCount;
 
     I0();
 
-    void addAudio(int &id, string title, int &LikeCount, int &CommentCount, int &PlayCount, double &score, \
-		map<string, int> &TagsNum, int &TagsSum, double &time);
+	void addAudio(AudioInfo &tmp_info);
 
     void term_add(string term, int id, double fresh);
 
@@ -42,7 +43,21 @@ public:
 
     void clear();
 
-    ~I0() { delete InfoTable; delete TermIndex; }
+    ~I0() { if(InfoTable!=NULL) delete InfoTable; if(TermIndex!=NULL) delete TermIndex;  }
+};
+
+
+class FamilyI0
+{
+public:
+	I0*me;
+	I0*him;
+
+	FamilyI0(I0* myself,I0* other)
+	{
+		me=myself;
+		him=other;
+	}
 };
 
 

@@ -7,6 +7,7 @@
 
 #include <string>
 #include <map>
+//#include <iostream>
 
 using namespace std;
 class AudioInfo {
@@ -16,11 +17,14 @@ public:
     int LikeCount, CommentCount, PlayCount, TagsSum;
     double score, time;
     map<string, int> TagsNum;
+	int final;
 
     AudioInfo() {}
 
-    AudioInfo(int id, string title, int LikeCount, int CommentCount, int PlayCount, double score, map<string, int>TagsNum, int TagsSum, double time)\
-		:id(id), title(title), LikeCount(LikeCount), CommentCount(CommentCount), PlayCount(PlayCount), score(score), TagsNum(TagsNum), TagsSum(TagsSum), time(time){}
+    AudioInfo(int id, string title, int LikeCount, int CommentCount, int PlayCount, double score, \
+	map<string, int>TagsNum, int TagsSum, double time,int finalflag)\
+		:id(id), title(title), LikeCount(LikeCount), CommentCount(CommentCount),\
+		 PlayCount(PlayCount), score(score), TagsNum(TagsNum), TagsSum(TagsSum), time(time),final(finalflag){}
 
     AudioInfo(const AudioInfo& other);
 
@@ -30,6 +34,7 @@ public:
 
     AudioInfo &operator=(const AudioInfo&other);//按理说是应该加const，但是要写几个函数提取成员
 
+	void update(AudioInfo& other);
 };
 
 

@@ -13,16 +13,14 @@ I0::I0()
     TermIndex = new map<string, vector<Fre> >;
 }
 
-void I0::addAudio(int &id, string title, int &LikeCount, int &CommentCount, int &PlayCount, double &score, \
-		map<string, int> &TagsNum, int &TagsSum, double &time)
+void I0::addAudio(AudioInfo &tmp_info)
 {
-    AudioInfo tmp_info(id, title, LikeCount, CommentCount, PlayCount, score, TagsNum, TagsSum, time);
-    (*InfoTable)[id] = tmp_info;
+    (*InfoTable)[tmp_info.id] = tmp_info;
     AudioCount++;
     map<string, int>::iterator it;
-    for (it = TagsNum.begin(); it != TagsNum.end(); it++)
+    for (it = tmp_info.TagsNum.begin(); it != tmp_info.TagsNum.end(); it++)
     {
-        term_add(it->first, id, time);
+        term_add(it->first, tmp_info.id, tmp_info.time);
     }
     //(*InfoTable) = (*InfoTable).insert(make_pair<int, AudioInfo>);
 
@@ -35,15 +33,20 @@ void I0::addAudio(int &id, string title, int &LikeCount, int &CommentCount, int 
 void I0::term_add(string term, int id, double fresh)
 {
     map<string, vector<Fre> >::iterator it = (*TermIndex).find(term);
-    if (!(it != (*TermIndex).end()))
+    if ((it == (*TermIndex).end()))
     {
+
         vector<Fre> tmp;
         tmp.push_back(Fre(id, fresh));
+        (TermMutex)[term] = CMutex();
         (*TermIndex)[term] = tmp;
+
     }
     else
     {
-        it->second.push_back(Fre(id, fresh));
+        (TermMutex)[term].Lock();
+        it->second.push_back(Fre(id, fresh));//这里是倒序的时间，vector很尬，搜索呢个地方是倒着搜索的
+        (TermMutex)[term].Unlock();
     }
 }
 
@@ -59,27 +62,28 @@ void I0::I0_sort()
 
 void I0::output()
 {
-    ofstream out("Index/I0_Result.txt");
-//    cout << "I0_count:" << AudioCount << "\n";
-    map<string, vector<Fre> >::iterator it;
-    for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)
-    {
-        out << it->first << ':' << '\t';
-        for (int i = 0; i < it->second.size(); i++)
-        {
-            out << it->second[i].id << ',' << it->second[i].fresh << '\t';
-        }
-        out << '\n';
-    }
-    out.close();
+//    ofstream out("Index/I0_Result.txt");
+    cout << "I0_count:" << AudioCount << "\n";
+//    map<string, vector<Fre> >::iterator it;
+//    for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)
+//    {
+//        out << it->first << ':' << '\t';
+//        for (int i = 0; i < it->second.size(); i++)
+//        {
+//            out << it->second[i].id << ',' << it->second[i].fresh << '\t';
+//        }
+//        out << '\n';
+//    }
+//    out.close();
 }
 
 void I0::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum,const vector<string> &query, map<int, string> &name)
 {
     try
     {
-        for (int i = 0; i < query.size(); i++)
+        for (int i = query.size()-1; i >=0 ; i--)
         {
+
             map<string, vector<Fre> >::iterator it = (*TermIndex).find(query[i]);
 //            cout << get_count();
 //            map<string,vector<Fre> >::iterator it_tmp;
@@ -91,6 +95,7 @@ void I0::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
 //            }
             if (it != (*TermIndex).end())
             {
+                TermMutex[query[i]].Lock();
                 for (int j = 0; j < (*TermIndex)[query[i]].size(); j++)
                 {
                     int id1 = (*TermIndex)[query[i]][j].id;
@@ -108,6 +113,7 @@ void I0::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                         }
                     }
                 }
+                TermMutex[query[i]].Unlock();
             }
             vector<pair<int, double> > ResVector(Result.begin(), Result.end());
             sort(ResVector.begin(), ResVector.end(), CompDedcendVal());
@@ -158,4 +164,5 @@ void I0::clear()
     InfoTable = new map<int, AudioInfo>;
     AudioCount = 0;
     TermIndex = new map<string, vector<Fre> >;
+    TermMutex.clear();
 }
