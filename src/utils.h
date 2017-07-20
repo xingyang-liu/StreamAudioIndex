@@ -2,26 +2,34 @@
 // Created by 兴阳 刘 on 2017/7/11.
 //
 
-#ifndef SAMPLE_CONNECTOR_UTILS_H
-#define SAMPLE_CONNECTOR_UTILS_H
+#ifndef HASH_0E_UTILS_H
+#define HASH_0E_UTILS_H
 
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <string>
+#include <string.h>
 #include <map>
+#include <list>
 #include <algorithm>
 #include <cmath>
 #include <sys/time.h>
 #include <sstream>
-#include <cstring>
 #include <limits>
+#include <pthread.h>
+#include <stdlib.h>
+#include <iomanip>
+#include <unistd.h>
+#include <set>
+#include <queue>
+
 
 using namespace std;
 
 extern int IndexUnit;
 extern int AudioSum;
 extern int AnswerNum;
+extern int IdfNum;
 extern map<string, double> IdfTable;
 
 string Itos(int num);
@@ -43,4 +51,26 @@ struct CompDedcendVal {
 
 double computeScore(const double &time, const double &score, map<string, int> &tagsNum, const int &tagsSum,
                     const vector<string> &query);
-#endif //SAMPLE_CONNECTOR_UTILS_H
+
+class CMutex
+{
+public:
+    CMutex()
+    {
+        mutex = PTHREAD_MUTEX_INITIALIZER;
+    }
+    ~CMutex(){}
+    void Lock()
+    {
+        pthread_mutex_lock(&mutex);
+    }
+    void Unlock()
+    {
+        pthread_mutex_unlock(&mutex);
+    }
+private:
+    pthread_mutex_t mutex;
+};
+
+
+#endif //HASH_0E_UTILS_H

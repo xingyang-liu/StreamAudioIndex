@@ -8,30 +8,17 @@ using namespace std;
 
 AudioInfo::AudioInfo(const AudioInfo& other)
 {
-    LikeCount = other.LikeCount;
-    CommentCount = other.CommentCount;
-    PlayCount = other.PlayCount;
+    id=other.id;
     TagsSum = other.TagsSum;
     score = other.score;
     time = other.time;
     title = other.title;
-    map<string, int> tmp = other.get();
-    map<string, int>::iterator it;
-    for (it = tmp.begin(); it != tmp.end(); it++)
-    {
-        TagsNum[it->first] = it->second;
-    }
+    final=other.final;
 }
 
 bool AudioInfo::operator==(const AudioInfo &other)
 {
-    return id == other.id && title == other.title && LikeCount == other.LikeCount && CommentCount == other.CommentCount \
-			&& PlayCount == other.PlayCount && TagsSum == other.TagsSum;
-}
-
-map<string, int> AudioInfo::get() const
-{
-    return TagsNum;
+    return id == other.id && title == other.title && TagsSum == other.TagsSum;
 }
 
 AudioInfo &AudioInfo::operator=(const AudioInfo&other)//按理说是应该加const，但是要写几个函数提取成员
@@ -42,21 +29,26 @@ AudioInfo &AudioInfo::operator=(const AudioInfo&other)//按理说是应该加con
     }
     else
     {
-        TagsNum.clear();
-        LikeCount = other.LikeCount;
-        CommentCount = other.CommentCount;
-        PlayCount = other.PlayCount;
+        id=other.id;
         TagsSum = other.TagsSum;
         score = other.score;
         title = other.title;
         time = other.time;
-        map<string, int> tmp = other.get();
-        map<string, int>::iterator it;
-        for (it = tmp.begin(); it != tmp.end(); it++)
-        {
-            //cout << it->first << "\t" << it->second << endl;
-            TagsNum[it->first] = it->second;
-        }
+        final=other.final;
         return *this;
     }
+}
+
+
+void AudioInfo::update(AudioInfo& other)
+{
+    if (id!=other.id)
+    {
+//        cout<<"Can't update Audio."<<endl;
+        exit(3);
+    }
+    TagsSum = other.TagsSum;
+    score = other.score;
+    time = other.time;
+    final=other.final;
 }
