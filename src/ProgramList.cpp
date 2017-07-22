@@ -71,7 +71,7 @@ NodeInfo* ProgramList::getNodePointer(int tf,int id) {
         tmp_pointer=it_node->second;
     }
 
-    return it_node->second;
+    return tmp_pointer;
 
 }
 

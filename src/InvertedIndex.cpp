@@ -90,10 +90,20 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
         for (; it_node != livePointer[tmp_info.id].end(); it_node++) {
             if (it_node->second->flag == -1) {
                 (*TermMutex)[it_node->first].Lock();
-                (*TermIndex)[it_node->first]= new ProgramList;
-                tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
-                it_node->second->flag=0;
-                it_node->second=tmp;
+                if((*TermIndex).find(it_node->first)==TermIndex->end())
+                {
+                    (*TermIndex)[it_node->first]= new ProgramList;
+                    tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
+                    it_node->second->flag=0;
+                    it_node->second=tmp;
+                    it_node->second->flag=-1;
+                }else{
+                    tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
+                    it_node->second->flag=0;
+                    it_node->second=tmp;
+                    it_node->second->flag=-1;
+                }
+
                 (*TermMutex)[it_node->first].Unlock();
             }else if(it_node->second->flag==-2333)
             {
@@ -106,11 +116,19 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
             string str=it_node->first;
 
             if (it_node->second->flag == -1) {
-                (*TermMutex)[it_node->first].Lock();
-                (*TermIndex)[it_node->first]= new ProgramList;
-                (*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
-                it_node->second->flag=0;
-
+                if((*TermIndex).find(it_node->first)==TermIndex->end())
+                {
+                    (*TermIndex)[it_node->first]= new ProgramList;
+                    tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
+                    it_node->second->flag=0;
+                    it_node->second=tmp;
+                    it_node->second->flag=-1;
+                }else{
+                    tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
+                    it_node->second->flag=0;
+                    it_node->second=tmp;
+                    it_node->second->flag=-1;
+                }
                 (*TermMutex)[it_node->first].Unlock();
             }
 
@@ -176,6 +194,7 @@ void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<strin
     {
         if(livePointer[id].find(term)!=livePointer[id].end()) {
             livePointer[id][term]->flag = 0;
+            livePointer[id].erase(term);
         }
     }
 }
@@ -309,6 +328,10 @@ void InvertedIndex::MergerIndex(InvertedIndex &other)//并未考虑存在相同i
 
     for(it_list_j=other.TermIndex->begin();it_list_j!=other.TermIndex->end();it_list_j++) {
         it_list_i = TermIndex->find(it_list_j->first);
+        map<string,ProgramList*> &otherone=(*other.TermIndex);
+        map<string,ProgramList*> &oneone=(*TermIndex);
+        string str=it_list_j->first;
+
 
         if (it_list_i ==TermIndex->end()) {
             (*TermIndex)[it_list_j->first] = new ProgramList;
@@ -316,22 +339,19 @@ void InvertedIndex::MergerIndex(InvertedIndex &other)//并未考虑存在相同i
             for (it_node_tmp=((*other.TermIndex)[it_list_j->first]->nodeMap)->begin();\
             it_node_tmp!=((*other.TermIndex)[it_list_j->first]->nodeMap)->end();it_node_tmp++)
             {
-                (*TermIndex)[it_list_j->first]->addNode(it_node_tmp->second->tf,it_node_tmp->second->id);
+                if(it_node_tmp->second->flag==-1)
+                {
+                    (*TermIndex)[it_list_j->first]->addNode(it_node_tmp->second->tf,it_node_tmp->second->id);
+                }
             }
         }else{
-            string str=it_list_j->first;
 
-            map<string,ProgramList*>&tmp_list=(*other.TermIndex);
-            map<string,ProgramList*>&tmp1_list=(*TermIndex);
-
-
-
-            int count=0;
             for (it_node_tmp=((*other.TermIndex)[it_list_j->first]->nodeMap)->begin();\
             it_node_tmp!=((*other.TermIndex)[it_list_j->first]->nodeMap)->end();it_node_tmp++)
             {
-                count++;
-                (*TermIndex)[it_list_j->first]->getNodePointer(it_node_tmp->second->tf,it_node_tmp->second->id);
+                if(it_node_tmp->second->flag==-1){
+                    (*TermIndex)[it_list_j->first]->getNodePointer(it_node_tmp->second->tf,it_node_tmp->second->id);
+                }
             }
         }
     }
@@ -794,12 +814,12 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
                     }
                     catch (...)
                     {
-//                    cout << "computeScore() with up has something wrong." << endl;
+                    cout << "computeScore() with up has something wrong." << endl;
                     }
                 }
                 catch (...)
                 {
-//                cout << "Search with up has something wrong." << endl;
+                cout << "Search with up has something wrong." << endl;
                 }
             }
             vector<pair<int, double> > ResVector(Result.begin(), Result.end());
@@ -979,13 +999,13 @@ void *InvertedIndexMergerThreadFre(void *fam)
                while(pointer_j!=NULL)
                {
                    tmp_node->next_fresh=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
-                   tmp_node=tmp_node;
+                   tmp_node=tmp_node->next_fresh;
                    pointer_j=pointer_j->next_fresh;
                    while (pointer_j != NULL && pointer_j->flag == 0) {
                        pointer_j = pointer_j->next_fresh;
                    }
                }
-               tmp_node=NULL;
+               tmp_node->next_fresh=NULL;
            }
            else
            {
@@ -1014,13 +1034,13 @@ void *InvertedIndexMergerThreadFre(void *fam)
                 while(pointer_j!=NULL)
                 {
                     tmp_node->next_fresh=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
-                    tmp_node=tmp_node;
+                    tmp_node=tmp_node->next_fresh;
                     pointer_j=pointer_j->next_fresh;
                     while (pointer_j != NULL && pointer_j->flag == 0) {
                         pointer_j = pointer_j->next_fresh;
                     }
                 }
-                tmp_node=NULL;
+                tmp_node->next_fresh=NULL;
             }
             else
             {
@@ -1029,11 +1049,17 @@ void *InvertedIndexMergerThreadFre(void *fam)
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_fresh=pointer_i;
                     pointer_i=pointer_i->next_fresh;
+                    while (pointer_i != NULL && pointer_i->flag == 0) {
+                        pointer_i = pointer_i->next_fresh;
+                    }
                 }
                 else
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_fresh=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
                     pointer_j=pointer_j->next_fresh;
+                    while (pointer_j != NULL && pointer_j->flag == 0) {
+                        pointer_j = pointer_i->next_fresh;
+                    }
                 }
 
                 tmp_node=(*myself->TermIndex)[it_list_j->first]->max_fresh;
@@ -1104,6 +1130,9 @@ void *InvertedIndexMergerThreadFre(void *fam)
                 tmp_node=(*myself->TermIndex)[it_list_j->first]->max_fresh;
 
                 pointer_i=pointer_i->next_fresh;
+                while (pointer_i != NULL && pointer_i->flag == 0) {
+                    pointer_i = pointer_i->next_fresh;
+                }
                 while(pointer_i!=NULL)
                 {
                     tmp_node->next_fresh=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
@@ -1170,13 +1199,13 @@ void *InvertedIndexMergerThreadSig(void *fam)
                 while(pointer_j!=NULL)
                 {
                     tmp_node->next_sig=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
-                    tmp_node=tmp_node;
+                    tmp_node=tmp_node->next_sig;
                     pointer_j=pointer_j->next_sig;
                     while (pointer_j != NULL && pointer_j->flag == 0) {
                         pointer_j = pointer_j->next_sig;
                     }
                 }
-                tmp_node=NULL;
+                tmp_node->next_sig=NULL;
             }
             else
             {
@@ -1205,33 +1234,39 @@ void *InvertedIndexMergerThreadSig(void *fam)
                 while(pointer_j!=NULL)
                 {
                     tmp_node->next_sig=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
-                    tmp_node=tmp_node;
+                    tmp_node=tmp_node->next_sig;
                     pointer_j=pointer_j->next_sig;
                     while (pointer_j != NULL && pointer_j->flag == 0) {
                         pointer_j = pointer_j->next_sig;
                     }
                 }
-                tmp_node=NULL;
+                tmp_node->next_sig=NULL;
             }
             else
             {
 
-                if((*myself->InfoTable)[pointer_i->id].score>(*myself->InfoTable)[pointer_j->id].score)
+                if((*myself->InfoTable)[pointer_i->id].time>(*myself->InfoTable)[pointer_j->id].time)
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_sig=pointer_i;
                     pointer_i=pointer_i->next_sig;
+                    while (pointer_i != NULL && pointer_i->flag == 0) {
+                        pointer_i = pointer_i->next_sig;
+                    }
                 }
                 else
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_sig=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
                     pointer_j=pointer_j->next_sig;
+                    while (pointer_j != NULL && pointer_j->flag == 0) {
+                        pointer_j = pointer_j->next_sig;
+                    }
                 }
 
                 tmp_node=(*myself->TermIndex)[it_list_j->first]->max_sig;
 
                 while(pointer_i!=NULL&&pointer_j!=NULL)
                 {
-                    if((*myself->InfoTable)[pointer_i->id].score>(*myself->InfoTable)[pointer_j->id].score)
+                    if((*myself->InfoTable)[pointer_i->id].time>(*myself->InfoTable)[pointer_j->id].time)
                     {
                         tmp_node->next_sig=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
                         tmp_node=tmp_node->next_sig;
@@ -1295,6 +1330,9 @@ void *InvertedIndexMergerThreadSig(void *fam)
                 tmp_node=(*myself->TermIndex)[it_list_j->first]->max_sig;
 
                 pointer_i=pointer_i->next_sig;
+                while (pointer_i != NULL && pointer_i->flag == 0) {
+                    pointer_i = pointer_i->next_sig;
+                }
                 while(pointer_i!=NULL)
                 {
                     tmp_node->next_sig=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
@@ -1325,6 +1363,7 @@ void *InvertedIndexMergerThreadTermFreq(void *fam)
     NodeInfo* pointer_i;
     NodeInfo* pointer_j;
     NodeInfo *tmp_node;
+
 
     for(it_list_j=other->TermIndex->begin();it_list_j!=other->TermIndex->end();it_list_j++)
     {
@@ -1361,13 +1400,13 @@ void *InvertedIndexMergerThreadTermFreq(void *fam)
                 while(pointer_j!=NULL)
                 {
                     tmp_node->next_termFreq=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
-                    tmp_node=tmp_node;
+                    tmp_node=tmp_node->next_termFreq;
                     pointer_j=pointer_j->next_termFreq;
                     while (pointer_j != NULL && pointer_j->flag == 0) {
                         pointer_j = pointer_j->next_termFreq;
                     }
                 }
-                tmp_node=NULL;
+                tmp_node->next_termFreq=NULL;
             }
             else
             {
@@ -1396,13 +1435,13 @@ void *InvertedIndexMergerThreadTermFreq(void *fam)
                 while(pointer_j!=NULL)
                 {
                     tmp_node->next_termFreq=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
-                    tmp_node=tmp_node;
+                    tmp_node=tmp_node->next_termFreq;
                     pointer_j=pointer_j->next_termFreq;
                     while (pointer_j != NULL && pointer_j->flag == 0) {
                         pointer_j = pointer_j->next_termFreq;
                     }
                 }
-                tmp_node=NULL;
+                tmp_node->next_termFreq=NULL;
             }
             else
             {
@@ -1411,11 +1450,17 @@ void *InvertedIndexMergerThreadTermFreq(void *fam)
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_termFreq=pointer_i;
                     pointer_i=pointer_i->next_termFreq;
+                    while (pointer_i != NULL && pointer_i->flag == 0) {
+                        pointer_i = pointer_i->next_termFreq;
+                    }
                 }
                 else
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_termFreq=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
                     pointer_j=pointer_j->next_termFreq;
+                    while (pointer_j != NULL && pointer_j->flag == 0) {
+                        pointer_j = pointer_j->next_termFreq;
+                    }
                 }
 
                 tmp_node=(*myself->TermIndex)[it_list_j->first]->max_termFreq;
@@ -1442,11 +1487,18 @@ void *InvertedIndexMergerThreadTermFreq(void *fam)
                     }
                 }
 
+
                 while(pointer_i!=NULL)
                 {
-                    tmp_node->next_termFreq=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
+                    if(tmp_node==(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id))
+                    {
+                        cout<<"wo"<<endl;
+                    }else{
+                        tmp_node->next_termFreq=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
+                    }
                     tmp_node=tmp_node->next_termFreq;
                     pointer_i=pointer_i->next_termFreq;
+
                     while (pointer_i != NULL && pointer_i->flag == 0) {
                         pointer_i = pointer_i->next_termFreq;
                     }
@@ -1486,6 +1538,9 @@ void *InvertedIndexMergerThreadTermFreq(void *fam)
                 tmp_node=(*myself->TermIndex)[it_list_j->first]->max_termFreq;
 
                 pointer_i=pointer_i->next_termFreq;
+                while (pointer_i != NULL && pointer_i->flag == 0) {
+                    pointer_i = pointer_i->next_sig;
+                }
                 while(pointer_i!=NULL)
                 {
                     tmp_node->next_termFreq=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
