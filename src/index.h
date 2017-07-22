@@ -7,35 +7,27 @@
 
 
 
-#include "IndexAll.h"
+#include "IndexManager.h"
 //#pragma comment(lib,"ws2_32.lib")
 
 using namespace std;
 
-void InitialIdf();
-
-void ini(IndexAll &Index);
-
-string handleQuery(IndexAll &Index, string query_str);
-
-void preprocess(IndexAll &Index,int sum);
-
-double test_for_add(IndexAll &Index,int ini_num,int audio_sum);
+double index_create(int sum);
 
 void test_for_index(int times,int sum);
 
-//void* test_for_queryThread(void *Fam);
-
 void* test_for_addThread(void *Fam);
+
+void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime);
 
 class FamilyTestQuery
 {
 public:
-    IndexAll *index;
+    IndexManager *index;
     int times;
     int sleeptime;
 
-    FamilyTestQuery(IndexAll *i,int t,int s)
+    FamilyTestQuery(IndexManager *i,int t,int s)
     {
         index=i;
         times=t;
@@ -46,18 +38,16 @@ public:
 class FamilyAdd
 {
 public:
-    IndexAll *index;
+    IndexManager *index;
     int sum;
     int sleeptime;
 
-    FamilyAdd(IndexAll *i,int s,int sleep)
+    FamilyAdd(IndexManager *i,int s,int sleep)
     {
         index=i;
         sum=s;
         sleeptime=sleep;
     }
 };
-
-void test_for_QandA(IndexAll &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime);
 
 #endif //HASH_0E_INDEX_H

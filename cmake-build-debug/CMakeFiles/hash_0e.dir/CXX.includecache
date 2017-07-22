@@ -78,37 +78,45 @@ AudioInfo.h
 utils.h
 /home/watson/C++/git_c-/linkLIst/src/utils.h
 
-/home/watson/C++/git_c-/linkLIst/src/Ii.cpp
-Ii.h
-/home/watson/C++/git_c-/linkLIst/src/Ii.h
+/home/watson/C++/git_c-/linkLIst/src/IndexManager.cpp
+IndexManager.h
+/home/watson/C++/git_c-/linkLIst/src/IndexManager.h
 
-/home/watson/C++/git_c-/linkLIst/src/Ii.h
-ListInfo.h
-/home/watson/C++/git_c-/linkLIst/src/ListInfo.h
+/home/watson/C++/git_c-/linkLIst/src/IndexManager.h
+InvertedIndex.h
+/home/watson/C++/git_c-/linkLIst/src/InvertedIndex.h
 
-/home/watson/C++/git_c-/linkLIst/src/IndexAll.cpp
-IndexAll.h
-/home/watson/C++/git_c-/linkLIst/src/IndexAll.h
+/home/watson/C++/git_c-/linkLIst/src/InvertedIndex.cpp
+InvertedIndex.h
+/home/watson/C++/git_c-/linkLIst/src/InvertedIndex.h
 
-/home/watson/C++/git_c-/linkLIst/src/IndexAll.h
-Ii.h
-/home/watson/C++/git_c-/linkLIst/src/Ii.h
+/home/watson/C++/git_c-/linkLIst/src/InvertedIndex.h
+ProgramList.h
+/home/watson/C++/git_c-/linkLIst/src/ProgramList.h
 
-/home/watson/C++/git_c-/linkLIst/src/ListInfo.cpp
-ListInfo.h
-/home/watson/C++/git_c-/linkLIst/src/ListInfo.h
+/home/watson/C++/git_c-/linkLIst/src/NodeInfo.cpp
+NodeInfo.h
+/home/watson/C++/git_c-/linkLIst/src/NodeInfo.h
 
-/home/watson/C++/git_c-/linkLIst/src/ListInfo.h
+/home/watson/C++/git_c-/linkLIst/src/NodeInfo.h
 AudioInfo.h
 /home/watson/C++/git_c-/linkLIst/src/AudioInfo.h
+
+/home/watson/C++/git_c-/linkLIst/src/ProgramList.cpp
+ProgramList.h
+/home/watson/C++/git_c-/linkLIst/src/ProgramList.h
+
+/home/watson/C++/git_c-/linkLIst/src/ProgramList.h
+NodeInfo.h
+/home/watson/C++/git_c-/linkLIst/src/NodeInfo.h
 
 /home/watson/C++/git_c-/linkLIst/src/index.cpp
 index.h
 /home/watson/C++/git_c-/linkLIst/src/index.h
 
 /home/watson/C++/git_c-/linkLIst/src/index.h
-IndexAll.h
-/home/watson/C++/git_c-/linkLIst/src/IndexAll.h
+IndexManager.h
+/home/watson/C++/git_c-/linkLIst/src/IndexManager.h
 
 /home/watson/C++/git_c-/linkLIst/src/utils.cpp
 utils.h

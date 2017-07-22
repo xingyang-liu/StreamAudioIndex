@@ -12,14 +12,12 @@ using json = nlohmann::json;
  *
  */
 
-
-
 int main() {
     using namespace std;
-    IndexUnit = 200;
-    AudioSum = 1999;
-    IndexAll index;
-    preprocess(index,AudioSum);
+    IndexUnit = 10;
+    AudioSum = 99;
+    IndexManager index(AudioSum);
+
 
 //    test_for_QandA(index,500,1,7000,1);
 
@@ -56,7 +54,7 @@ int main() {
 
         // create a json object
         // https://github.com/nlohmann/json#examples
-        string str_back = handleQuery(index, query_str);
+        string str_back = index.handleQuery(query_str);
         cout<<str_back<<endl;
 //        json out_obj = {
 //                {"content", str_back},

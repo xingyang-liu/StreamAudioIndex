@@ -49,8 +49,6 @@ struct CompDedcendVal {
     }
 };
 
-double computeScore(const double &time, const double &score, map<string, int> &tagsNum, const int &tagsSum,
-                    const vector<string> &query);
 
 class CMutex
 {

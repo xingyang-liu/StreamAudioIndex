@@ -66,44 +66,4 @@ double getTime()
 //};
 
 
-double computeScore(const double &time, const double &score, map<string, int> &tagsNum, const int &tagsSum,
-                    const vector<string> &query)
-{
-    double fre = pow(2, time - getTime());
-    double sig = log(score / 10000 + 1);
-    double sim = 0;
-    for (int i = 0; i < query.size(); i++)
-    {
-        map<string, int>::iterator it = tagsNum.find(query[i]);
-        if (it != tagsNum.end())
-        {
-            try
-            {
-                if (tagsSum != 0)
-                {
-                    sim += tagsNum[query[i]] / tagsSum*IdfTable[query[i]];
-                }
-                else
-                {
-                    sim += tagsNum[query[i]] * IdfTable[query[i]];
-                }
-            }
-            catch (...)
-            {
-                map<string, double>::iterator it = IdfTable.find(query[i]);
-                if (it != IdfTable.end())
-                {
-                    continue;
-                }
-                else
-                {
-                    cout << "Something wrong with computeScore()";
-                }
-
-            }
-        }
-    }
-    double ScoreAll = (fre*0.1 + sim * 20 * 0.6 + sig*0.2)*10;
-    return ScoreAll;
-}
 

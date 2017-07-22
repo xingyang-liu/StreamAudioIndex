@@ -177,86 +177,113 @@ src/AudioInfo.cpp.s:
 	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.s
 .PHONY : src/AudioInfo.cpp.s
 
-src/Ii.o: src/Ii.cpp.o
+src/IndexManager.o: src/IndexManager.cpp.o
 
-.PHONY : src/Ii.o
-
-# target to build an object file
-src/Ii.cpp.o:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/Ii.cpp.o
-.PHONY : src/Ii.cpp.o
-
-src/Ii.i: src/Ii.cpp.i
-
-.PHONY : src/Ii.i
-
-# target to preprocess a source file
-src/Ii.cpp.i:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/Ii.cpp.i
-.PHONY : src/Ii.cpp.i
-
-src/Ii.s: src/Ii.cpp.s
-
-.PHONY : src/Ii.s
-
-# target to generate assembly for a file
-src/Ii.cpp.s:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/Ii.cpp.s
-.PHONY : src/Ii.cpp.s
-
-src/IndexAll.o: src/IndexAll.cpp.o
-
-.PHONY : src/IndexAll.o
+.PHONY : src/IndexManager.o
 
 # target to build an object file
-src/IndexAll.cpp.o:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o
-.PHONY : src/IndexAll.cpp.o
+src/IndexManager.cpp.o:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o
+.PHONY : src/IndexManager.cpp.o
 
-src/IndexAll.i: src/IndexAll.cpp.i
+src/IndexManager.i: src/IndexManager.cpp.i
 
-.PHONY : src/IndexAll.i
+.PHONY : src/IndexManager.i
 
 # target to preprocess a source file
-src/IndexAll.cpp.i:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexAll.cpp.i
-.PHONY : src/IndexAll.cpp.i
+src/IndexManager.cpp.i:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexManager.cpp.i
+.PHONY : src/IndexManager.cpp.i
 
-src/IndexAll.s: src/IndexAll.cpp.s
+src/IndexManager.s: src/IndexManager.cpp.s
 
-.PHONY : src/IndexAll.s
+.PHONY : src/IndexManager.s
 
 # target to generate assembly for a file
-src/IndexAll.cpp.s:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexAll.cpp.s
-.PHONY : src/IndexAll.cpp.s
+src/IndexManager.cpp.s:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexManager.cpp.s
+.PHONY : src/IndexManager.cpp.s
 
-src/ListInfo.o: src/ListInfo.cpp.o
+src/InvertedIndex.o: src/InvertedIndex.cpp.o
 
-.PHONY : src/ListInfo.o
+.PHONY : src/InvertedIndex.o
 
 # target to build an object file
-src/ListInfo.cpp.o:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o
-.PHONY : src/ListInfo.cpp.o
+src/InvertedIndex.cpp.o:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o
+.PHONY : src/InvertedIndex.cpp.o
 
-src/ListInfo.i: src/ListInfo.cpp.i
+src/InvertedIndex.i: src/InvertedIndex.cpp.i
 
-.PHONY : src/ListInfo.i
+.PHONY : src/InvertedIndex.i
 
 # target to preprocess a source file
-src/ListInfo.cpp.i:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ListInfo.cpp.i
-.PHONY : src/ListInfo.cpp.i
+src/InvertedIndex.cpp.i:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.i
+.PHONY : src/InvertedIndex.cpp.i
 
-src/ListInfo.s: src/ListInfo.cpp.s
+src/InvertedIndex.s: src/InvertedIndex.cpp.s
 
-.PHONY : src/ListInfo.s
+.PHONY : src/InvertedIndex.s
 
 # target to generate assembly for a file
-src/ListInfo.cpp.s:
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ListInfo.cpp.s
-.PHONY : src/ListInfo.cpp.s
+src/InvertedIndex.cpp.s:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.s
+.PHONY : src/InvertedIndex.cpp.s
+
+src/NodeInfo.o: src/NodeInfo.cpp.o
+
+.PHONY : src/NodeInfo.o
+
+# target to build an object file
+src/NodeInfo.cpp.o:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o
+.PHONY : src/NodeInfo.cpp.o
+
+src/NodeInfo.i: src/NodeInfo.cpp.i
+
+.PHONY : src/NodeInfo.i
+
+# target to preprocess a source file
+src/NodeInfo.cpp.i:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.i
+.PHONY : src/NodeInfo.cpp.i
+
+src/NodeInfo.s: src/NodeInfo.cpp.s
+
+.PHONY : src/NodeInfo.s
+
+# target to generate assembly for a file
+src/NodeInfo.cpp.s:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.s
+.PHONY : src/NodeInfo.cpp.s
+
+src/ProgramList.o: src/ProgramList.cpp.o
+
+.PHONY : src/ProgramList.o
+
+# target to build an object file
+src/ProgramList.cpp.o:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o
+.PHONY : src/ProgramList.cpp.o
+
+src/ProgramList.i: src/ProgramList.cpp.i
+
+.PHONY : src/ProgramList.i
+
+# target to preprocess a source file
+src/ProgramList.cpp.i:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ProgramList.cpp.i
+.PHONY : src/ProgramList.cpp.i
+
+src/ProgramList.s: src/ProgramList.cpp.s
+
+.PHONY : src/ProgramList.s
+
+# target to generate assembly for a file
+src/ProgramList.cpp.s:
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ProgramList.cpp.s
+.PHONY : src/ProgramList.cpp.s
 
 src/index.o: src/index.cpp.o
 
@@ -327,15 +354,18 @@ help:
 	@echo "... src/AudioInfo.o"
 	@echo "... src/AudioInfo.i"
 	@echo "... src/AudioInfo.s"
-	@echo "... src/Ii.o"
-	@echo "... src/Ii.i"
-	@echo "... src/Ii.s"
-	@echo "... src/IndexAll.o"
-	@echo "... src/IndexAll.i"
-	@echo "... src/IndexAll.s"
-	@echo "... src/ListInfo.o"
-	@echo "... src/ListInfo.i"
-	@echo "... src/ListInfo.s"
+	@echo "... src/IndexManager.o"
+	@echo "... src/IndexManager.i"
+	@echo "... src/IndexManager.s"
+	@echo "... src/InvertedIndex.o"
+	@echo "... src/InvertedIndex.i"
+	@echo "... src/InvertedIndex.s"
+	@echo "... src/NodeInfo.o"
+	@echo "... src/NodeInfo.i"
+	@echo "... src/NodeInfo.s"
+	@echo "... src/ProgramList.o"
+	@echo "... src/ProgramList.i"
+	@echo "... src/ProgramList.s"
 	@echo "... src/index.o"
 	@echo "... src/index.i"
 	@echo "... src/index.s"

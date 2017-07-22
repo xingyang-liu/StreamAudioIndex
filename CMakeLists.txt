@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(SOURCE_FILES
         src/index.cpp
         json.hpp
-        main.cpp src/index.h src/AudioInfo.cpp src/AudioInfo.h src/Ii.cpp src/Ii.h src/IndexAll.cpp src/IndexAll.h src/utils.h src/utils.cpp src/ListInfo.cpp src/ListInfo.h)
+        main.cpp src/index.h src/AudioInfo.cpp src/AudioInfo.h src/IndexManager.cpp src/IndexManager.h src/utils.h src/utils.cpp src/ProgramList.cpp src/ProgramList.h src/NodeInfo.cpp src/NodeInfo.h src/InvertedIndex.cpp src/InvertedIndex.h)
 
 add_executable(hash_0e ${SOURCE_FILES})
 find_package(Threads REQUIRED)

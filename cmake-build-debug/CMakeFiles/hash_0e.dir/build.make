@@ -129,57 +129,33 @@ CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o.provides: CMakeFiles/hash_0e.dir/src/
 CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o
 
 
-CMakeFiles/hash_0e.dir/src/Ii.cpp.o: CMakeFiles/hash_0e.dir/flags.make
-CMakeFiles/hash_0e.dir/src/Ii.cpp.o: ../src/Ii.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/hash_0e.dir/src/Ii.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/Ii.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/Ii.cpp
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o: CMakeFiles/hash_0e.dir/flags.make
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o: ../src/IndexManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/IndexManager.cpp
 
-CMakeFiles/hash_0e.dir/src/Ii.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/Ii.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/Ii.cpp > CMakeFiles/hash_0e.dir/src/Ii.cpp.i
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/IndexManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/IndexManager.cpp > CMakeFiles/hash_0e.dir/src/IndexManager.cpp.i
 
-CMakeFiles/hash_0e.dir/src/Ii.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/Ii.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/Ii.cpp -o CMakeFiles/hash_0e.dir/src/Ii.cpp.s
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/IndexManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/IndexManager.cpp -o CMakeFiles/hash_0e.dir/src/IndexManager.cpp.s
 
-CMakeFiles/hash_0e.dir/src/Ii.cpp.o.requires:
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.requires:
 
-.PHONY : CMakeFiles/hash_0e.dir/src/Ii.cpp.o.requires
+.PHONY : CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.requires
 
-CMakeFiles/hash_0e.dir/src/Ii.cpp.o.provides: CMakeFiles/hash_0e.dir/src/Ii.cpp.o.requires
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/Ii.cpp.o.provides.build
-.PHONY : CMakeFiles/hash_0e.dir/src/Ii.cpp.o.provides
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.provides: CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.provides.build
+.PHONY : CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.provides
 
-CMakeFiles/hash_0e.dir/src/Ii.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/Ii.cpp.o
-
-
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o: CMakeFiles/hash_0e.dir/flags.make
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o: ../src/IndexAll.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/IndexAll.cpp
-
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/IndexAll.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/IndexAll.cpp > CMakeFiles/hash_0e.dir/src/IndexAll.cpp.i
-
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/IndexAll.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/IndexAll.cpp -o CMakeFiles/hash_0e.dir/src/IndexAll.cpp.s
-
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.requires:
-
-.PHONY : CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.requires
-
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.provides: CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.requires
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.provides.build
-.PHONY : CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.provides
-
-CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o
+CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o
 
 
 CMakeFiles/hash_0e.dir/src/utils.cpp.o: CMakeFiles/hash_0e.dir/flags.make
 CMakeFiles/hash_0e.dir/src/utils.cpp.o: ../src/utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/hash_0e.dir/src/utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/hash_0e.dir/src/utils.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/utils.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/utils.cpp
 
 CMakeFiles/hash_0e.dir/src/utils.cpp.i: cmake_force
@@ -201,28 +177,76 @@ CMakeFiles/hash_0e.dir/src/utils.cpp.o.provides: CMakeFiles/hash_0e.dir/src/util
 CMakeFiles/hash_0e.dir/src/utils.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/utils.cpp.o
 
 
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o: CMakeFiles/hash_0e.dir/flags.make
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o: ../src/ListInfo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/ListInfo.cpp
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o: CMakeFiles/hash_0e.dir/flags.make
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o: ../src/ProgramList.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/ProgramList.cpp
 
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/ListInfo.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/ListInfo.cpp > CMakeFiles/hash_0e.dir/src/ListInfo.cpp.i
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/ProgramList.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/ProgramList.cpp > CMakeFiles/hash_0e.dir/src/ProgramList.cpp.i
 
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/ListInfo.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/ListInfo.cpp -o CMakeFiles/hash_0e.dir/src/ListInfo.cpp.s
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/ProgramList.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/ProgramList.cpp -o CMakeFiles/hash_0e.dir/src/ProgramList.cpp.s
 
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.requires:
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.requires:
 
-.PHONY : CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.requires
+.PHONY : CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.requires
 
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.provides: CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.requires
-	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.provides.build
-.PHONY : CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.provides
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.provides: CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.provides.build
+.PHONY : CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.provides
 
-CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o
+CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o
+
+
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o: CMakeFiles/hash_0e.dir/flags.make
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o: ../src/NodeInfo.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/NodeInfo.cpp
+
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/NodeInfo.cpp > CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.i
+
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/NodeInfo.cpp -o CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.s
+
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.requires:
+
+.PHONY : CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.requires
+
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.provides: CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.provides.build
+.PHONY : CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.provides
+
+CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o
+
+
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o: CMakeFiles/hash_0e.dir/flags.make
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o: ../src/InvertedIndex.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o -c /home/watson/C++/git_c-/linkLIst/src/InvertedIndex.cpp
+
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/watson/C++/git_c-/linkLIst/src/InvertedIndex.cpp > CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.i
+
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/watson/C++/git_c-/linkLIst/src/InvertedIndex.cpp -o CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.s
+
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.requires:
+
+.PHONY : CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.requires
+
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.provides: CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hash_0e.dir/build.make CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.provides.build
+.PHONY : CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.provides
+
+CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.provides.build: CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o
 
 
 # Object files for target hash_0e
@@ -230,10 +254,11 @@ hash_0e_OBJECTS = \
 "CMakeFiles/hash_0e.dir/src/index.cpp.o" \
 "CMakeFiles/hash_0e.dir/main.cpp.o" \
 "CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o" \
-"CMakeFiles/hash_0e.dir/src/Ii.cpp.o" \
-"CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o" \
+"CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o" \
 "CMakeFiles/hash_0e.dir/src/utils.cpp.o" \
-"CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o"
+"CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o" \
+"CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o" \
+"CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o"
 
 # External object files for target hash_0e
 hash_0e_EXTERNAL_OBJECTS =
@@ -241,13 +266,14 @@ hash_0e_EXTERNAL_OBJECTS =
 hash_0e: CMakeFiles/hash_0e.dir/src/index.cpp.o
 hash_0e: CMakeFiles/hash_0e.dir/main.cpp.o
 hash_0e: CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o
-hash_0e: CMakeFiles/hash_0e.dir/src/Ii.cpp.o
-hash_0e: CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o
+hash_0e: CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o
 hash_0e: CMakeFiles/hash_0e.dir/src/utils.cpp.o
-hash_0e: CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o
+hash_0e: CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o
+hash_0e: CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o
+hash_0e: CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o
 hash_0e: CMakeFiles/hash_0e.dir/build.make
 hash_0e: CMakeFiles/hash_0e.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable hash_0e"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable hash_0e"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hash_0e.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -258,10 +284,11 @@ CMakeFiles/hash_0e.dir/build: hash_0e
 CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/index.cpp.o.requires
 CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/main.cpp.o.requires
 CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o.requires
-CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/Ii.cpp.o.requires
-CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o.requires
+CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o.requires
 CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/utils.cpp.o.requires
-CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o.requires
+CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o.requires
+CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o.requires
+CMakeFiles/hash_0e.dir/requires: CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o.requires
 
 .PHONY : CMakeFiles/hash_0e.dir/requires
 
