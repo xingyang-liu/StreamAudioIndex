@@ -1,9 +1,0 @@
-Sum: 299 Unit: 50 SumTime: 0.00947547 Times: 50 Average: 0.00018950939
-Sum: 2999 Unit: 500 SumTime: 1.425 Times: 500 Average: 0.0028499913
-Sum: 2999 Unit: 500 SumTime: 5.05966 Times: 500 Average: 0.010119328
-Sum: 20 Unit: 10 SumTime: 0.000344038 Times: 2 Average: 0.000172019
-Sum: 20 Unit: 10 SumTime: 0.15474 Times: 2 Average: 0.077370167
-Sum: 999 Unit: 100 SumTime: 0.0111332 Times: 50 Average: 0.00022266388
-Sum: 1999 Unit: 200 SumTime: 0.0126874 Times: 50 Average: 0.00025374889
-Sum: 1999 Unit: 200 SumTime: 0.457664 Times: 500 Average: 0.0009153285
-Sum: 99 Unit: 10 SumTime: 0.00770783 Times: 50 Average: 0.00015415668

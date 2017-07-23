@@ -36,12 +36,6 @@ void InvertedIndex::addAudio(AudioInfo &tmp_info,map<string,int> &TermFreq)
     {
         node_add(it->first, tmp_info.id, TermFreq[it->first]);
     }
-    //(*InfoTable) = (*InfoTable).insert(make_pair<int, AudioInfo>);
-
-//    if (level==0&&AudioCount == IndexUnit)
-//    {
-//        I0_sort();
-//    }
 }
 
 void InvertedIndex::node_add(string term, int id, int tf)
@@ -50,8 +44,10 @@ void InvertedIndex::node_add(string term, int id, int tf)
     if ((it == (*TermIndex).end()))
     {
         (*TermMutex)[term] = CMutex();
-        (*TermMutex)[term].Lock();
+        termIndexMutex.Lock();//感觉基本上修改全部的，都需要用这个互斥锁
         (*TermIndex)[term]=new ProgramList;
+        termIndexMutex.Unlock();
+        (*TermMutex)[term].Lock();
         (*TermIndex)[term]->addNode(tf,id);
         (*TermMutex)[term].Unlock();
     }
@@ -89,7 +85,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
     if(tmp_info.final>0) {
         for (; it_node != livePointer[tmp_info.id].end(); it_node++) {
             if (it_node->second->flag == -1) {
-                (*TermMutex)[it_node->first].Lock();
+
                 if((*TermIndex).find(it_node->first)==TermIndex->end())
                 {
                     (*TermIndex)[it_node->first]= new ProgramList;
@@ -104,7 +100,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
                     it_node->second->flag=-1;
                 }
 
-                (*TermMutex)[it_node->first].Unlock();
+
             }else if(it_node->second->flag==-2333)
             {
                 it_node->second->flag=-1;
@@ -118,18 +114,25 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
             if (it_node->second->flag == -1) {
                 if((*TermIndex).find(it_node->first)==TermIndex->end())
                 {
+                    termIndexMutex.Lock();
                     (*TermIndex)[it_node->first]= new ProgramList;
+                    termIndexMutex.Unlock();
+
+                    (*TermMutex)[it_node->first].Lock();
                     tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
                     it_node->second->flag=0;
                     it_node->second=tmp;
                     it_node->second->flag=-1;
+                    (*TermMutex)[it_node->first].Unlock();
                 }else{
+                    (*TermMutex)[it_node->first].Lock();
                     tmp=(*TermIndex)[it_node->first]->addNode(it_node->second->tf,it_node->second->id);
                     it_node->second->flag=0;
                     it_node->second=tmp;
                     it_node->second->flag=-1;
+                    (*TermMutex)[it_node->first].Unlock();
                 }
-                (*TermMutex)[it_node->first].Unlock();
+
             }
 
             livePointer[it_node->second->id].erase(it_node->first);
@@ -139,6 +142,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
         livePointer.erase(tmp_info.id);
         mutexLive.Unlock();
     }
+
 }
 
 void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<string, NodeInfo*> > &livePointer,int final,CMutex &mutexLive)
@@ -150,7 +154,9 @@ void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<strin
 
         (*TermMutex)[term] = CMutex();
         (*TermMutex)[term].Lock();
+        termIndexMutex.Lock();
         (*TermIndex)[term]=new ProgramList;
+        termIndexMutex.Unlock();
         if(livePointer[id].find(term)==livePointer[id].end())
         {
             tmp=(*TermIndex)[term]->addNode(tf,id);
@@ -174,7 +180,7 @@ void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<strin
         }
         (*TermMutex)[term].Unlock();
     }
-
+    mutexLive.Lock();
     if(final >0)
     {
         if(livePointer[id].find(term)!=livePointer[id].end())
@@ -197,6 +203,7 @@ void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<strin
             livePointer[id].erase(term);
         }
     }
+    mutexLive.Unlock();
 }
 
 double InvertedIndex::computeScore(const double &time, const double &score, map<string, int> &TermFreq, const int &tagsSum,

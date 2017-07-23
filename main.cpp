@@ -15,22 +15,22 @@ using json = nlohmann::json;
 int main() {
     using namespace std;
     IndexUnit = 400;
-    AudioSum = 1999;
+    AudioSum = 999;
     IndexManager index(AudioSum);
 
 
-//    test_for_QandA(index,500,1,7000,1);
-
+    test_for_QandA(index,50,1,1000,1);
+//
 //    FamilyTestQuery fam(&index,50,2);
 //    pthread_t pid;
 //    pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
 //    pthread_join(pid,NULL);
 //    test_for_index(10,AudioSum);
 
-    pthread_t pida;
-    FamilyAdd fama(&index,3000,1);
-    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
-    pthread_join(pida,NULL);
+//    pthread_t pida;
+//    FamilyAdd fama(&index,3000,1);
+//    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+//    pthread_join(pida,NULL);
 //    while (true) {
 ////        int str_len;
 ////        {

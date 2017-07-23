@@ -21,6 +21,7 @@ public:
     CMutex mutexLive;//删除livePointer中某个id时防止进入,搜索I0时需要申请
 	CMutex clearInvertedIndex;//正在给map赋新值，无关I0
     CMutex clearI0;//正在给I0赋值
+	CMutex clearMirror;//整个镜像库的互斥量
 
 	IndexManager(){
 		I0Num = 0;

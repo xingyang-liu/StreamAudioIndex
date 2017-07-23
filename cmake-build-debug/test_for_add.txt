@@ -1,6 +1,0 @@
-Sum: 299 Unit: 50 SumTime: 2.26209 Sum: 800 Average: 0.0028276083
-Sum: 2999 Unit: 500 SumTime: 13.0235 Sum: 8000 Average: 0.0016279415
-Sum: 2999 Unit: 500 SumTime: 14.356 Sum: 8000 Average: 0.0017945048
-Sum: 20 Unit: 10 SumTime: 0.0762351 Sum: 20 Average: 0.0038117528
-Sum: 20 Unit: 10 SumTime: 6.88994 Sum: 20 Average: 0.34449698
-Sum: 1999 Unit: 400 SumTime: 38.0216 Sum: 3000 Average: 0.01267386

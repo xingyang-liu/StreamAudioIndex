@@ -13,10 +13,11 @@ public:
 	int AudioCount, level;
     map<string,ProgramList*> *TermIndex;
 	map<int, AudioInfo> *InfoTable;
-	map<string, CMutex> *TermMutex;//only for I0
+	map<string, CMutex> *TermMutex;//only for I0貌似用处不大
 	set<int> RemovedId;
-	CMutex I0MutexInfo;
-    CMutex mutexRemove;
+	CMutex I0MutexInfo;//I0的info正在被修改
+    CMutex mutexRemove;//removeId正在被修改
+	CMutex termIndexMutex;//大致就是我进入这里查询的时候，TermIndex不能改变
 
 	InvertedIndex();
 
@@ -99,6 +100,7 @@ public:
 
 };
 
+
 class CmpForSig
 {
 public:
@@ -125,7 +127,7 @@ public:
     string term;
     InvertedIndex * myself;
     CmpForSim(string str,InvertedIndex* me):term(str),myself(me){}
-	map<int,NodeInfo*> &tmp=(*(*myself->TermIndex)[term]->nodeMap);
+    map<int,NodeInfo*> &tmp=(*(*myself->TermIndex)[term]->nodeMap);
     bool operator()(int a,int b){return ((*(*myself->TermIndex)[term]->nodeMap)[a]->tf)\
         >(*(*myself->TermIndex)[term]->nodeMap)[b]->tf;}
 };
@@ -147,13 +149,11 @@ void *I0SortThread(void *fam);
 class ForMirror
 {
 public:
-    CMutex mutex;
     map<int,InvertedIndex*>* mirrorIndexMap;
-    bool flag;//为了在外面删除方便
 
-    ForMirror(){mirrorIndexMap=NULL;flag=true;}
+    ForMirror(){mirrorIndexMap=NULL;}
 
-    ForMirror(map<int,InvertedIndex*>* mirror):mirrorIndexMap(mirror),flag(true){}
+    ForMirror(map<int,InvertedIndex*>* mirror):mirrorIndexMap(mirror){}
 
     ~ForMirror()
     {

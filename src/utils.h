@@ -49,7 +49,6 @@ struct CompDedcendVal {
     }
 };
 
-
 class CMutex
 {
 public:
