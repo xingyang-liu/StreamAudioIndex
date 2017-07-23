@@ -46,8 +46,8 @@ void Ii::addAudio(AudioInfo &tmp_info,map<string,int> &TagsNum)
 
 void Ii::term_add(string term, int id, int tf)
 {
-    map<string, ListInfo >::iterator it = (*TermIndex).find(term);
-    if ((it == (*TermIndex).end()))
+    map<string, ListInfo >::iterator it = TermIndex->find(term);
+    if ((it == TermIndex->end()))
     {
         (*TermMutex)[term] = CMutex();
         (*TermMutex)[term].Lock();

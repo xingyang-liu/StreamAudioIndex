@@ -4,14 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/watson/C++/git_c-/linkLIst/main.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/main.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/AudioInfo.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/IndexManager.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/IndexManager.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/InvertedIndex.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/InvertedIndex.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/NodeInfo.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/NodeInfo.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/ProgramList.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/ProgramList.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/index.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/index.cpp.o"
-  "/home/watson/C++/git_c-/linkLIst/src/utils.cpp" "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/CMakeFiles/hash_0e.dir/src/utils.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/main.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/main.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/src/AudioInfo.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/src/AudioInfo.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/src/Ii.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/src/Ii.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/src/IndexAll.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/src/IndexAll.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/src/ListInfo.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/src/ListInfo.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/src/index.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/src/index.cpp.o"
+  "/home/billy/CLionProjects/StreamAudioIndex/src/utils.cpp" "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/hash_0e.dir/src/utils.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

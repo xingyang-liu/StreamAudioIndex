@@ -1,4 +1,4 @@
-# Install script for directory: /home/watson/C++/git_c-/linkLIst
+# Install script for directory: /home/billy/CLionProjects/StreamAudioIndex
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/watson/C++/git_c-/linkLIst/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
