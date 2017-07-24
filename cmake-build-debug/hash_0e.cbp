@@ -96,22 +96,28 @@
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/AudioInfo.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/Ii.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/IndexManager.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/Ii.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/IndexManager.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/IndexAll.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/InvertedIndex.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/IndexAll.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/InvertedIndex.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/ListInfo.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/NodeInfo.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/ListInfo.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/NodeInfo.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/ProgramList.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/ProgramList.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/index.cpp">
@@ -124,6 +130,18 @@
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/utils.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/Family.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/Family.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexTemplate.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexTemplate.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/SimpleDTW.cpp">
