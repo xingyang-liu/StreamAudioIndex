@@ -7,6 +7,7 @@
 
 
 #include "InvertedIndex.h"
+#include "../template/IndexTemplate.h"
 
 
 
@@ -14,7 +15,7 @@ class IndexManager
 {
 public:
 	int I0Num;
-    vector<ForMirror*> mirrorList;
+    vector<ForMirror<InvertedIndex>*> mirrorList;
 	map<int, InvertedIndex*> otherIndex;
     map<int, map<string, NodeInfo *> > livePointer;
     map<int, CMutex> liveIdMutex;//only for livePointer

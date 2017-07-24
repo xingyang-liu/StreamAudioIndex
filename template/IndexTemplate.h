@@ -246,18 +246,18 @@ class ForMirror
 {
 public:
     CMutex mutex;
-    map<int,IndexTemplate<T>*>* mirrorIndexMap;
+    map<int,T*>* mirrorIndexMap;
     bool flag;//为了在外面删除方便
 
     ForMirror(){mirrorIndexMap=NULL;flag=true;}
 
-    ForMirror(map<int,IndexTemplate<T>*>* mirror):mirrorIndexMap(mirror),flag(true){}
+    ForMirror(map<int,T*>* mirror):mirrorIndexMap(mirror),flag(true){}
 
     ~ForMirror()
     {
         if(mirrorIndexMap!=NULL)
         {
-            typename map<int,IndexTemplate<T>*>::iterator it_tmp;
+            typename map<int,T*>::iterator it_tmp;
             for (it_tmp=mirrorIndexMap->begin();it_tmp!=mirrorIndexMap->end();it_tmp++)
             {
                 delete it_tmp->second;

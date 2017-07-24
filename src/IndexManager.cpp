@@ -79,7 +79,7 @@ void *searchThread(void *family)
             (*it_index->second).search(Result, MinScore, AnswerNum, Sum, query, name);
         }
 
-        vector<ForMirror*>::iterator it_tmp_mirror;
+        vector<ForMirror<InvertedIndex>*>::iterator it_tmp_mirror;
         for (it_tmp_mirror = myself->mirrorList.begin(); it_tmp_mirror != myself->mirrorList.end(); )
         {
             (*it_tmp_mirror)->mutex.Lock();//当我进入某个镜像时，不允许该镜像修改
@@ -113,7 +113,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
     AudioInfo &tmp_info=(*ones->audio);
     IndexManager *myself=ones->me;
     map<string,int> &TagsNum=*(ones->tags);
-    vector<ForMirror* > &mirrorList=myself->mirrorList;
+    vector<ForMirror<InvertedIndex>* > &mirrorList=myself->mirrorList;
 
 
     if (tmp_info.final>=0)
@@ -158,7 +158,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 //        map<string,ProgramList*> &tmp_list=*(Index_tmp->TermIndex);
 
         map<int,InvertedIndex*> *mirrorIndex=new map<int,InvertedIndex*>;//相当于独立出参与归并的Index到另一个map中
-        ForMirror *for_mirror=new ForMirror(mirrorIndex);
+        ForMirror<InvertedIndex> *for_mirror=new ForMirror<InvertedIndex>(mirrorIndex);
         mirrorList.push_back(for_mirror);
         (*mirrorIndex)[0]=Index_tmp;
         InvertedIndex &other=(*(*mirrorIndex)[0]);

@@ -132,10 +132,10 @@
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/utils.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/Family.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexString.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/Family.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexString.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexTemplate.cpp">

@@ -339,32 +339,32 @@ src/utils.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/utils.cpp.s
 .PHONY : src/utils.cpp.s
 
-template/Family.o: template/Family.cpp.o
+template/IndexString.o: template/IndexString.cpp.o
 
-.PHONY : template/Family.o
+.PHONY : template/IndexString.o
 
 # target to build an object file
-template/Family.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/Family.cpp.o
-.PHONY : template/Family.cpp.o
+template/IndexString.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexString.cpp.o
+.PHONY : template/IndexString.cpp.o
 
-template/Family.i: template/Family.cpp.i
+template/IndexString.i: template/IndexString.cpp.i
 
-.PHONY : template/Family.i
+.PHONY : template/IndexString.i
 
 # target to preprocess a source file
-template/Family.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/Family.cpp.i
-.PHONY : template/Family.cpp.i
+template/IndexString.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexString.cpp.i
+.PHONY : template/IndexString.cpp.i
 
-template/Family.s: template/Family.cpp.s
+template/IndexString.s: template/IndexString.cpp.s
 
-.PHONY : template/Family.s
+.PHONY : template/IndexString.s
 
 # target to generate assembly for a file
-template/Family.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/Family.cpp.s
-.PHONY : template/Family.cpp.s
+template/IndexString.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexString.cpp.s
+.PHONY : template/IndexString.cpp.s
 
 template/IndexTemplate.o: template/IndexTemplate.cpp.o
 
@@ -480,9 +480,9 @@ help:
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"
-	@echo "... template/Family.o"
-	@echo "... template/Family.i"
-	@echo "... template/Family.s"
+	@echo "... template/IndexString.o"
+	@echo "... template/IndexString.i"
+	@echo "... template/IndexString.s"
 	@echo "... template/IndexTemplate.o"
 	@echo "... template/IndexTemplate.i"
 	@echo "... template/IndexTemplate.s"
