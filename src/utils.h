@@ -55,7 +55,7 @@ struct CompAscendVal {
     }
 };//最大值优先，在最后面
 
-double computeScore(const double &time, const double &score, map<string, int> &tagsNum, const int &tagsSum,
+double computeScore(const double &time, const double &score, map<string, double> &tagsNum, const int &tagsSum,
                     const vector<string> &query);
 
 class CMutex
@@ -79,4 +79,39 @@ private:
 };
 
 double atof_1e(const char s[]);
+
+template <class T>
+class CmpForSig
+{
+public:
+    string term;
+    T* myself;
+    CmpForSig(string str,T* me):term(str),myself(me){}
+
+    bool operator()(int a,int b){return (*(myself->InfoTable))[a].score>(*(myself->InfoTable))[b].score;}
+};
+
+
+template <class T>
+class CmpForFre
+{
+public:
+    string term;
+    T * myself;
+    CmpForFre(string str,T* me):term(str),myself(me){}
+
+    bool operator()(int a,int b){return (*myself->InfoTable)[a].time>(*myself->InfoTable)[b].time;}
+};
+
+template <class T>
+class CmpForSim
+{
+public:
+    string term;
+    T * myself;
+    CmpForSim(string str,T* me):term(str),myself(me){}
+
+    bool operator()(int a,int b){return (((*myself->InfoTable)[a].TagsNum))[term]>(((*myself->InfoTable)[b].TagsNum)[term]);}
+};
+
 #endif //SAMPLE_CONNECTOR_UTILS_H

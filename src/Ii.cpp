@@ -1,6 +1,3 @@
-//
-// Created by 兴阳 刘 on 2017/7/11.
-//
 
 #include "Ii.h"
 
@@ -19,29 +16,40 @@ Ii::Ii(int level0, I0 &Index0)
 {
     level = level0;
     AudioCount = Index0.AudioCount;
-    TermIndexFre = Index0.TermIndex;
-    InfoTable = Index0.InfoTable;
-    TermIndexSig = new map<string, vector<Sig> >;
-    TermIndexSim = new map<string, vector<TermFreq> >;
-    map<string, vector<Fre> >::iterator it_fre;
-    for (it_fre = (*TermIndexFre).begin(); it_fre != (*TermIndexFre).end(); it_fre++)
+
+    InfoTable = new map<int,AudioInfo>;
+    TermIndexSig = new map<string, vector<int> >;
+    TermIndexSim = new map<string, vector<int> >;
+    TermIndexFre = new map<string,vector<int>>;
+
+    map<int, AudioInfo>::iterator it;
+//    map<int,AudioInfo> &it_audio=*other.InfoTable;
+    for (it = (*(Index0.InfoTable)).begin(); it != (*(Index0.InfoTable)).end(); it++)
+    {
+        (*InfoTable)[it->first] = it->second;
+    }
+
+    map<string, vector<int> >::iterator it_fre;
+    for (it_fre = (*Index0.TermIndex).begin(); it_fre != (*Index0.TermIndex).end(); it_fre++)
     {
         try
         {
-            vector<Sig> SigVec;
-            vector<TermFreq> SimVec;
+            vector<int> SigVec;
+            vector<int> SimVec;
+            vector<int> FreVec;
             for (int i = 0; i < it_fre->second.size(); i++)
             {
-                id_tmp = it_fre->second[i].id;
-                Sig sig_(id_tmp, (*InfoTable)[id_tmp].score);
-                TermFreq sim_(id_tmp, (*InfoTable)[id_tmp].TagsNum[it_fre->first]);
-                SigVec.push_back(sig_);
-                SimVec.push_back(sim_);
+                id_tmp = it_fre->second[i];
+                SigVec.push_back(id_tmp);
+                SimVec.push_back(id_tmp);
+                FreVec.push_back(id_tmp);
             }
-            sort(SigVec.begin(), SigVec.end());
-            sort(SimVec.begin(), SimVec.end());
+            sort(SigVec.begin(), SigVec.end(),CmpForSig<Ii>(it_fre->first,this));
+            sort(SimVec.begin(), SimVec.end(),CmpForSim<Ii>(it_fre->first,this));
+            sort(FreVec.begin(),FreVec.end(),CmpForSim<Ii>(it_fre->first,this));
             (*TermIndexSig)[it_fre->first] = SigVec;
             (*TermIndexSim)[it_fre->first] = SimVec;
+            (*TermIndexFre)[it_fre->first] =FreVec;
         }
         catch (...)
         {
@@ -60,7 +68,7 @@ void Ii::output()
 //    ofstream out_sim(SimName.c_str());
     cout << "I" << level << "_count:" << AudioCount << "\n";
 
-//    map<string, vector<Fre> >::iterator it;
+//    map<string, vector<int> >::iterator it;
 //    for (it = (*TermIndexFre).begin(); it != (*TermIndexFre).end(); it++)
 //    {
 //        out_fre << it->first << '\:' << '\t';
@@ -72,7 +80,7 @@ void Ii::output()
 //    }
 //    out_fre.close();
 //
-//    map<string, vector<Sig> >::iterator it_sig;
+//    map<string, vector<int> >::iterator it_sig;
 //    for (it_sig = (*TermIndexSig).begin(); it_sig != (*TermIndexSig).end(); it_sig++)
 //    {
 //        out_sig << it_sig->first << '\:' << '\t';
@@ -84,7 +92,7 @@ void Ii::output()
 //    }
 //    out_sig.close();
 //
-//    map<string, vector<TermFreq> >::iterator it_sim;
+//    map<string, vector<int> >::iterator it_sim;
 //    for (it_sim = (*TermIndexSim).begin(); it_sim != (*TermIndexSim).end(); it_sim++)
 //    {
 //        out_sim << it_sim->first << '\:' << '\t';
@@ -105,7 +113,7 @@ int Ii::get_count() { return AudioCount; }
 //{
 //    Ii other=*(Ii *) arg;
 //
-//    map<string, vector<Fre> >::iterator it_fre;
+//    map<string, vector<int> >::iterator it_fre;
 //    for (it_fre = (*(other.TermIndexFre)).begin(); it_fre != (*(other.TermIndexFre)).end(); it_fre++)
 //    {
 //        int length = (*TermIndexFre)[it_fre->first].size();
@@ -119,11 +127,11 @@ int Ii::get_count() { return AudioCount; }
 //void Ii::*MergerIndexSig(void *arg)
 //{
 //    Ii other=*(Ii *) arg;
-//    map<string, vector<Sig> >::iterator it_sig;
+//    map<string, vector<int> >::iterator it_sig;
 //    for (it_sig = (*(other.TermIndexSig)).begin(); it_sig != (*(other.TermIndexSig)).end(); it_sig++)
 //    {
 //        /*
-//        vector<Sig> tmp_sig;
+//        vector<int> tmp_sig;
 //        tmp_sig.swap((*TermIndexSig)[it_fre->first]);
 //        (*TermIndexSig)[it_fre->first].resize((*TermIndexSig)[it_fre->first].size() + it_sig->second.size());//这里要求是排好序的vector
 //        merge(tmp_sig.begin(), tmp_sig.end(), it_sig->second.begin(), it_sig->second.end(), (*TermIndexSig)[it_fre->first].begin());*/
@@ -138,7 +146,7 @@ int Ii::get_count() { return AudioCount; }
 //void Ii::*MergerIndexSim(void *arg)
 //{
 //    Ii other=*(Ii *) arg;
-//    map<string, vector<TermFreq> >::iterator it_sim;
+//    map<string, vector<int> >::iterator it_sim;
 //    for (it_sim = (*(other.TermIndexSim)).begin(); it_sim != (*(other.TermIndexSim)).end(); it_sim++)
 //    {
 //        int length = (*TermIndexSim)[it_sim->first].size();
@@ -148,9 +156,30 @@ int Ii::get_count() { return AudioCount; }
 //    }
 //}
 
+void Ii::Ii_sort()
+{
+    map<string, vector<int> >::iterator it1;
+    for (it1 = (*TermIndexFre).begin(); it1 != (*TermIndexFre).end(); it1++)
+    {
+        sort(it1->second.begin(), it1->second.end(),CmpForSig<Ii>(it1->first,this));
+    }
+
+    map<string, vector<int> >::iterator it2;
+    for (it2 = (*TermIndexSig).begin(); it2 != (*TermIndexSig).end(); it2++)
+    {
+        sort(it2->second.begin(), it2->second.end(),CmpForFre<Ii>(it2->first,this));
+    }
+
+    map<string, vector<int> >::iterator it3;
+    for (it3 = (*TermIndexSim).begin(); it3 != (*TermIndexSim).end(); it3++)
+    {
+        sort(it3->second.begin(), it3->second.end(),CmpForSim<Ii>(it3->first,this));
+    }
+
+}
+
 void Ii::MergerIndex(Ii &other)//并未考虑存在相同id的情况，否则请重载部分运算符//新的归并旧的
 {
-    int length;
     level++;
     AudioCount += other.AudioCount;
     //merger info_table
@@ -170,11 +199,17 @@ void Ii::MergerIndex(Ii &other)//并未考虑存在相同id的情况，否则请
 //        exit(2);
 //    }
 //
-    map<string,vector<Sig> >::iterator it_sig;
-    for (it_sig=TermIndexSig->begin();it_sig!=TermIndexSig->end();it_sig++)
+    Ii_sort();//里面可以写多线程，这里也可以写多线程
+    other.Ii_sort();
+
+
+    map<int, AudioInfo>::iterator it;
+    map<int,AudioInfo> &it_audio=*other.InfoTable;
+    for (it = (*(other.InfoTable)).begin(); it != (*(other.InfoTable)).end(); it++)
     {
-        sort(it_sig->second.begin(),it_sig->second.end());
+        (*InfoTable)[it->first] = it->second;
     }
+
     bufferMutex.Lock();
     for (int i=0;i<updateBuffer.size();i++)
     {
@@ -183,32 +218,29 @@ void Ii::MergerIndex(Ii &other)//并未考虑存在相同id的情况，否则请
     bufferMutex.Unlock();
 
 
-    FamilyIi one(this,&other);
-    ret=pthread_create(&pid[0],NULL,MergerIndexThread<Fre>,(void*)&one);
+    FamilyIi one1(this,&other,1);
+    ret=pthread_create(&pid[0],NULL,MergerIndexThread<int>,(void*)&one1);
+    if (ret!=0) {
+        cout << "Error" << endl;
+        exit(2);
+    }
+
+    FamilyIi one2(this,&other,2);
+    ret=pthread_create(&pid[1],NULL,MergerIndexThread<int>,(void*)&one2);
+    if (ret!=0) {
+        cout << "Error" << endl;
+        exit(2);
+    }
+
+    FamilyIi one3(this,&other,3);
+    ret=pthread_create(&pid[2],NULL,MergerIndexThread<int>,(void*)&one3);
     if (ret!=0) {
         cout << "Error" << endl;
         exit(2);
     }
 
 
-    ret=pthread_create(&pid[1],NULL,MergerIndexThread<Sig>,(void*)&one);
-    if (ret!=0) {
-        cout << "Error" << endl;
-        exit(2);
-    }
 
-    ret=pthread_create(&pid[2],NULL,MergerIndexThread<TermFreq>,(void*)&one);
-    if (ret!=0) {
-        cout << "Error" << endl;
-        exit(2);
-    }
-
-
-    map<int, AudioInfo>::iterator it;
-    for (it = (*(other.InfoTable)).begin(); it != (*(other.InfoTable)).end(); it++)
-    {
-        (*InfoTable)[it->first] = it->second;
-    }
 
 //
     for (int i=0;i<3;i++)
@@ -231,7 +263,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
     double up_fre = 0;
     double up_sig = 0;
     int id1, id2, id3,id4;
-    map<string, int> up_sim;
+    map<string, double> up_sim;
     map<int, double>::iterator it_res;
     double score = 0;
     ofstream out_res("Ii.txt", ofstream::app);
@@ -241,21 +273,21 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
     {
         for (int i = 0; i < query.size(); i++)
         {
-            map<string, vector<Fre> >::iterator it = (*TermIndexFre).find(query[i]);
+            map<string, vector<int> >::iterator it = (*TermIndexFre).find(query[i]);
             if (it != (*TermIndexFre).end())
             {
                 for (int j = 0; j < it->second.size(); j++)
                 {
                     //cout << it->first << endl;
-                    it_res = Result.find(it->second[j].id);
+                    it_res = Result.find(it->second[j]);
 
                     if (it_res == Result.end())
                     {
 
-                        AudioInfo &info_tmp = (*InfoTable)[it->second[j].id];
+                        AudioInfo &info_tmp = (*InfoTable)[it->second[j]];
                         score = computeScore(info_tmp.time, info_tmp.score, info_tmp.TagsNum, info_tmp.TagsSum, query);
                         Sum += 1;
-                        Result[it->second[j].id] = score;
+                        Result[it->second[j]] = score;
                         if (Sum >= AnsNum)
                             break;
                     }
@@ -318,12 +350,12 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
             {
                 for (int j = 0; j < query.size(); j++)
                 {
-                    map<string, vector<Fre> >::iterator it_exist = (*TermIndexFre).find(query[j]);
+                    map<string, vector<int> >::iterator it_exist = (*TermIndexFre).find(query[j]);
                     if (it_exist != (*TermIndexFre).end())
                     {
                         if (i < (*TermIndexFre).size())
                         {
-                            id1 = (*TermIndexFre)[query[j]][i].id;
+                            id1 = (*TermIndexFre)[query[j]][i];
                             it_res = Result.find(id1);
                             if (it_res != Result.end())
                             {
@@ -345,7 +377,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
 
                         if (i < (*TermIndexSig).size())
                         {
-                            id2 = (*TermIndexSig)[query[j]][i].get_id();
+                            id2 = (*TermIndexSig)[query[j]][i];
                             it_res = Result.find(id2);
                             if (it_res != Result.end())
                             {
@@ -367,7 +399,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
 
                         if (i < (*TermIndexSim).size())
                         {
-                            id3 = (*TermIndexSim)[query[j]][i].get_id();
+                            id3 = (*TermIndexSim)[query[j]][i];
                             it_res = Result.find(id3);
                             if (it_res != Result.end())
                             {
@@ -472,7 +504,8 @@ void *MergerIndexThread(void *fam)
     FamilyIi * ones=(FamilyIi *)fam;
     Ii *myself=ones->me;
     Ii *other=ones->him;
-    T argTmp;
+    int argTmp=ones->identi;
+
 
     typename map<string, vector<T> >::iterator it_T;
     for (it_T = (*(other->getPosting(argTmp))).begin(); it_T != (*(other->getPosting(argTmp))).end(); it_T++)
@@ -480,8 +513,26 @@ void *MergerIndexThread(void *fam)
         int length = (*(myself->getPosting(argTmp)))[it_T->first].size();
         (*(myself->getPosting(argTmp)))[it_T->first].resize(length + it_T->second.size());
         copy(it_T->second.begin(), it_T->second.end(), (*(myself->getPosting(argTmp)))[it_T->first].begin() + length);
-        inplace_merge(((*(myself->getPosting(argTmp)))[it_T->first]).begin(), \
+        if(argTmp==1)
+        {
+            inplace_merge(((*(myself->getPosting(argTmp)))[it_T->first]).begin(), \
 		(*(myself->getPosting(argTmp)))[it_T->first].begin() + length,\
-		 ((*(myself->getPosting(argTmp)))[it_T->first]).end());
+		 ((*(myself->getPosting(argTmp)))[it_T->first]).end(),CmpForFre<Ii>(it_T->first,myself));
+        }
+        else if (argTmp==2)
+        {
+            inplace_merge(((*(myself->getPosting(argTmp)))[it_T->first]).begin(), \
+		(*(myself->getPosting(argTmp)))[it_T->first].begin() + length,\
+		 ((*(myself->getPosting(argTmp)))[it_T->first]).end(),CmpForSig<Ii>(it_T->first,myself));
+
+        }
+        else if(argTmp==3)
+        {
+            inplace_merge(((*(myself->getPosting(argTmp)))[it_T->first]).begin(), \
+		(*(myself->getPosting(argTmp)))[it_T->first].begin() + length,\
+		 ((*(myself->getPosting(argTmp)))[it_T->first]).end(),CmpForSim<Ii>(it_T->first,myself));
+
+        }
+
     }
 }

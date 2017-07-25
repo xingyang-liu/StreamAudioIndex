@@ -8,9 +8,6 @@
 
 #include "utils.h"
 #include "AudioInfo.h"
-#include "Sig.h"
-#include "TermFreq.h"
-#include "Fre.h"
 #include "I0.h"
 #include "Ii.h"
 #include "IndexAll.h"

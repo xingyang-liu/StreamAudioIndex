@@ -1,0 +1,10 @@
+Sum: 999 Unit: 100 SumTime: 0.000128746 Times: 50 Average: 2.5749207e-06
+
+
+Sum: 10000 Unit: 100 SumTime: 0.00236249 Times: 1000 Average: 2.3624897e-06
+Sum: 10000 Unit: 200 SumTime: 0.00199199 Times: 1000 Average: 1.9919872e-06
+Sum: 10000 Unit: 400 SumTime: 0.00190496 Times: 1000 Average: 1.9049644e-06
+Sum: 10000 Unit: 500 SumTime: 0.00249672 Times: 1000 Average: 2.4967194e-06
+Sum: 10000 Unit: 800 SumTime: 0.00179386 Times: 1000 Average: 1.7938614e-06
+Sum: 10000 Unit: 1000 SumTime: 0.00208783 Times: 1000 Average: 2.0878315e-06
+Sum: 10000 Unit: 2000 SumTime: 0.0018568 Times: 1000 Average: 1.8568039e-06

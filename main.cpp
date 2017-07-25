@@ -16,7 +16,7 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 1;
+    IndexUnit = 100;
     AudioSum = 10000;
 //    IndexAll index;
 //    preprocess(index,AudioSum);
@@ -28,7 +28,7 @@ int main() {
 //    pthread_join(pid,NULL);
 
 //    test_for_QandA(index,500,1,7000,1);
-
+//
 //    FamilyTestQuery fam(&index,50,1);
 //    pthread_t pid;
 //    pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);

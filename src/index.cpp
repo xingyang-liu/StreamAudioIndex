@@ -61,7 +61,7 @@ void ini(IndexAll &Index,int audio_sum)
 		getline(info_in,FinalFlag_tmp);
 		//cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
 		int TagsSum = atoi(TagsSum_tmp.c_str());
-		map<string, int> TagsNum_tmp;
+		map<string, double> TagsNum_tmp;
 		for (int j = 0; j < atoi(TermSum_tmp.c_str()); j++)
 		{
 			getline(info_in, term_tmp);
@@ -230,7 +230,7 @@ void* test_for_addThread(void *Fam)
 		getline(info_in,FinalFlag_tmp);
 		//cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
 		int TagsSum = atoi(TagsSum_tmp.c_str());
-		map<string, int> TagsNum_tmp;
+		map<string, double> TagsNum_tmp;
 		for (int j = 0; j < atoi(TermSum_tmp.c_str()); j++)
 		{
 			getline(info_in, term_tmp);
@@ -366,6 +366,7 @@ void* test_for_updateThread(void*Fam)
 	map<int,double> test_update;
 	map<int,Ii*>::iterator it_index;
 	map<int,AudioInfo>::iterator it_audio;
+	cout<<"Begin test of update"<<endl;
 	while(count<times)
 	{
 		for(it_index=Index.otherIndex.begin();it_index!=Index.otherIndex.end();it_index++)
@@ -398,7 +399,7 @@ void* test_for_updateThread(void*Fam)
 	}
 
 
-	cout<<"Begin test of update"<<endl;
+
 
 	map<int,double>::iterator it_update;
 	for(it_update=test_update.begin();it_update!=test_update.end();it_update++)

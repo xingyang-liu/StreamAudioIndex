@@ -16,13 +16,13 @@ public:
     string title;
     int LikeCount, CommentCount, PlayCount, TagsSum;
     double score, time;
-    map<string, int> TagsNum;
+    map<string, double> TagsNum;
 	int final;
 
     AudioInfo() {}
 
     AudioInfo(int id, string title, int LikeCount, int CommentCount, int PlayCount, double score, \
-	map<string, int>TagsNum, int TagsSum, double time,int finalflag)\
+	map<string, double>TagsNum, int TagsSum, double time,int finalflag)\
 		:id(id), title(title), LikeCount(LikeCount), CommentCount(CommentCount),\
 		 PlayCount(PlayCount), score(score), TagsNum(TagsNum), TagsSum(TagsSum), time(time),final(finalflag){}
 
@@ -30,7 +30,7 @@ public:
 
     bool operator==(const AudioInfo &other);
 
-    map<string, int> get() const;
+    map<string, double> get() const;
 
     AudioInfo &operator=(const AudioInfo&other);//按理说是应该加const，但是要写几个函数提取成员
 

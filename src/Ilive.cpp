@@ -11,18 +11,18 @@ Ilive::Ilive()
 {
     AudioCount = 0;
     InfoTable = new map<int, AudioInfo>;
-    TermIndex = new map<string, std::list<Fre> >;
+    TermIndex = new map<string, std::list<int> >;
 }
 
 void Ilive::addAudio(AudioInfo &tmp_info)
 {
-
+    TermIndexMutex.Lock();
     map<int,AudioInfo>::iterator it_fre=(*InfoTable).find(tmp_info.id);
     if(it_fre==(*InfoTable).end())
     {
         (*InfoTable)[tmp_info.id] = tmp_info;
         AudioCount++;
-        map<string, int>::iterator it;
+        map<string, double>::iterator it;
         for (it = tmp_info.TagsNum.begin(); it != tmp_info.TagsNum.end(); it++)
         {
             term_add(it->first, tmp_info.id, tmp_info.time);
@@ -31,12 +31,13 @@ void Ilive::addAudio(AudioInfo &tmp_info)
     else
     {
         it_fre->second.update(tmp_info);
-        map<string, int>::iterator it;
+        map<string, double>::iterator it;
         for (it = tmp_info.TagsNum.begin(); it != tmp_info.TagsNum.end(); it++)
         {
             term_add(it->first, tmp_info.id, tmp_info.time);
         }
     }
+    TermIndexMutex.Unlock();
 
     //(*InfoTable) = (*InfoTable).insert(make_pair<int, AudioInfo>);
 
@@ -49,20 +50,22 @@ void Ilive::addAudio(AudioInfo &tmp_info)
 
 void Ilive::term_add(string term, int id, double fresh)
 {
-    map<string,std::list<Fre> >::iterator it = (*TermIndex).find(term);
+    map<string,std::list<int> >::iterator it = (*TermIndex).find(term);
     if ((it == (*TermIndex).end()))
     {
 
-        list<Fre> tmp;
-        tmp.push_back(Fre(id, fresh));
+        list<int> tmp;
+        tmp.push_back(id);
         (TermMutex)[term] = CMutex();
+        (TermMutex)[term].Lock();
         (*TermIndex)[term] = tmp;
+        (TermMutex)[term].Unlock();
 
     }
     else
     {
         (TermMutex)[term].Lock();
-        it->second.push_front(Fre(id, fresh));//此处是放在头部的
+        it->second.push_front(id);//此处是放在头部的
         (TermMutex)[term].Unlock();
     }
 }
@@ -81,10 +84,10 @@ void Ilive::term_add(string term, int id, double fresh)
 
 void Ilive::term_remove(string term, int id)
 {
-    list<Fre>::iterator it;
+    list<int>::iterator it;
     for (it=(*TermIndex)[term].begin();it!=(*TermIndex)[term].end();)
     {
-        if(it->id==id)
+        if(*it==id)
         {
             it=(*TermIndex)[term].erase(it);
         }
@@ -104,14 +107,14 @@ void Ilive::output()
 {
     ofstream out("IliveResult.txt");
     cout << "Ilive_count:" << AudioCount << "\n";
-    map<string, std::list<Fre> >::iterator it;
+    map<string, std::list<int> >::iterator it;
     for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)
     {
         out << it->first << ':' << '\t';
-        list<Fre>::iterator it_fre;
+        list<int>::iterator it_fre;
         for (it_fre = it->second.begin(); it_fre != it->second.end(); it_fre++)
         {
-            out << it_fre->id << ',' << it_fre->fresh << '\t';
+            out << *it_fre << '\t';
         }
         out << '\n';
     }
@@ -125,7 +128,7 @@ void Ilive::search(map<int, double> &Result, double &MinScore, int &AnsNum, int 
         for (int i = 0; i < query.size(); i++)
         {
 
-            map<string, std::list<Fre> >::iterator it = (*TermIndex).find(query[i]);
+            map<string, std::list<int> >::iterator it = (*TermIndex).find(query[i]);
 //            cout << get_count();
 //            map<string,vector<Fre> >::iterator it_tmp;
 //            for (it_tmp=(*TermIndex).begin();it_tmp!=(*TermIndex).end();it_tmp++)
@@ -137,11 +140,11 @@ void Ilive::search(map<int, double> &Result, double &MinScore, int &AnsNum, int 
             if (it != (*TermIndex).end())
             {
                 TermMutex[query[i]].Lock();
-                std::list<Fre>::iterator it_li=(*TermIndex)[query[i]].begin();
+                std::list<int>::iterator it_li=(*TermIndex)[query[i]].begin();
                 for (int j = 0; j < (*TermIndex)[query[i]].size(); j++,it_li++)
                 {
 
-                    int id1 = it_li->id;
+                    int id1 = *it_li;
                     map<int, double>::iterator term_it = Result.find(id1);
 
                     if (term_it == Result.end())
@@ -210,6 +213,6 @@ void Ilive::clear()
 {
     InfoTable = new map<int, AudioInfo>;
     AudioCount = 0;
-    TermIndex = new map<string, std::list<Fre> >;
+    TermIndex = new map<string, std::list<int> >;
     TermMutex.clear();
 }

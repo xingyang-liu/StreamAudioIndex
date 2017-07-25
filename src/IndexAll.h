@@ -11,21 +11,54 @@
 #include "Ilive.h"
 
 
+class ForMirror
+{
+public:
+	I0 *mirrorI0;
+	map<int,Ii*>* mirrorIiMap;
+
+	ForMirror(){mirrorIiMap=NULL;}
+
+	ForMirror(I0* index0):mirrorI0(index0){mirrorIiMap=NULL;}
+
+	~ForMirror()
+	{
+		if(mirrorI0!=NULL)
+        {
+            delete mirrorI0;
+            mirrorI0=NULL;
+        }
+		if(mirrorIiMap!=NULL)
+		{
+			map<int,Ii*>::iterator it_tmp;
+			for (it_tmp=mirrorIiMap->begin();it_tmp!=mirrorIiMap->end();it_tmp++)
+			{
+				delete it_tmp->second;
+			}
+			delete mirrorIiMap;
+			mirrorIiMap=NULL;
+		}
+	}
+};
+
 class IndexAll
 {
 public:
 	int I0Num;
-	double maxTime;
     Ilive IndexLive;
-	I0 Index0;
+	I0 *Index0;
 	map<int, Ii*> otherIndex;
 	CMutex mutexI0;//不允许查询访问I0的term表
 	CMutex clearIi;//不允许查询进入
     CMutex clearI0;
+    CMutex clearMirror;//整个镜像库的互斥量
+
+    vector<ForMirror*> mirrorList;
 
 	IndexAll()
 	{
 		I0Num = 0;
+		Index0= new I0;
 	}
 
 //	void addAudio(AudioInfo &audio_info);
@@ -40,15 +73,17 @@ public:
 
     ~IndexAll()
     {
+		if(Index0!=NULL) delete Index0;
         map<int,Ii*>::iterator it;
         for (it=otherIndex.begin();it!=otherIndex.end();it++)
         {
-            delete((it->second));
+            if(it->second!=NULL) delete ((it->second));
         }
     }
 
 	void freemem()
 	{
+		if(Index0!=NULL) delete Index0;
 		map<int,Ii*>::iterator it;
 		for (it=otherIndex.begin();it!=otherIndex.end();it++)
 		{

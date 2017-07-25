@@ -1,8 +1,9 @@
 //
-// Created by 兴阳 刘 on 2017/7/11.
+// Created by watson on 23/07/17.
 //
 
 #include "Sig.h"
+
 
 Sig::Sig(const Sig &other)
 {

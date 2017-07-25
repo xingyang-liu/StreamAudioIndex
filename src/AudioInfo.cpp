@@ -17,8 +17,8 @@ AudioInfo::AudioInfo(const AudioInfo& other)
     time = other.time;
     title = other.title;
     final=other.final;
-    map<string, int> tmp = other.get();
-    map<string, int>::iterator it;
+    map<string, double> tmp = other.get();
+    map<string, double>::iterator it;
     for (it = tmp.begin(); it != tmp.end(); it++)
     {
         TagsNum[it->first] = it->second;
@@ -32,7 +32,7 @@ bool AudioInfo::operator==(const AudioInfo &other)
         && PlayCount == other.PlayCount && TagsSum == other.TagsSum&&final==other.final;
 }
 
-map<string, int> AudioInfo::get() const
+map<string, double> AudioInfo::get() const
 {
     return TagsNum;
 }
@@ -55,8 +55,8 @@ AudioInfo &AudioInfo::operator=(const AudioInfo&other)//按理说是应该加con
         title = other.title;
         time = other.time;
         final=other.final;
-        map<string, int> tmp = other.get();
-        map<string, int>::iterator it;
+        map<string, double> tmp = other.get();
+        map<string, double>::iterator it;
         for (it = tmp.begin(); it != tmp.end(); it++)
         {
             //cout << it->first << "\t" << it->second << endl;
@@ -81,8 +81,8 @@ void AudioInfo::update(AudioInfo& other)
     score = other.score;
     time = other.time;
     final=other.final;
-    map<string, int> tmp = other.get();
-    map<string, int>::iterator it;
+    map<string, double> tmp = other.get();
+    map<string, double>::iterator it;
     for (it = tmp.begin(); it != tmp.end(); it++)
     {
         TagsNum[it->first] += it->second;

@@ -7,9 +7,7 @@
 
 
 #include "AudioInfo.h"
-#include "Fre.h"
-#include "TermFreq.h"
-#include "Sig.h"
+
 #include "utils.h"
 
 
@@ -19,10 +17,11 @@ class Ilive
 {
 public:
     map<int, AudioInfo> *InfoTable;
-    map<string, std::list<Fre> > *TermIndex;
+    map<string, std::list<int> > *TermIndex;
     map<string, CMutex> TermMutex;
     CMutex MutexInfo;
     int AudioCount;
+    CMutex TermIndexMutex;
 
     Ilive();
 

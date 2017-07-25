@@ -1,0 +1,15 @@
+Sum: 299 Unit: 50 SumTime: 2.26209 Sum: 800 Average: 0.0028276083
+Sum: 2999 Unit: 500 SumTime: 13.0235 Sum: 8000 Average: 0.0016279415
+Sum: 2999 Unit: 500 SumTime: 14.356 Sum: 8000 Average: 0.0017945048
+Sum: 20 Unit: 10 SumTime: 0.0762351 Sum: 20 Average: 0.0038117528
+Sum: 20 Unit: 10 SumTime: 6.88994 Sum: 20 Average: 0.34449698
+Sum: 999 Unit: 100 SumTime: 1.90687 Sum: 300 Average: 0.0063562298
+
+
+Sum: 10000 Unit: 100 SumTime: 64.1089 Sum: 10000 Average: 0.0064108871
+Sum: 10000 Unit: 200 SumTime: 59.6682 Sum: 10000 Average: 0.0059668152
+Sum: 10000 Unit: 400 SumTime: 55.4933 Sum: 10000 Average: 0.005549332
+Sum: 10000 Unit: 500 SumTime: 52.9838 Sum: 10000 Average: 0.0052983764
+Sum: 10000 Unit: 800 SumTime: 51.88 Sum: 10000 Average: 0.0051879981
+Sum: 10000 Unit: 1000 SumTime: 50.0335 Sum: 10000 Average: 0.0050033548
+Sum: 10000 Unit: 2000 SumTime: 47.0285 Sum: 10000 Average: 0.0047028471

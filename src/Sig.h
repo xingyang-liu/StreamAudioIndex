@@ -1,17 +1,17 @@
 //
-// Created by 兴阳 刘 on 2017/7/11.
+// Created by watson on 23/07/17.
 //
 
-#ifndef SAMPLE_CONNECTOR_SIG_H
-#define SAMPLE_CONNECTOR_SIG_H
+#ifndef HASH_0E_SIG_H
+#define HASH_0E_SIG_H
+
 
 
 class Sig
 {
-private:
+public:
     int id;
     double score;
-public:
     Sig() {}
 
     Sig(int i, double s) :id(i), score(s) {}
@@ -34,4 +34,4 @@ public:
 };
 
 
-#endif //SAMPLE_CONNECTOR_SIG_H
+#endif //HASH_0E_SIG_H

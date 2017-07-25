@@ -7,19 +7,21 @@
 
 
 #include "I0.h"
+#include "Sig.h"
 #include "utils.h"
 
 class Ii
 {
 public:
 	int AudioCount, level, id_tmp;
-	map<string, vector<Fre> > *TermIndexFre;
-	map<string, vector<Sig> > *TermIndexSig;
-	map<string, vector<TermFreq> > *TermIndexSim;
+	map<string, vector<int> > *TermIndexFre;
+	map<string, vector<int> > *TermIndexSig;
+	map<string, vector<int> > *TermIndexSim;
     priority_queue<Sig> updateBuffer;
 	map<int, AudioInfo> *InfoTable;
     CMutex I0MutexInfo;//其实我也不知道为了buffer的一个小操作为Indotable写一个互斥量，划不划算
     CMutex bufferMutex;
+	CMutex termIndexMutex;//用于指示开始查询，不允许修改
 
 	Ii();
 
@@ -28,6 +30,8 @@ public:
 	void output();
 
 	int get_count();
+
+    void Ii_sort();
 
 //	void test();
 
@@ -58,27 +62,53 @@ public:
 
 
 
-	map<string, vector<Fre> > *getPosting(Fre &other)
+	map<string, vector<int> > *getPosting(int identifier)
 	{
-		return TermIndexFre;
+        if (identifier==1)
+        {
+            return TermIndexFre;
+        }
+        else if(identifier==2)
+        {
+            return TermIndexSig;
+        }
+        else if(identifier==3)
+        {
+            return TermIndexSim;
+        }
+
 	};
 
-	map<string, vector<Sig> > *getPosting(Sig &other)
-	{
-		return TermIndexSig;
-	};
 
-	map<string, vector<TermFreq> > *getPosting(TermFreq &other)
-	{
-		return TermIndexSim;
-	};
 
 	~Ii()
 	{
-		if(TermIndexFre!=NULL) delete TermIndexFre;
-		if(TermIndexSig!=NULL) delete TermIndexSig;
-        if(TermIndexSim!=NULL) delete TermIndexSim;
-        if(InfoTable!=NULL) delete InfoTable;
+		if(TermIndexFre!=NULL)
+        {
+            map<string,vector<int>>::iterator it_fre;
+            for (it_fre=TermIndexFre->begin();it_fre!=TermIndexFre->end();it_fre++)
+            {
+                it_fre->second.clear();
+            }
+            TermIndexFre->clear();
+            delete TermIndexFre;
+            TermIndexFre=NULL;
+        }
+		if(TermIndexSig!=NULL)
+        {
+            delete TermIndexSig;
+            TermIndexSig=NULL;
+        }
+        if(TermIndexSim!=NULL)
+        {
+            delete TermIndexSim;
+            TermIndexSim=NULL;
+        }
+        if(InfoTable!=NULL)
+        {
+            delete InfoTable;
+            InfoTable=NULL;
+        }
 	}
 };
 
@@ -87,11 +117,13 @@ class FamilyIi
 public:
 	Ii*me;
 	Ii*him;
+    int identi;
 
-	FamilyIi(Ii* myself,Ii* other)
+	FamilyIi(Ii* myself,Ii* other,int iden)
 	{
 		me=myself;
 		him=other;
+        identi=iden;
 	}
 };
 
