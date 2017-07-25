@@ -82,9 +82,9 @@ vector<pair<int, double> > IndexAll::search(const vector<string> &query, map<int
     }
 }
 
-void *searchThread(void *family)
+void *searchThread(void *Family)
 {
-    FamilyQuery *fam=(FamilyQuery *)family;
+    FamilyQuery *fam=(FamilyQuery *)Family;
     IndexAll *myself=fam->me;
     vector<string> &query=*(fam->que);
     vector<pair<int,double> > &ResVector=*(fam->ResVec);
@@ -206,4 +206,28 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
         }
     }
 
+}
+
+
+
+void IndexAll::updateScore(int id,double new_score)
+{
+
+
+    map<int,AudioInfo>::iterator it_info;
+    it_info=(Index0.InfoTable)->find(id);
+    if(it_info!=(Index0.InfoTable)->end())
+    {
+        (Index0).updateScore(id,new_score);
+    }
+
+    map<int, Ii*>::iterator it_Index;
+    for (it_Index=otherIndex.begin();it_Index!=otherIndex.end();it_Index++)
+    {
+        it_info=((it_Index->second)->InfoTable)->find(id);
+        if(it_info!=((it_Index->second)->InfoTable)->end())
+        {
+            (Index0).updateScore(id,new_score);
+        }
+    }
 }

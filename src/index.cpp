@@ -39,7 +39,7 @@ void ini(IndexAll &Index,int audio_sum)
 {
 	double begin, end;
 	begin = getTime();
-	ifstream info_in("info_live.txt");
+	ifstream info_in("info_live_test.txt");
 	if (!info_in) exit(7);
 	string DoubleQuestionMark = "??";
 	string QuestionMark = "?";
@@ -68,12 +68,12 @@ void ini(IndexAll &Index,int audio_sum)
 			getline(info_in, num_tmp);
 			if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
 			{
-				(TagsNum_tmp)[term_tmp] = atoi(num_tmp.c_str());
+				(TagsNum_tmp)[term_tmp] = atof_1e(num_tmp.c_str());
 				//cout << term_tmp << ' ' << num_tmp << endl;
 			}
 			else
 			{
-				TagsSum -= atoi(num_tmp.c_str());
+				TagsSum -= 2;
 				//cout << "delete " << term_tmp << endl;
 			}
 		}
@@ -93,6 +93,10 @@ void ini(IndexAll &Index,int audio_sum)
 
 	Index.output();
 	cout << end - begin << "s" << endl;
+	ofstream writefile("test_of_index.txt",ofstream::app);
+	writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<end-begin\
+    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
+	writefile.close();
 	info_in.close();
 }
 
@@ -157,7 +161,6 @@ string handleQuery(IndexAll &Index, string query_str)
     return str_back;
 }
 
-
 void preprocess(IndexAll &Index,int num)
 {
 	double begin, end;
@@ -202,7 +205,7 @@ void* test_for_addThread(void *Fam)
 	int audio_sum=fam.sum;
 	int sleeptime=fam.sleeptime;
 
-	ifstream info_in("info_live2.txt");
+	ifstream info_in("info_live_test2.txt");
 	if (!info_in) exit(7);
 	string DoubleQuestionMark = "??";
 	string QuestionMark = "?";
@@ -234,12 +237,12 @@ void* test_for_addThread(void *Fam)
 			getline(info_in, num_tmp);
 			if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
 			{
-				(TagsNum_tmp)[term_tmp] = atoi(num_tmp.c_str());
+				(TagsNum_tmp)[term_tmp] = atof_1e(num_tmp.c_str());
 				//cout << term_tmp << ' ' << num_tmp << endl;
 			}
 			else
 			{
-				TagsSum -= atoi(num_tmp.c_str());
+				TagsSum -= 2;
 				//cout << "delete " << term_tmp << endl;
 			}
 		}
@@ -254,7 +257,7 @@ void* test_for_addThread(void *Fam)
 		pthread_join(id,NULL);
 		end=getTime();
 		time_list.push_back(end-begin);
-		if((i+1)%100==0)
+		if((i+1)%50==0)
 		{
 			cout<<"Add Audio Sum: "<<i+1<<endl;
 		}
@@ -317,7 +320,9 @@ void *test_for_queryThread(void *Fam)
 		handleQuery(Index, query_str_list[i]);
 		end=getTime();
 		time_list.push_back(end-begin);
-		cout<<"QueryCount: "<<i+1<<endl;
+		if((i+1)%50==0) {
+			cout << "QueryCount: " << i + 1 << endl;
+		}
 	}
 	double timeSum=0;
 	for (int i=0;i<time_list.size();i++)
@@ -342,4 +347,74 @@ void test_for_QandA(IndexAll &Index,int query_times,int query_sleeptime,int add_
 	pthread_join(pida,NULL);
 
 
+}
+
+void* test_for_updateThread(void*Fam)
+{
+	FamilyUpdate fam=*(FamilyUpdate *)Fam;
+	IndexAll &Index=*(fam.me);
+	int times=fam.sum;
+	int sleeptime=fam.sleeptime;
+
+
+
+	double begin,end;
+	vector<double> time_list;
+	int count=0;
+	int tmp_num;
+	//生成测试数组
+	map<int,double> test_update;
+	map<int,Ii*>::iterator it_index;
+	map<int,AudioInfo>::iterator it_audio;
+	while(count<times)
+	{
+		for(it_index=Index.otherIndex.begin();it_index!=Index.otherIndex.end();it_index++)
+		{
+			usleep((rand()/(RAND_MAX+1.0)+sleeptime)*1000);
+			tmp_num=rand()/(RAND_MAX+1.0)*it_index->second->AudioCount;
+			int random_count=0;
+			if(it_index->second->InfoTable!=NULL)
+			{
+				for(it_audio=it_index->second->InfoTable->begin();it_audio!=it_index->second->InfoTable->end();it_audio++)
+				{
+					if(test_update.find(it_audio->second.id)==test_update.end())
+					{
+						test_update[it_audio->second.id]=it_audio->second.score*10;
+						random_count++;
+						count++;
+					}
+					if((count+1)%50==0)
+					{
+						cout<<"Update Audio Sum: "<<count+1<<endl;
+					}
+					if(random_count>=tmp_num)break;
+
+					if(count>=times)break;
+				}
+				if(count>=times)break;
+			}
+		}
+		if(count>=times)break;
+	}
+
+
+	cout<<"Begin test of update"<<endl;
+
+	map<int,double>::iterator it_update;
+	for(it_update=test_update.begin();it_update!=test_update.end();it_update++)
+	{
+		begin=getTime();
+		Index.updateScore(it_update->first,it_update->second);
+		end=getTime();
+		time_list.push_back(end-begin);
+	}
+	double timeSum=0;
+	for (int i=0;i<time_list.size();i++)
+	{
+		timeSum+=time_list[i];
+	}
+	cout<<"SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	ofstream writefile("test_for_update.txt",ofstream::app);
+	writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	writefile.close();
 }

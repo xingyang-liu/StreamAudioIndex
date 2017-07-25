@@ -17,6 +17,7 @@
 #include <sstream>
 #include <limits>
 #include <pthread.h>
+#include <queue>
 #include <stdlib.h>
 #include <iomanip>
 #include <unistd.h>
@@ -45,7 +46,14 @@ struct CompDedcendVal {
     {
         return a.second > b.second;
     }
-};
+};//最小值优先，在最后面
+
+struct CompAscendVal {
+    bool operator()(const pair<int, double> &a, const pair<int, double> &b)
+    {
+        return a.second > b.second;
+    }
+};//最大值优先，在最后面
 
 double computeScore(const double &time, const double &score, map<string, int> &tagsNum, const int &tagsSum,
                     const vector<string> &query);
@@ -70,5 +78,5 @@ private:
     pthread_mutex_t mutex;
 };
 
-
+double atof_1e(const char s[]);
 #endif //SAMPLE_CONNECTOR_UTILS_H

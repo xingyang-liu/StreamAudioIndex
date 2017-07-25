@@ -16,7 +16,10 @@ public:
 	map<string, vector<Fre> > *TermIndexFre;
 	map<string, vector<Sig> > *TermIndexSig;
 	map<string, vector<TermFreq> > *TermIndexSim;
+    priority_queue<Sig> updateBuffer;
 	map<int, AudioInfo> *InfoTable;
+    CMutex I0MutexInfo;//其实我也不知道为了buffer的一个小操作为Indotable写一个互斥量，划不划算
+    CMutex bufferMutex;
 
 	Ii();
 
@@ -31,6 +34,21 @@ public:
 	void MergerIndex(Ii &other);//并未考虑存在相同id的情况，否则请重载部分运算符//新的归并旧的
 
 	void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<string> query, map<int, string> &name);
+
+    void updateScore(int id,int score)
+    {
+        I0MutexInfo.Lock();
+        map<int, AudioInfo>::iterator it_info=InfoTable->find(id);
+        if(it_info!=InfoTable->end())
+        {
+            it_info->second.score=score;
+        }
+        I0MutexInfo.Unlock();
+
+        bufferMutex.Lock();
+        updateBuffer.push(Sig(id,score));
+        bufferMutex.Unlock();
+    }
 //
 //	void *MergerIndexSim(void *arg);
 //

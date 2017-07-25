@@ -10,7 +10,7 @@ class TermFreq
 {
 private:
     int id;
-    int tf;
+    double tf;
 public:
     TermFreq() {}
 

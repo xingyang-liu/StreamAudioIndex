@@ -148,9 +148,6 @@ int Ii::get_count() { return AudioCount; }
 //    }
 //}
 
-
-
-
 void Ii::MergerIndex(Ii &other)//并未考虑存在相同id的情况，否则请重载部分运算符//新的归并旧的
 {
     int length;
@@ -173,6 +170,19 @@ void Ii::MergerIndex(Ii &other)//并未考虑存在相同id的情况，否则请
 //        exit(2);
 //    }
 //
+    map<string,vector<Sig> >::iterator it_sig;
+    for (it_sig=TermIndexSig->begin();it_sig!=TermIndexSig->end();it_sig++)
+    {
+        sort(it_sig->second.begin(),it_sig->second.end());
+    }
+    bufferMutex.Lock();
+    for (int i=0;i<updateBuffer.size();i++)
+    {
+        updateBuffer.pop();
+    }
+    bufferMutex.Unlock();
+
+
     FamilyIi one(this,&other);
     ret=pthread_create(&pid[0],NULL,MergerIndexThread<Fre>,(void*)&one);
     if (ret!=0) {
@@ -220,8 +230,9 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
 {
     double up_fre = 0;
     double up_sig = 0;
-    int id1, id2, id3;
+    int id1, id2, id3,id4;
     map<string, int> up_sim;
+    map<int, double>::iterator it_res;
     double score = 0;
     ofstream out_res("Ii.txt", ofstream::app);
 
@@ -236,7 +247,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                 for (int j = 0; j < it->second.size(); j++)
                 {
                     //cout << it->first << endl;
-                    map<int, double>::iterator it_res = Result.find(it->second[j].id);
+                    it_res = Result.find(it->second[j].id);
 
                     if (it_res == Result.end())
                     {
@@ -301,6 +312,8 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                 up_sim[query[j]] = 0;
             }
 
+            priority_queue<Sig> copyBuffer(updateBuffer);
+
             try
             {
                 for (int j = 0; j < query.size(); j++)
@@ -311,7 +324,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                         if (i < (*TermIndexFre).size())
                         {
                             id1 = (*TermIndexFre)[query[j]][i].id;
-                            map<int, double>::iterator it_res = Result.find(id1);
+                            it_res = Result.find(id1);
                             if (it_res != Result.end())
                             {
                                 AudioInfo &info_tmp = (*InfoTable)[id1];
@@ -333,7 +346,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                         if (i < (*TermIndexSig).size())
                         {
                             id2 = (*TermIndexSig)[query[j]][i].get_id();
-                            map<int, double>::iterator it_res = Result.find(id2);
+                            it_res = Result.find(id2);
                             if (it_res != Result.end())
                             {
                                 AudioInfo &info_tmp = (*InfoTable)[id2];
@@ -355,7 +368,7 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                         if (i < (*TermIndexSim).size())
                         {
                             id3 = (*TermIndexSim)[query[j]][i].get_id();
-                            map<int, double>::iterator it_res = Result.find(id3);
+                            it_res = Result.find(id3);
                             if (it_res != Result.end())
                             {
                                 AudioInfo &info_tmp = (*InfoTable)[id3];
@@ -376,6 +389,25 @@ void Ii::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Su
                         else
                         {
                             up_sim[query[j]] = 0;
+                        }
+
+                        if(copyBuffer.size()>0) {
+                            while (up_sig < copyBuffer.top().get_score()) {
+
+                                id4 = (copyBuffer.top().get_id());
+                                copyBuffer.pop();
+                                it_res = Result.find(id4);
+                                if (it_res == Result.end()) {
+                                    AudioInfo &info_tmp = (*InfoTable)[id4];
+                                    score = computeScore(info_tmp.time, info_tmp.score, info_tmp.TagsNum, info_tmp.TagsSum,
+                                                         query);
+                                    if (score > MinScore) {
+                                        Result[id4] = score;
+                                        MinScore = score;
+                                        Sum += 1;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

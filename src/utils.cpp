@@ -107,3 +107,57 @@ double computeScore(const double &time, const double &score, map<string, int> &t
     return ScoreAll;
 }
 
+double atof_1e(const char s[])   //将字符串s转换成double型的浮点数(含科学计数法）
+{
+    int i;
+    int sign;
+    int flag;
+    int expn;
+    double val;
+    double power;
+
+    sign = 1;
+    flag = 0;
+    power = 1.0;
+    expn = 0;
+    for(i = 0; isspace(s[i]); ++i)
+        ;
+    if(s[i] == '-')
+        sign = -1;
+    if(s[i] == '+' || s[i] == '-')
+        ++i;
+    for(val = 0.0; isdigit(s[i]); ++i)
+        val = val * 10.0 + (s[i] - '0');
+    if(s[i] == '.')
+        ++i;
+    for(; isdigit(s[i]); ++i)
+    {
+        val = val * 10.0 + (s[i] - '0');
+        //power = power * 10.0;
+        ++flag;
+    }
+    if(s[i] == 'e' || s[i] == 'E')  //如果写成s[i++] == 'e' || s[i++] == 'E'，if(s[i] == '-')
+        //则当输入的字符串带有E时，不能正确得到结果，这是因为在一
+        //个语句中使用两次自增操作，引起歧义
+        if(s[++i] == '-')
+        {
+            ++i;
+            for(; isdigit(s[i]); ++i)
+                expn = expn * 10 + (s[i] - '0');
+            expn = expn + flag;
+            power = pow(10, expn);
+            return sign * val / power;
+        }
+        else
+        {
+            for(; isdigit(s[i]); ++i)
+                expn = expn * 10 + (s[i] - '0');
+            expn = expn - flag;
+            power = pow(10, expn);
+            return sign * val * power;
+        }
+
+    power = pow(10, flag);
+    return sign * val / power;
+
+}

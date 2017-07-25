@@ -19,3 +19,4 @@ Fre & Fre::operator=(const Fre& other)
     }
     return *this;
 }
+

@@ -29,7 +29,8 @@ public:
         return fresh;
     }
 
-    bool operator<(const Fre& other) const { return get_fresh() > other.get_fresh(); }
+    bool operator<(const Fre& other) const { return get_fresh() > other.get_fresh(); }//这样写的意义是最小的呢个排在最后一个
+    // ，但是在队列中的话就就是在最上面
 
 };
 

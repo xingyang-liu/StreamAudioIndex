@@ -1,6 +1,3 @@
-//
-// Created by 兴阳 刘 on 2017/7/11.
-//
 
 #ifndef SAMPLE_CONNECTOR_I0_H
 #define SAMPLE_CONNECTOR_I0_H
@@ -22,6 +19,7 @@ public:
     map<int, AudioInfo> *InfoTable;
     map<string, vector<Fre> > *TermIndex;
 	map<string, CMutex> TermMutex;
+
 	CMutex MutexInfo;
     int AudioCount;
 
@@ -42,6 +40,13 @@ public:
     void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<string> &query, map<int, string> &name);
 
     void clear();
+
+	void updateScore(int id,double score)
+	{
+		MutexInfo.Lock();
+		(*InfoTable)[id].score=score;
+		MutexInfo.Unlock();
+	}
 
     ~I0() { if(InfoTable!=NULL) delete InfoTable; if(TermIndex!=NULL) delete TermIndex;  }
 };

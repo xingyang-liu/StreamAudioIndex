@@ -16,23 +16,53 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 500;
-    AudioSum = 1999;
-    IndexAll index;
-    preprocess(index,AudioSum);
+    IndexUnit = 1;
+    AudioSum = 10000;
+//    IndexAll index;
+//    preprocess(index,AudioSum);
 
-    test_for_QandA(index,500,1,7000,1);
 
-//    FamilyTestQuery fam(&index,50,2);
+//    FamilyUpdate fam(&index,50,1);
+//    pthread_t pid;
+//    pthread_create(&pid,NULL,test_for_updateThread,(void*)&fam);
+//    pthread_join(pid,NULL);
+
+//    test_for_QandA(index,500,1,7000,1);
+
+//    FamilyTestQuery fam(&index,50,1);
 //    pthread_t pid;
 //    pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
 //    pthread_join(pid,NULL);
+
+    int arr[9]={100,200,400,500,800,1000,2000,2500,3000};
+    for (int i=0;i<9;i++)
+    {
+        IndexUnit=arr[i];
+        IndexAll index;
+        preprocess(index,AudioSum);
+
+        FamilyTestQuery fam(&index,1000,1);
+        pthread_t pid;
+        pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
+        pthread_join(pid,NULL);
+
+        FamilyUpdate fam3(&index,1000,1);
+        pthread_t pid3;
+        pthread_create(&pid3,NULL,test_for_updateThread,(void*)&fam3);
+        pthread_join(pid,NULL);
+
+        pthread_t pida;
+        FamilyAdd fama(&index,10000,1);
+        pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+        pthread_join(pida,NULL);
+
+    }
+
 //    test_for_index(10,AudioSum);
 
 //    pthread_t pida;
-//    FamilyAdd fama(&index,3000,1);
+//    FamilyAdd fama(&index,300,1);
 //    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
-//
 //    pthread_join(pida,NULL);
 //    while (true) {
 ////        int str_len;

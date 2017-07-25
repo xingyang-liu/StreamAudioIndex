@@ -66,4 +66,18 @@ public:
 
 void test_for_QandA(IndexAll &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime);
 
+
+class FamilyUpdate
+{
+public:
+    IndexAll *me;
+    int sum;
+    int sleeptime;
+
+    FamilyUpdate(IndexAll *i,int s,int sleep):me(i),sum(s),sleeptime(sleep) {}
+};
+
+
+void* test_for_updateThread(void*Fam);
+
 #endif //SAMPLE_CONNECTOR_INDEX_H

@@ -30,6 +30,8 @@ public:
 
 //	void addAudio(AudioInfo &audio_info);
 
+	void updateScore(int id,double score);
+
 	void output();
 
 	void get_count();
@@ -92,6 +94,10 @@ public:
 };
 
 void *addAudioALLThread(void *Family);//如果要实现多线程，就必须管控所有add与merger
+
+
+
+
 
 
 
