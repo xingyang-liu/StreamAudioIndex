@@ -1,14 +1,10 @@
-//
-// Created by 兴阳 刘 on 2017/7/11.
-//
-
 #include "IndexManager.h"
 
 void IndexManager::output()
 {
 
     map<int, InvertedIndex*>::iterator it_index;
-    for (it_index = otherIndex.begin(); it_index != otherIndex.end(); it_index++)
+    for (it_index = Indexes.begin(); it_index != Indexes.end(); it_index++)
     {
         (*it_index->second).output();
     }
@@ -29,16 +25,16 @@ void *searchThread(void *family)
     try
     {
         myself->clearI0.Lock();
-        myself->otherIndex[0]->I0MutexInfo.Lock();
-        myself->otherIndex[0]->termIndexMutex.Lock();
-        myself->otherIndex[0]->search(Result, MinScore, AnswerNum, Sum, query, name);
-        myself->otherIndex[0]->termIndexMutex.Unlock();
-        myself->otherIndex[0]->I0MutexInfo.Unlock();
+        myself->Indexes[0]->I0MutexInfo.Lock();
+        myself->Indexes[0]->termIndexMutex.Lock();
+        myself->Indexes[0]->search(Result, MinScore, AnswerNum, Sum, query, name);
+        myself->Indexes[0]->termIndexMutex.Unlock();
+        myself->Indexes[0]->I0MutexInfo.Unlock();
         myself->clearI0.Unlock();
 
         map<int, InvertedIndex*>::iterator it_index;
         myself->clearInvertedIndex.Lock();//在清理整个InvertedIndex//这里包括镜像在内所有InvertedIndex都不允许变化
-        for (it_index = myself->otherIndex.begin(); it_index != myself->otherIndex.end(); it_index++)
+        for (it_index = myself->Indexes.begin(); it_index != myself->Indexes.end(); it_index++)
         {
             if(it_index->first==0) continue;
             (*it_index->second).termIndexMutex.Lock();
@@ -79,7 +75,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
     FamilyAll *ones=(FamilyAll*) Family;
     AudioInfo &tmp_info=(*ones->audio);
     IndexManager *myself=ones->me;
-    map<string,int> &TagsNum=*(ones->tags);
+    map<string,double> &TagsNum=*(ones->tags);
     vector<ForMirror* > &mirrorList=myself->mirrorList;
 
 
@@ -88,13 +84,13 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
         myself->liveIdMutex[tmp_info.id].Lock();
         myself->mutexLive.Lock();//有意义，勿删
         myself->mutexLive.Unlock();
-        myself->otherIndex[0]->addAudioLive(tmp_info, TagsNum, myself->livePointer, myself->mutexLive);
+        myself->Indexes[0]->addAudioLive(tmp_info, TagsNum, myself->livePointer, myself->mutexLive);
         myself->liveIdMutex[tmp_info.id].Unlock();
 
         if(tmp_info.final==0)
         {
             map<int,InvertedIndex*>::iterator it_Index;
-            for(it_Index=myself->otherIndex.begin();it_Index!=myself->otherIndex.end();it_Index++)
+            for(it_Index=myself->Indexes.begin();it_Index!=myself->Indexes.end();it_Index++)
             {
                 if(it_Index->second->level!=0)
                 {
@@ -110,7 +106,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
     }
     else if(tmp_info.final==-1)
     {
-        myself->otherIndex[0]->addAudio(tmp_info,TagsNum);
+        myself->Indexes[0]->addAudio(tmp_info,TagsNum);
     }
     myself->I0Num++;
 
@@ -118,11 +114,11 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
     if (myself->I0Num >= IndexUnit)
     {
         myself->clearI0.Lock();//I0的复制和替换
-        myself->otherIndex[0]->I0_sort();
+        myself->Indexes[0]->I0_sort();
 
         InvertedIndex *Index_tmp;
-        (myself->liveIdMutex)[tmp_info.id].Lock();
-        Index_tmp=new InvertedIndex(*myself->otherIndex[0]);
+        (myself->liveIdMutex)[tmp_info.id].Lock();//这一块要加一个关于
+        Index_tmp=new InvertedIndex(*myself->Indexes[0]);
         (myself->liveIdMutex)[tmp_info.id].Unlock();
         Index_tmp->level+=1;
 
@@ -131,8 +127,8 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
         mirrorList.push_back(for_mirror);
         (*mirrorIndex)[0]=Index_tmp;
         InvertedIndex &other=(*(*mirrorIndex)[0]);
-        Index_tmp=myself->otherIndex[0];
-        myself->otherIndex[0]=new InvertedIndex;
+        Index_tmp=myself->Indexes[0];
+        myself->Indexes[0]=new InvertedIndex;
         myself->I0Num = 0;
 
         myself->clearI0.Unlock();
@@ -141,20 +137,20 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 
         map<int, InvertedIndex*>::iterator it_index;
         while (1) {
-            it_index = myself->otherIndex.find(l);
+            it_index = myself->Indexes.find(l);
 
 
-            if (it_index != myself->otherIndex.end())
+            if (it_index != myself->Indexes.end())
             {
-//                map<int,InvertedIndex*> &tmp=myself->otherIndex;
-//                map<string,ProgramList*> &tmp_list=*(myself->otherIndex[l]->TermIndex);
-                (*Index_tmp).MergerIndex(*(myself->otherIndex[l]));
+//                map<int,InvertedIndex*> &tmp=myself->Indexes;
+//                map<string,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
+                (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
 
-                (*mirrorIndex)[l]=myself->otherIndex[l];
+                (*mirrorIndex)[l]=myself->Indexes[l];
 
 
                 myself->clearInvertedIndex.Lock();
-                myself->otherIndex.erase(l);
+                myself->Indexes.erase(l);
                 myself->clearInvertedIndex.Unlock();
 
                 l += 1;
@@ -162,7 +158,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
             else
             {
                 myself->clearInvertedIndex.Lock();
-                myself->otherIndex[l] = Index_tmp;
+                myself->Indexes[l] = Index_tmp;
                 myself->clearInvertedIndex.Unlock();
 
                 myself->clearMirror.Lock();
@@ -206,7 +202,6 @@ void IndexManager::InitialIdf()
         if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
         {
             (IdfTable)[term_tmp] = atof(idf.c_str());
-            //cout << term_tmp << ' ' << num_tmp << endl;
         }
         IdfNum++;
     }
@@ -219,7 +214,7 @@ void IndexManager::buildIndex(int audio_sum)
 {
     double begin, end;
     begin = getTime();
-    ifstream info_in("info_live.txt");
+    ifstream info_in("info_live_test.txt");
     if (!info_in) exit(7);
     string DoubleQuestionMark = "??";
     string QuestionMark = "?";
@@ -235,25 +230,25 @@ void IndexManager::buildIndex(int audio_sum)
         getline(info_in, CommentCount_tmp);
         getline(info_in, PlayCount_tmp);
         getline(info_in, score_tmp);
-        getline(info_in, TagsSum_tmp);
+        getline(info_in, TagsSum_tmp);//其实本来没什么用处，但是我后面判断上下界的时候用这个作为了识别标志，所以留着也没坏处
         getline(info_in, time_tmp);
         getline(info_in, TermSum_tmp);
         getline(info_in,FinalFlag_tmp);
         //cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
         int TagsSum = atoi(TagsSum_tmp.c_str());
-        map<string, int> TagsNum_tmp;
+        map<string, double> TagsNum_tmp;
         for (int j = 0; j < atoi(TermSum_tmp.c_str()); j++)
         {
             getline(info_in, term_tmp);
             getline(info_in, num_tmp);
             if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
             {
-                (TagsNum_tmp)[term_tmp] = atoi(num_tmp.c_str());
+                (TagsNum_tmp)[term_tmp] = atof_1e(num_tmp.c_str());
                 //cout << term_tmp << ' ' << num_tmp << endl;
             }
             else
             {
-                TagsSum -= atoi(num_tmp.c_str());
+                TagsSum -= 2;//本来这个地方我的想法是去掉无法识别的字符数，但是由于现在放进来的是频率，不好处理了，所以就象征性的减一点
                 //cout << "delete " << term_tmp << endl;
             }
         }
@@ -271,7 +266,11 @@ void IndexManager::buildIndex(int audio_sum)
     end = getTime();
 
     output();
+    ofstream writefile("test_of_index.txt",ofstream::app);
+    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<end-begin\
+    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
     cout << end - begin << "s" << endl;
+    writefile.close();
     info_in.close();
 }
 

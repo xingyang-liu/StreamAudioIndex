@@ -1,6 +1,3 @@
-//
-// Created by 兴阳 刘 on 2017/7/11.
-//
 
 #include "InvertedIndex.h"
 
@@ -14,13 +11,10 @@ InvertedIndex::InvertedIndex()
     InfoTable = NULL;
 }
 
-void InvertedIndex::addAudio(AudioInfo &tmp_info,map<string,int> &TermFreq)
+void InvertedIndex::addAudio(AudioInfo &tmp_info,map<string,double> &TermFreq)
 {
     if(TermIndex==NULL)
     {
-//        TermIndexFre = new map<string, std::list<int> >;
-//        TermIndexSig = new map<string, std::list<int> >;
-//        TermIndexSim = new map<string, std::list<TermFreq> >;
         TermIndex =new map<string,ProgramList*>;
         InfoTable = new map<int, AudioInfo>;
         TermMutex = new map<string,CMutex>;
@@ -31,14 +25,14 @@ void InvertedIndex::addAudio(AudioInfo &tmp_info,map<string,int> &TermFreq)
     I0MutexInfo.Unlock();
     AudioCount++;
 
-    map<string, int>::iterator it;
+    map<string, double>::iterator it;
     for (it = TermFreq.begin(); it != TermFreq.end(); it++)
     {
         node_add(it->first, tmp_info.id, TermFreq[it->first]);
     }
 }
 
-void InvertedIndex::node_add(string term, int id, int tf)
+void InvertedIndex::node_add(string term, int id, double tf)
 {
     map<string, ProgramList* >::iterator it = (*TermIndex).find(term);
     if ((it == (*TermIndex).end()))
@@ -59,7 +53,7 @@ void InvertedIndex::node_add(string term, int id, int tf)
     }
 }
 
-void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,map<int, map<string, NodeInfo *> > &livePointer\
+void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,double> &TermFreq,map<int, map<string, NodeInfo *> > &livePointer\
     ,CMutex &mutexLive)
 {
     if(TermIndex==NULL)
@@ -73,7 +67,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
     I0MutexInfo.Unlock();
     AudioCount++;
 
-    map<string, int>::iterator it;
+    map<string, double>::iterator it;
     for (it = TermFreq.begin(); it != TermFreq.end(); it++)
     {
         node_addLive(it->first, tmp_info.id, TermFreq[it->first],livePointer,tmp_info.final,mutexLive);
@@ -108,7 +102,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
         }
     }else if(tmp_info.final==0)
     {
-        for (; it_node != livePointer[tmp_info.id].end(); it_node++) {
+        for (; it_node != livePointer[tmp_info.id].end(); ) {
             string str=it_node->first;
 
             if (it_node->second->flag == -1) {
@@ -135,8 +129,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
 
             }
 
-            livePointer[it_node->second->id].erase(it_node->first);
-
+            it_node=(livePointer[it_node->second->id].erase(it_node));
         }
         mutexLive.Lock();
         livePointer.erase(tmp_info.id);
@@ -145,7 +138,7 @@ void InvertedIndex::addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,m
 
 }
 
-void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<string, NodeInfo*> > &livePointer,int final,CMutex &mutexLive)
+void InvertedIndex::node_addLive(string term, int id, double tf, map<int, map<string, NodeInfo*> > &livePointer,int final,CMutex &mutexLive)
 {
     map<string, ProgramList* >::iterator it = (*TermIndex).find(term);
     NodeInfo *tmp;
@@ -206,7 +199,7 @@ void InvertedIndex::node_addLive(string term, int id, int tf, map<int, map<strin
     mutexLive.Unlock();
 }
 
-double InvertedIndex::computeScore(const double &time, const double &score, map<string, int> &TermFreq, const int &tagsSum,
+double InvertedIndex::computeScore(const double &time, const double &score, map<string, double> &TermFreq, const int &tagsSum,
                     const vector<string> &query)
 {
     double fre = pow(2, time - getTime());
@@ -214,14 +207,14 @@ double InvertedIndex::computeScore(const double &time, const double &score, map<
     double sim = 0;
     for (int i = 0; i < query.size(); i++)
     {
-        map<string, int>::iterator it = TermFreq.find(query[i]);
+        map<string, double>::iterator it = TermFreq.find(query[i]);
         if (it != TermFreq.end())
         {
             try
             {
                 if (tagsSum != 0)
                 {
-                    sim += TermFreq[query[i]] / tagsSum*IdfTable[query[i]];
+                    sim += TermFreq[query[i]] *IdfTable[query[i]];
                 }
                 else
                 {
@@ -298,7 +291,12 @@ void InvertedIndex::MergerIndex(InvertedIndex &other)//并未考虑存在相同i
     //merger info_table
     pthread_t pid[3];
     int ret;
-    map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
+//    map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
+
+
+    insert_and_remove();
+    other.insert_and_remove();
+
     set<int>::iterator it_set;
 //    map<int,AudioInfo> &tmp=(*InfoTable);
     mutexRemove.Lock();
@@ -406,15 +404,16 @@ void InvertedIndex::MergerIndex(InvertedIndex &other)//并未考虑存在相同i
 
     //归并idIndex
 
-
     for(it_list_i=TermIndex->begin();it_list_i!=TermIndex->end();it_list_i++)
     {
-        for(it_node_i=it_list_i->second->nodeMap->begin();it_node_i!=it_list_i->second->nodeMap->end();it_node_i++)
+        for(it_node_i=it_list_i->second->nodeMap->begin();it_node_i!=it_list_i->second->nodeMap->end();)
         {
             if(it_node_i->second->flag==0)
             {
                 delete it_node_i->second;
-                it_list_i->second->nodeMap->erase(it_node_i);
+                it_node_i=it_list_i->second->nodeMap->erase(it_node_i);
+            } else{
+                it_node_i++;
             }
         }
     }
@@ -437,10 +436,10 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
 {
     double up_fre = 0;
     double up_sig = 0;
-    int id1, id2, id3;
-    map<string, int> up_sim;
+    int id1, id2, id3,id4;
+    map<string, double> up_sim;
     double score = 0;
-    map<string,int> TermFreq;
+    map<string,double> TermFreq;
     map<int, double>::iterator it_res;
     map<int, NodeInfo *>::iterator it_tmp_node;//每个query中每个id获取全部tf时的迭代器
     ofstream out_res("InvertedIndex_Result.txt", ofstream::app);
@@ -608,7 +607,8 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
         if (Sum >= AnsNum)
         {
             bool TerFlag = false;
-            for (int i = 0; i < (*TermIndex).size(); i++)
+            queue<NodeInfo*> pointer_que;
+            for (int i = 0; i < (*InfoTable).size(); i++)//不好确定每个term下面有多少个program，所以取最大呢个
             {
                 if (TerFlag)
                     break;
@@ -620,8 +620,9 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
                     up_sim[query[j]] = 0;
                 }
 
-                queue<NodeInfo*> pointer_que;
+
                 NodeInfo* tmp_pointer;
+                priority_queue<Sig> copyBuffer(updateBuffer);
 
                 try
                 {
@@ -681,11 +682,10 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
                                     {
                                         up_fre = info_tmp.time;
                                     }
-
-                                    if(tmp_pointer->next_fresh!=NULL)
-                                    {
-                                        pointer_que.push(tmp_pointer->next_fresh);
-                                    }
+                                }
+                                if(tmp_pointer->next_fresh!=NULL)
+                                {
+                                    pointer_que.push(tmp_pointer->next_fresh);
                                 }
 
                             }
@@ -740,11 +740,10 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
                                     {
                                         up_sig = info_tmp.score;
                                     }
-
-                                    if(tmp_pointer->next_sig!=NULL)
-                                    {
-                                        pointer_que.push(tmp_pointer->next_sig);
-                                    }
+                                }
+                                if(tmp_pointer->next_sig!=NULL)
+                                {
+                                    pointer_que.push(tmp_pointer->next_sig);
                                 }
                             }
 
@@ -797,16 +796,49 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
                                     {
                                         up_sim[query[j]] = tmp_pointer->tf;
                                     }
-
-                                    if(tmp_pointer->next_termFreq!=NULL)
-                                    {
-                                        pointer_que.push(tmp_pointer->next_termFreq);
-                                    }
+                                }
+                                if(tmp_pointer->next_termFreq!=NULL)
+                                {
+                                    pointer_que.push(tmp_pointer->next_termFreq);
                                 }
                             }
                             else
                             {
                                 up_sim[query[j]] = 0;
+                            }
+
+                            if(copyBuffer.size()>0)
+                            {
+                                while(up_sig<copyBuffer.top().get_score()) {
+
+                                    id4 = (copyBuffer.top().get_id());
+                                    copyBuffer.pop();
+                                    it_res = Result.find(id4);
+                                    if (it_res == Result.end()) {
+                                        AudioInfo &info_tmp = (*InfoTable)[id4];
+                                        for (int k = 0; k < query.size(); k++) {
+                                            map<string, ProgramList *>::iterator it_str = (*TermIndex).find(
+                                                    query[k]);
+                                            if (it_str != TermIndex->end()) {
+                                                map<int, NodeInfo *>::iterator it_tmp_node = it_str->second->nodeMap->find(
+                                                        id4);
+                                                if (it_tmp_node != it_str->second->nodeMap->end()) {
+                                                    TermFreq[query[k]] = it_tmp_node->second->tf;
+                                                }
+                                            }
+
+                                        }
+                                        score = computeScore(info_tmp.time, info_tmp.score, TermFreq,
+                                                             info_tmp.TagsSum,
+                                                             query);
+                                        TermFreq.clear();
+                                        if (score > MinScore) {
+                                            Result[id4] = score;
+                                            MinScore = score;
+                                            Sum += 1;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -867,7 +899,6 @@ void InvertedIndex::search(map<int, double> &Result, double &MinScore, int &AnsN
 
 
 }
-
 
 void *I0SortThread(void *fam)
 {
@@ -954,7 +985,6 @@ void *I0SortThread(void *fam)
 
 
 }
-
 
 void *InvertedIndexMergerThreadFre(void *fam)
 {
@@ -1065,7 +1095,7 @@ void *InvertedIndexMergerThreadFre(void *fam)
                     (*myself->TermIndex)[it_list_j->first]->max_fresh=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_j->tf,pointer_j->id);
                     pointer_j=pointer_j->next_fresh;
                     while (pointer_j != NULL && pointer_j->flag == 0) {
-                        pointer_j = pointer_i->next_fresh;
+                        pointer_j = pointer_j->next_fresh;
                     }
                 }
 
@@ -1162,6 +1192,8 @@ void *InvertedIndexMergerThreadSig(void *fam)
     FamilyMerger * ones=(FamilyMerger *)fam;
     InvertedIndex *myself=ones->me;
     InvertedIndex *other=ones->him;
+    
+
 
     map<string,ProgramList*>::iterator it_list_i;
     map<string,ProgramList*>::iterator it_list_j;
@@ -1174,10 +1206,11 @@ void *InvertedIndexMergerThreadSig(void *fam)
     for(it_list_j=other->TermIndex->begin();it_list_j!=other->TermIndex->end();it_list_j++)
     {
 
-        pointer_j=it_list_j->second->max_sig;
+//        pointer_j=it_list_j->second->max_sig;
 
-        map<string,ProgramList*> &tmp=*(myself->TermIndex);
-        map<string,ProgramList*> &tmp1=*(other->TermIndex);
+//        map<string,ProgramList*> &tmp=*(myself->TermIndex);
+//        map<string,ProgramList*> &tmp1=*(other->TermIndex);
+
         string str=it_list_j->first;
 
         it_list_i=myself->TermIndex->find(it_list_j->first);
@@ -1252,7 +1285,7 @@ void *InvertedIndexMergerThreadSig(void *fam)
             else
             {
 
-                if((*myself->InfoTable)[pointer_i->id].time>(*myself->InfoTable)[pointer_j->id].time)
+                if((*myself->InfoTable)[pointer_i->id].score>(*myself->InfoTable)[pointer_j->id].score)
                 {
                     (*myself->TermIndex)[it_list_j->first]->max_sig=pointer_i;
                     pointer_i=pointer_i->next_sig;
@@ -1273,7 +1306,7 @@ void *InvertedIndexMergerThreadSig(void *fam)
 
                 while(pointer_i!=NULL&&pointer_j!=NULL)
                 {
-                    if((*myself->InfoTable)[pointer_i->id].time>(*myself->InfoTable)[pointer_j->id].time)
+                    if((*myself->InfoTable)[pointer_i->id].score>(*myself->InfoTable)[pointer_j->id].score)
                     {
                         tmp_node->next_sig=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
                         tmp_node=tmp_node->next_sig;

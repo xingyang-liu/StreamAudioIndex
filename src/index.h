@@ -16,20 +16,22 @@ double index_create(int sum);
 
 void test_for_index(int times,int sum);
 
-void *test_for_queryThread(void *Fam);
+void* test_for_queryThread(void *Fam);
 
 void* test_for_addThread(void *Fam);
 
 void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime);
 
-class FamilyTestQuery
+void* test_for_updateThread(void*Fam);
+
+class FamilyTestQueryAndUpdate
 {
 public:
     IndexManager *index;
     int times;
     int sleeptime;
 
-    FamilyTestQuery(IndexManager *i,int t,int s)
+    FamilyTestQueryAndUpdate(IndexManager *i,int t,int s)
     {
         index=i;
         times=t;

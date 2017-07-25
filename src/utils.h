@@ -69,5 +69,8 @@ private:
     pthread_mutex_t mutex;
 };
 
+double atof_1e(const char s[]);  //将字符串s转换成double型的浮点数(含科学计数法）
+
+
 
 #endif //HASH_0E_UTILS_H

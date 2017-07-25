@@ -5,7 +5,7 @@
 
 
 #include "ProgramList.h"
-
+#include "Sig.h"
 
 class InvertedIndex
 {
@@ -18,6 +18,8 @@ public:
 	CMutex I0MutexInfo;//I0的info正在被修改
     CMutex mutexRemove;//removeId正在被修改
 	CMutex termIndexMutex;//大致就是我进入这里查询的时候，TermIndex不能改变
+    priority_queue<Sig> updateBuffer;
+    CMutex bufferMutex;//由于I0不需要重新排序，所以它没有这个
 
 	InvertedIndex();
 
@@ -48,6 +50,10 @@ public:
 
 	bool search(int id)
 	{
+        if(InfoTable==NULL)
+        {
+            return false;
+        }
 		map<int,AudioInfo>::iterator it_tmp=InfoTable->find(id);
 		if(it_tmp!=InfoTable->end())
 		{
@@ -59,14 +65,30 @@ public:
 		}
 	}
 
-	void addAudio(AudioInfo &tmp_info,map<string,int> &TermFreq);
+	void addAudio(AudioInfo &tmp_info,map<string,double> &TermFreq);
 
-	void node_add(string term, int id, int tf);
+	void node_add(string term, int id, double tf);
+	
+	void update(int id,int score)
+    {
+        I0MutexInfo.Lock();
+        map<int, AudioInfo>::iterator it_info=InfoTable->find(id);
+        if(it_info!=InfoTable->end())
+        {
+            it_info->second.score=score;
+        }
+        I0MutexInfo.Unlock();
 
-    void addAudioLive(AudioInfo &tmp_info,map<string,int> &TermFreq,map<int, map<string, NodeInfo *> > &livePointer\
+        bufferMutex.Lock();
+        updateBuffer.push(Sig(id,score));
+        bufferMutex.Unlock();
+
+    }
+
+    void addAudioLive(AudioInfo &tmp_info,map<string,double> &TermFreq,map<int, map<string, NodeInfo *> > &livePointer\
     ,CMutex &mutexLive);
 
-    void node_addLive(string term, int id, int tf, map<int, map<string, NodeInfo*> > &livePointer,int final,CMutex &mutexLive);
+    void node_addLive(string term, int id, double tf, map<int, map<string, NodeInfo*> > &livePointer,int final,CMutex &mutexLive);
 
     void I0_sort();
 
@@ -78,8 +100,72 @@ public:
 
 	void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<string> query, map<int, string> &name);
 
-	double computeScore(const double &time, const double &score, map<string, int> &TermFreq, const int &tagsSum,
+	double computeScore(const double &time, const double &score, map<string, double> &TermFreq, const int &tagsSum,
 						const vector<string> &query);
+    
+    void insert_and_remove()//在merger开始之前，buffer中所有的项
+    {
+        NodeInfo* tmp_node;
+        map<int,double> tmp_buffer;
+        for(int i=0;i<updateBuffer.size();i++)
+        {
+            tmp_buffer[updateBuffer.top().id]=updateBuffer.top().score;
+            updateBuffer.pop();
+        }
+        map<int,double>::iterator it_buffer;
+        map<int,NodeInfo*>::iterator it_node;
+        map<string,ProgramList*>::iterator it_list_i;
+        for(it_list_i=TermIndex->begin();it_list_i!=TermIndex->end();it_list_i++)
+        {
+            for(it_buffer=tmp_buffer.begin();it_buffer!=tmp_buffer.end();it_buffer++)
+            {
+                if(it_list_i->second->nodeMap->find(it_buffer->first)!=it_list_i->second->nodeMap->end())
+                {
+                    tmp_node=it_list_i->second->max_fresh;
+                    if(it_list_i->second->max_fresh->next_fresh!=NULL)//如果只有一个node就没有任何操作
+                    {
+                        if(it_list_i->second->max_fresh->id==it_buffer->first)//如果max_fresh正好是要改的值，那就先把它从链里去掉
+                        {
+                            it_list_i->second->max_fresh=it_list_i->second->max_fresh->next_fresh;
+                        }
+                        else{//也是从链中挖去这个点
+                            while(tmp_node->next_fresh->next_fresh!=NULL&&tmp_node->next_fresh->id!=it_buffer->first)
+                            {
+                                tmp_node=tmp_node->next_fresh;
+                            }
+                            tmp_node->next_fresh=tmp_node->next_fresh->next_fresh;
+                        }
+
+                        //准备重新放进去
+
+                        if(it_buffer->second>=(*InfoTable)[it_list_i->second->max_fresh->id].score)
+                        {
+                            (*(it_list_i->second->nodeMap))[it_buffer->first]->next_fresh=it_list_i->second->max_fresh;
+                            it_list_i->second->max_fresh=(*(it_list_i->second->nodeMap))[it_buffer->first];
+                        }
+                        else{
+                            tmp_node=it_list_i->second->max_fresh;
+                            while(tmp_node->next_fresh!=NULL&&(!((((*InfoTable)[tmp_node->id].score)>=it_buffer->second)&&((*InfoTable)[tmp_node->next_fresh->id].score)<it_buffer->second)))
+                            {
+                                tmp_node=tmp_node->next_fresh;
+                            }
+                            if(tmp_node->next_fresh==NULL)
+                            {
+                                tmp_node->next_fresh=(*(it_list_i->second->nodeMap))[it_buffer->first];
+                                (*(it_list_i->second->nodeMap))[it_buffer->first]->next_fresh=NULL;
+                            } else{
+                                (*(it_list_i->second->nodeMap))[it_buffer->first]->next_fresh=tmp_node->next_fresh;
+                                tmp_node->next_fresh=(*(it_list_i->second->nodeMap))[it_buffer->first];
+                            }
+                        }
+                    }
+
+
+
+                }
+            }
+        }
+    }
 
 	~InvertedIndex()
 	{

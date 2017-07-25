@@ -14,21 +14,53 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 400;
-    AudioSum = 999;
+    IndexUnit = 1;
+    AudioSum = 10;
     IndexManager index(AudioSum);
 
+//    index.updateScore(11350043,10000.0);
 
-    test_for_QandA(index,50,1,1000,1);
+//    test_for_QandA(index,50,1,1000,1);
 //
-//    FamilyTestQuery fam(&index,50,2);
+//    FamilyTestQueryAndUpdate fam(&index,1000,1);
 //    pthread_t pid;
 //    pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
 //    pthread_join(pid,NULL);
+
+
+    //第一次测试，在800处貌似因为内存限制而报错
+
+//    int arr[11]={100,200,400,500,800,1000,2000,2500,3000,4000,5000};
+//    for (int i=0;i<11;i++)
+//    {
+//        IndexUnit=arr[i];
+//        IndexManager index(AudioSum);
+//
+//        FamilyTestQueryAndUpdate fam(&index,1000,1);
+//        pthread_t pid;
+//        pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
+//        pthread_join(pid,NULL);
+//
+////        FamilyTestQueryAndUpdate fam3(&index,1000,1);
+////        pthread_t pid3;
+////        pthread_create(&pid3,NULL,test_for_updateThread,(void*)&fam3);
+////        pthread_join(pid,NULL);
+////
+////        pthread_t pida;
+////        FamilyAdd fama(&index,10000,1);
+////        pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+////        pthread_join(pida,NULL);
+//
+//    }
 //    test_for_index(10,AudioSum);
+//
+//    FamilyTestQueryAndUpdate fam(&index,50,1);
+//    pthread_t pid;
+//    pthread_create(&pid,NULL,test_for_updateThread,(void*)&fam);
+//    pthread_join(pid,NULL);
 
 //    pthread_t pida;
-//    FamilyAdd fama(&index,3000,1);
+//    FamilyAdd fama(&index,30,1);
 //    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
 //    pthread_join(pida,NULL);
 //    while (true) {
