@@ -37,7 +37,7 @@ void* test_for_addThread(void *Fam)
 	int audio_sum=fam.sum;
 	int sleeptime=fam.sleeptime;
 
-	ifstream info_in("info_live2.txt");
+	ifstream info_in("info_live_test2.txt");
 	if (!info_in) exit(7);
 	string DoubleQuestionMark = "??";
 	string QuestionMark = "?";
@@ -62,7 +62,7 @@ void* test_for_addThread(void *Fam)
 		getline(info_in,FinalFlag_tmp);
 		//cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
 		int TagsSum = atoi(TagsSum_tmp.c_str());
-		map<string, int> TagsNum_tmp;
+		map<string, double> TagsNum_tmp;
 		for (int j = 0; j < atoi(TermSum_tmp.c_str()); j++)
 		{
 			getline(info_in, term_tmp);
@@ -110,7 +110,7 @@ void* test_for_addThread(void *Fam)
 
 void *test_for_queryThread(void *Fam)
 {
-	FamilyTestQuery fam=*(FamilyTestQuery *)Fam;
+	FamilyTestQueryAndUpdate fam=*(FamilyTestQueryAndUpdate *)Fam;
 	IndexManager &Index=*(fam.index);
 	int times=fam.times;
 	int sleeptime=fam.sleeptime;
@@ -166,7 +166,7 @@ void *test_for_queryThread(void *Fam)
 
 void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime)
 {
-	FamilyTestQuery famq(&Index,query_times,query_sleeptime);
+	FamilyTestQueryAndUpdate famq(&Index,query_times,query_sleeptime);
 	pthread_t pidq,pida;
 	pthread_create(&pidq,NULL,test_for_queryThread,(void *)&famq);
 
@@ -174,4 +174,74 @@ void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int 
 	pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
 	pthread_join(pidq,NULL);
 	pthread_join(pida,NULL);
+}
+
+void* test_for_updateThread(void*Fam)
+{
+	FamilyTestQueryAndUpdate fam=*(FamilyTestQueryAndUpdate *)Fam;
+	IndexManager &Index=*(fam.index);
+	int times=fam.times;
+	int sleeptime=fam.sleeptime;
+
+
+
+	double begin,end;
+	vector<double> time_list;
+	int count=0;
+	int tmp_num;
+	//生成测试数组
+	map<int,double> test_update;
+	map<int,InvertedIndex*>::iterator it_index;
+	map<int,AudioInfo>::iterator it_audio;
+	while(count<times)
+	{
+		for(it_index=Index.Indexes.begin();it_index!=Index.Indexes.end();it_index++)
+		{
+			usleep((rand()/(RAND_MAX+1.0)+sleeptime)*1000);
+			tmp_num=rand()/(RAND_MAX+1.0)*it_index->second->AudioCount;
+			int random_count=0;
+			if(it_index->second->InfoTable!=NULL)
+			{
+				for(it_audio=it_index->second->InfoTable->begin();it_audio!=it_index->second->InfoTable->end();it_audio++)
+				{
+					if(test_update.find(it_audio->second.id)==test_update.end())
+					{
+						test_update[it_audio->second.id]=it_audio->second.score*10;
+						random_count++;
+						count++;
+					}
+					if((count+1)%50==0)
+					{
+						cout<<"Update Audio Sum: "<<count+1<<endl;
+					}
+					if(random_count>=tmp_num)break;
+
+					if(count>=times)break;
+				}
+				if(count>=times)break;
+			}
+		}
+		if(count>=times)break;
+	}
+
+
+	cout<<"Begin test of update"<<endl;
+
+	map<int,double>::iterator it_update;
+	for(it_update=test_update.begin();it_update!=test_update.end();it_update++)
+	{
+		begin=getTime();
+		Index.updateScore(it_update->first,it_update->second);
+		end=getTime();
+		time_list.push_back(end-begin);
+	}
+	double timeSum=0;
+	for (int i=0;i<time_list.size();i++)
+	{
+		timeSum+=time_list[i];
+	}
+	cout<<"SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	ofstream writefile("test_for_update.txt",ofstream::app);
+	writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	writefile.close();
 }

@@ -44,17 +44,18 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     NodeInfo* pointer_j;
     NodeInfo *tmp_node;
     int count=0;
+    map<string,ProgramList*> &tmp_pro=*myself->TermIndex;
+    map<string,ProgramList*> &tmp1_pro=*other->TermIndex;
+
     for(it_list_j=other->TermIndex->begin();it_list_j!=other->TermIndex->end();it_list_j++)
     {
         //判断pointer_j是不是由于flag可能需要清空
+        ProgramList &tmp_list=*it_list_j->second;
         pointer_j=get_next(it_list_j->second);
         while (pointer_j != NULL && pointer_j->flag == 0) {
             pointer_j = get_next(pointer_j);
         }
 
-        map<T,ProgramList*> &tmp=*(myself->TermIndex);
-        map<T,ProgramList*> &tmp1=*(other->TermIndex);
-        T str=it_list_j->first;
 
         it_list_i=myself->TermIndex->find(it_list_j->first);
 
@@ -215,9 +216,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                 {
                     tmp_node = set_next(tmp_node, pointer_i);
                     pointer_i = get_next(pointer_i);
-//                    tmp_node->next_fresh=(*myself->TermIndex)[it_list_j->first]->getNodePointer(pointer_i->tf,pointer_i->id);
-//                    tmp_node=tmp_node->next_fresh;
-//                    pointer_i=pointer_i->next_fresh;
                     while (pointer_i != NULL && pointer_i->flag == 0) {
                         pointer_i = get_next(pointer_i);
                     }

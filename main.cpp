@@ -14,8 +14,8 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 400;
-    AudioSum = 1999;
+    IndexUnit = 10;
+    AudioSum = 99;
     IndexManager index(AudioSum);
 
 
@@ -27,10 +27,10 @@ int main() {
 //    pthread_join(pid,NULL);
 //    test_for_index(10,AudioSum);
 
-    pthread_t pida;
-    FamilyAdd fama(&index,3000,1);
-    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
-    pthread_join(pida,NULL);
+//    pthread_t pida;
+//    FamilyAdd fama(&index,3000,1);
+//    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+//    pthread_join(pida,NULL);
 //    while (true) {
 ////        int str_len;
 ////        {

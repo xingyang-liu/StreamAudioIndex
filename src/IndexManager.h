@@ -16,7 +16,7 @@ class IndexManager
 public:
 	int I0Num;
     vector<ForMirror<InvertedIndex>*> mirrorList;
-	map<int, InvertedIndex*> otherIndex;
+	map<int, InvertedIndex*> Indexes;
     map<int, map<string, NodeInfo *> > livePointer;
     map<int, CMutex> liveIdMutex;//only for livePointer
     CMutex mutexLive;//删除livePointer中某个id时防止进入,搜索I0时需要申请
@@ -25,13 +25,13 @@ public:
 
 	IndexManager(){
 		I0Num = 0;
-		otherIndex[0]=new InvertedIndex;
+		Indexes[0]=new InvertedIndex;
 	}
 
 	IndexManager(int num)
 	{
 		I0Num = 0;
-        otherIndex[0]=new InvertedIndex;
+        Indexes[0]=new InvertedIndex;
 		InitialIdf();
 		cout << "Initialization of idf is okay." << endl;
 		buildIndex(num);
@@ -43,12 +43,36 @@ public:
 
 	void InitialIdf();
 
+	void updateScore(int id,int score)
+	{
+		map<int,InvertedIndex*>::iterator it_Index;
+		for(it_Index=Indexes.begin();it_Index!=Indexes.end();it_Index++)
+		{
+			if(it_Index->second->level!=0)
+			{
+				if(it_Index->second->search(id))
+				{
+					it_Index->second->update(id,score);
+				}
+			}
+			else
+			{
+				if(it_Index->second->search(id))
+				{
+					it_Index->second->I0MutexInfo.Lock();
+					(*it_Index->second->InfoTable)[id].score=score;
+					it_Index->second->I0MutexInfo.Unlock();
+				}
+			}
+		}
+	}
+
 	string handleQuery(string query_str);
 
     ~IndexManager()
     {
         map<int,InvertedIndex*>::iterator it;
-        for (it=otherIndex.begin();it!=otherIndex.end();it++)
+        for (it=Indexes.begin();it!=Indexes.end();it++)
         {
             delete((it->second));
         }
@@ -57,11 +81,11 @@ public:
 	void freemem()
 	{
 		map<int,InvertedIndex*>::iterator it;
-		for (it=otherIndex.begin();it!=otherIndex.end();it++)
+		for (it=Indexes.begin();it!=Indexes.end();it++)
 		{
 			delete((it->second));
 		}
-		otherIndex.clear();
+		Indexes.clear();
 	}
 };
 
@@ -90,9 +114,9 @@ class FamilyAll
 public:
     IndexManager *me;
     AudioInfo *audio;
-    map<string,int> *tags;
+    map<string,double> *tags;
 
-    FamilyAll(IndexManager*myself,AudioInfo *audio_info,map<string,int> *t)
+    FamilyAll(IndexManager*myself,AudioInfo *audio_info,map<string,double> *t)
     {
         me=myself;
         audio=audio_info;
