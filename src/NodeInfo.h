@@ -19,6 +19,8 @@ public:
 
     NodeInfo();
 
+    NodeInfo(double t, int i, int f):tf(t),id(i),flag(f){next_termFreq=NULL;next_fresh=NULL;next_sig=NULL;}
+
     NodeInfo(int t,int i):tf(t),id(i){flag=-1;next_termFreq=NULL;next_fresh=NULL;next_sig=NULL;}
 
     NodeInfo(const NodeInfo&other);
