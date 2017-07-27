@@ -41,23 +41,23 @@ public:
     {
         AudioCount=other.AudioCount;
         level=other.level;
-        TermIndex = new map<string, ProgramList*>;
+        TermIndex = new map<T, ProgramList*>;
         typename map<T,ProgramList*>::iterator it_list;
-        typename map<int,NodeInfo*>::iterator it_node;
+//        typename map<int,NodeInfo*>::iterator it_node;
         ProgramList* tmp;
         for(it_list=other.TermIndex->begin();it_list!=other.TermIndex->end();it_list++)
         {
-            tmp=new ProgramList;
-            for(it_node=it_list->second->nodeMap->begin();it_node!=it_list->second->nodeMap->end();it_node++)
-            {
-                tmp->addNode(it_node->second->tf,it_node->second->id);
-            }
+            tmp= it_list->second->clone();
+//            for(it_node=it_list->second->nodeMap->begin();it_node!=it_list->second->nodeMap->end();it_node++)
+//            {
+//                tmp->addNode(it_node->second->tf,it_node->second->id);
+//            }
             (*TermIndex)[it_list->first]=tmp;
         }
         InfoTable =new map<int, AudioInfo> (*(other.InfoTable));
         TermMutex = new map<T,CMutex> (*(other.TermMutex));
         RemovedId = other.RemovedId;
-        I0_sort();
+//        I0_sort();
     }
 
 

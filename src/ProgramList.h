@@ -23,6 +23,10 @@ public:
 
     ProgramList(const ProgramList&other);
 
+    ProgramList* clone();
+
+    void output();
+
     ProgramList &operator=(const ProgramList&other);
 
     NodeInfo* getNodePointer(int tf,int id);
