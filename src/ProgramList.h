@@ -29,8 +29,6 @@ public:
 
     ProgramList &operator=(const ProgramList&other);
 
-    NodeInfo* getNodePointer(int tf,int id);
-
     ~ProgramList();
 
 };

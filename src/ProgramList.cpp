@@ -11,7 +11,7 @@ ProgramList::ProgramList(const ProgramList&other)
     max_termFreq=other.max_termFreq;
     max_sig=other.max_sig;
     max_fresh=other.max_fresh;
-    nodeMap=other.nodeMap;
+    nodeMap=new map<int,NodeInfo*>(*other.nodeMap);
 }
 
 NodeInfo* ProgramList::addNode(int tf,int id)
@@ -126,29 +126,19 @@ ProgramList &ProgramList::operator=(const ProgramList&other)
     }
 }
 
-NodeInfo* ProgramList::getNodePointer(int tf,int id) {
-    NodeInfo *tmp_pointer;
-    map<int, NodeInfo *>::iterator it_node=nodeMap->find(id);
-    if(it_node==nodeMap->end())
-    {
-        tmp_pointer=addNode(tf,id);
-    } else{
-        tmp_pointer=it_node->second;
-    }
-
-    return tmp_pointer;
-
-}
 
 ProgramList::~ProgramList()
 {
     if(nodeMap!=NULL)
     {
+        map<int,NodeInfo*> &inm=*nodeMap;
         map<int,NodeInfo*>::iterator it_node;
         for(it_node=nodeMap->begin();it_node!=nodeMap->end();it_node++)
         {
+//            it_node=nodeMap->erase(it_node);
             delete it_node->second;
         }
-        delete nodeMap;
     }
+    delete nodeMap;
+    nodeMap=NULL;
 }

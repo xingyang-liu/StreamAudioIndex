@@ -124,19 +124,6 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
         myself->Indexes[0]->addAudioLive(tmp_info, TagsNum, myself->livePointer, myself->mutexLive);
         myself->liveIdMutex[tmp_info.id].Unlock();
 
-        if(tmp_info.final==0)
-        {
-            map<int,InvertedIndex*>::iterator it_Index;
-            for(it_Index=myself->Indexes.begin();it_Index!=myself->Indexes.end();it_Index++)
-            {
-                if(it_Index->second->search(tmp_info.id)&&it_Index->second->level!=0)
-                {
-                    it_Index->second->mutexRemove.Lock();
-                    it_Index->second->RemovedId.insert(tmp_info.id);
-                    it_Index->second->mutexRemove.Unlock();
-                }
-            }
-        }
     }
     else if(tmp_info.final==-1)
     {
@@ -147,10 +134,11 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 
     if (myself->I0Num >= IndexUnit)
     {
-        myself->Indexes[0]->I0_sort();
-        InvertedIndex *Index_tmp;
-
         myself->clearI0.Lock();//复制I0的过程开始了
+        myself->Indexes[0]->I0_sort();
+
+
+        InvertedIndex *Index_tmp;
         (myself->liveIdMutex)[tmp_info.id].Lock();
         Index_tmp=new InvertedIndex(*myself->Indexes[0]);
         (myself->liveIdMutex)[tmp_info.id].Unlock();
@@ -158,16 +146,17 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 //        map<string,ProgramList*> &tmp_list=*(Index_tmp->TermIndex);
 
         map<int,InvertedIndex*> *mirrorIndex=new map<int,InvertedIndex*>;//相当于独立出参与归并的Index到另一个map中
-        ForMirror<InvertedIndex> *for_mirror=new ForMirror<InvertedIndex>(mirrorIndex);
+        ForMirror<InvertedIndex>  *for_mirror=new ForMirror<InvertedIndex> (mirrorIndex);
         mirrorList.push_back(for_mirror);
-        (*mirrorIndex)[0]=Index_tmp;
-        InvertedIndex &other=(*(*mirrorIndex)[0]);
-        Index_tmp=myself->Indexes[0];
-        myself->Indexes[0]=new InvertedIndex;
 
+        (*mirrorIndex)[0]=Index_tmp;
+//        InvertedIndex &other=(*(*mirrorIndex)[0]);
+        Index_tmp=myself->Indexes[0];
+        Index_tmp->level+=1;
+
+        myself->Indexes[0]=new InvertedIndex;
         myself->I0Num = 0;
         myself->clearI0.Unlock();
-
         int l=1;
 
         map<int, InvertedIndex*>::iterator it_index;
@@ -179,31 +168,35 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
             {
 //                map<int,InvertedIndex*> &tmp=myself->Indexes;
 //                map<string,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
+                map<string,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
+                InvertedIndex *other_tmp=new InvertedIndex(*(myself->Indexes[l]));
+                (*mirrorIndex)[l]=other_tmp;//可能需要加互斥锁
                 (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
-                for_mirror->mutex.Lock();
-                (*mirrorIndex)[l]=myself->Indexes[l];
+                delete myself->Indexes[l];
 
-                for_mirror->mutex.Unlock();
-
+                myself->clearInvertedIndex.Lock();
                 myself->Indexes.erase(l);
+                myself->clearInvertedIndex.Unlock();
+
                 l += 1;
             }
             else
             {
                 myself->clearInvertedIndex.Lock();
+                myself->Indexes[l] = Index_tmp;
+                myself->clearInvertedIndex.Unlock();
+
+                myself->clearMirror.Lock();
                 map<int,InvertedIndex*>::iterator it_index;
                 for (it_index=(*mirrorIndex).begin(); it_index != (*mirrorIndex).end(); it_index++)
                 {
                     delete it_index->second;
                 }
-                myself->Indexes[l] = Index_tmp;
-
                 delete mirrorIndex;
                 for_mirror->mirrorIndexMap=NULL;
                 myself->mirrorList.erase(remove(myself->mirrorList.begin(),myself->mirrorList.end(),for_mirror),myself->mirrorList.end());
                 delete for_mirror;
-                myself->clearInvertedIndex.Unlock();
-//                map<string,ProgramList*> &tmp1_list=*(myself->Indexes[l]->TermIndex);
+                myself->clearMirror.Unlock();
 
                 break;
             }
@@ -299,7 +292,11 @@ void IndexManager::buildIndex(int audio_sum)
     end = getTime();
 
     output();
+    ofstream writefile("test_of_index.txt",ofstream::app);
+    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<end-begin\
+    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
     cout << end - begin << "s" << endl;
+    writefile.close();
     info_in.close();
 }
 

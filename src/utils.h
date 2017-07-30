@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <set>
 #include <queue>
+#include <atomic>
 
 
 using namespace std;
