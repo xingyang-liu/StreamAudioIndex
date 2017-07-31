@@ -14,7 +14,7 @@ ProgramList::ProgramList(const ProgramList&other)
     nodeMap=new map<int,NodeInfo*>(*other.nodeMap);
 }
 
-NodeInfo* ProgramList::addNode(int tf,int id)
+NodeInfo* ProgramList::addNode(double tf,int id)
 {
     mutex.Lock();
     NodeInfo * tmp;

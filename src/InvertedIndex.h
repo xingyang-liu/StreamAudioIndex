@@ -15,6 +15,10 @@ public:
 	InvertedIndex(int l) : IndexTemplate<string>(l) {}
 
 	InvertedIndex(const InvertedIndex& other) : IndexTemplate<string>(other) {}
+
+	double computeScore(const double &time, const double &score, map<string, double> &TermFreq, const int &tagsSum,
+						const vector<string> &query);
+
 };
 
 

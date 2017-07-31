@@ -18,7 +18,7 @@ public:
 
     AudioInfo() {}
 
-    AudioInfo(int id, string title,int score, int TagsSum, double time,int finalflag)\
+    AudioInfo(int id, string title,double score, int TagsSum, double time,int finalflag)\
 		:id(id), title(title), score(score), TagsSum(TagsSum), time(time),final(finalflag){}
 
     AudioInfo(const AudioInfo& other);

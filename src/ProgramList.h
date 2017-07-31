@@ -19,7 +19,7 @@ public:
 
     ProgramList() { max_termFreq=NULL;max_fresh=NULL;max_sig=NULL;nodeMap=NULL;}
 
-    NodeInfo* addNode(int tf,int id);
+    NodeInfo* addNode(double tf,int id);
 
     ProgramList(const ProgramList&other);
 

@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "src/index.h"
-
+#include "PhonomeIndex/PhoIndexManager.h"
 #include "json.hpp"
 
 using json = nlohmann::json;
@@ -14,11 +14,12 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 100;
-    AudioSum = 999;
-    IndexManager index(AudioSum);
+//    IndexUnit = 100;
+//    AudioSum = 999;
+//    IndexManager index(AudioSum);
 
-
+    string path = "/media/billy/Braavos/Billy/phonome/";
+    initialInfo(path);
 //    test_for_QandA(index,500,1,7000,1);
 
 //    FamilyTestQuery fam(&index,50,2);
@@ -31,16 +32,16 @@ int main() {
 //    FamilyAdd fama(&index,3000,1);
 //    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
 //    pthread_join(pida,NULL);
-    while (true) {
+//    while (true) {
 //        int str_len;
 //        {
 //            char hex_str[9] = {0};
 //            cin.read(hex_str, 8);
 //            str_len = strtol(hex_str, nullptr, 16);
 //        }
-        cout<<"Please input query: "<<endl;
-        string query_str;
-        cin >> query_str;
+//        cout<<"Please input query: "<<endl;
+//        string query_str;
+//        cin >> query_str;
 //        query_str.resize(str_len);
 //        cin.read((char*) query_str.data(), str_len);
 //        query_str[str_len] = 0;
@@ -53,8 +54,8 @@ int main() {
 
         // create a json object
         // https://github.com/nlohmann/json#examples
-        string str_back = index.handleQuery(query_str);
-        cout<<str_back<<endl;
+//        string str_back = index.handleQuery(query_str);
+//        cout<<str_back<<endl;
 //        json out_obj = {
 //                {"content", str_back},
 //                {"link", 3},
@@ -70,7 +71,7 @@ int main() {
 //        }
 
 //        cout << out_str;
-    }
+//    }
 
     return 0;
 }

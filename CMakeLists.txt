@@ -8,8 +8,13 @@ set(SOURCE_FILES
         json.hpp
         main.cpp src/index.h src/AudioInfo.cpp src/AudioInfo.h
         src/utils.h src/utils.cpp src/IndexManager.cpp src/IndexManager.h src/InvertedIndex.cpp
-        src/InvertedIndex.h src/NodeInfo.cpp src/NodeInfo.h src/ProgramList.cpp src/ProgramList.h src/Sig.h src/Sig.cpp
-        template/phonome.cpp template/phonome.h template/SimpleDTW.cpp template/SimpleDTW.h template/IndexTemplate.cpp template/IndexTemplate.h template/IndexString.cpp template/IndexString.h template/Cmp.h template/InvertedIndexMergerThread.h template/InvertedIndexMergerThreadFre.h template/InvertedIndexMergerThreadSig.h template/InvertedIndexMergerThreadSim.h)
+        src/InvertedIndex.h src/NodeInfo.cpp src/NodeInfo.h src/ProgramList.cpp src/ProgramList.h
+        src/Sig.h src/Sig.cpp
+        PhonomeIndex/phonome.cpp PhonomeIndex/phonome.h template/SimpleDTW.cpp template/SimpleDTW.h
+        template/IndexTemplate.cpp template/IndexTemplate.h template/IndexString.cpp
+        template/IndexString.h template/Cmp.h template/InvertedIndexMergerThread.h
+        template/InvertedIndexMergerThreadFre.h template/InvertedIndexMergerThreadSig.h
+        template/InvertedIndexMergerThreadSim.h PhonomeIndex/PhonomeIndex.cpp PhonomeIndex/PhonomeIndex.h PhonomeIndex/PhoIndexManager.cpp PhonomeIndex/PhoIndexManager.h)
 
 add_executable(StreamAudioIndex ${SOURCE_FILES})
 find_package(Threads REQUIRED)

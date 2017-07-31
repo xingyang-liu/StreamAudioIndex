@@ -45,18 +45,16 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     NodeInfo *tmp_node;
     NodeInfo* del_tmp;
 
-    map<string,ProgramList*> &tmp_pro=*myself->TermIndex;
-    map<string,ProgramList*> &tmp1_pro=*other->TermIndex;
+    map<T,ProgramList*> &tmp_pro=*myself->TermIndex;
+    map<T,ProgramList*> &tmp1_pro=*other->TermIndex;
 
     for(it_list_j=other->TermIndex->begin();it_list_j!=other->TermIndex->end();it_list_j++)
     {
         it_list_i=myself->TermIndex->find(it_list_j->first);
 
 //        判断pointer_j是不是由于flag可能需要清空
-        if (it_list_j->second->max_fresh->flag == -1) {
-            pointer_j = get_next(it_list_j->second);
-        } else {
-            pointer_j = get_next(it_list_j->second);
+        pointer_j = get_next(it_list_j->second);
+        if (pointer_j->flag != -1) {
             while (pointer_j != NULL && pointer_j->flag >= 0) {
                 pointer_j->flag += 1;
                 del_tmp = get_next(pointer_j);
@@ -98,10 +96,8 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
             if(pointer_j!=NULL) {//如果二者都有
                 //当InvertedIndex中有项时，考虑Ij是不是有项，如果没有就根据flag理一下InvertedIndex的顺序，
                 // 有的话就先看一下I是不是由于flag需要清空，不要就正式开始归并，要的话就还是判断pointer_i是不是由于flag可能也需要清空
-                if (it_list_i->second->max_fresh->flag == -1) {
-                    pointer_i = get_next(it_list_i->second);
-                } else {
-                    pointer_i = get_next(it_list_i->second);
+                pointer_i = get_next(it_list_i->second);
+                if (pointer_i->flag != -1) {
                     while (pointer_i != NULL && pointer_i->flag >= 0) {
                         pointer_i->flag += 1;
                         del_tmp = get_next(pointer_i);
@@ -217,9 +213,8 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                 }
             } else {//只有myself里面有,那就简单去掉就好
 
-                if (it_list_i->second->max_fresh->flag == -1) {
-                    pointer_i = get_next(it_list_i->second);
-                } else {
+                pointer_i = get_next(it_list_i->second);
+                if (pointer_i->flag != -1) {
                     pointer_i = get_next(it_list_i->second);
                     while (pointer_i != NULL && pointer_i->flag >= 0) {
                         pointer_i->flag += 1;

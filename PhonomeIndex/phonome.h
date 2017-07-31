@@ -8,15 +8,15 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "SimpleDTW.h"
+#include "../template/SimpleDTW.h"
 
 using namespace std;
 
 class Phonome {
 private:
-    vector<vector<double>> data;
+    vector<float> data;
 
-    static const int THRESHDIFF = 500;
+    static constexpr float THRESHDIFF = 0.98;
 
     static double euclidean_distance(vector<double> P1, vector<double> P2)
     {
@@ -28,13 +28,35 @@ private:
         return sqrt(total);
     }
 
+    static float cosine(vector<float> P1, vector<float> P2)
+    {
+        float up = 0, abs_p1 = 0, abs_p2 = 0;
+        for (int i = 0; i < 13; ++i) {
+            up += P1[i] * P2[i];
+            abs_p1 += P1[i] * P1[i];
+            abs_p2 += P2[i] * P2[i];
+        }
+        return up / (sqrt(abs_p1) * sqrt(abs_p2));
+    }
+
 //    float find_minimum(int &choice, float n_, float n0, float n1);
 public:
-    Phonome(vector<vector<double>> a) {
+    Phonome() {}
+
+    Phonome(float* a) {
+        vector<float> tmp(a, a+13);
+        data = tmp;
+    }
+
+    Phonome(vector<float> a) {
         data = a;
     }
 
     Phonome(const Phonome &);
+
+    void output() const;
+
+    void output(char* buf) const;
 
     Phonome &operator=(const Phonome &);
 

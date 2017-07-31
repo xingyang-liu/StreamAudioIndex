@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug"/>
+				<Option working_dir="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug"/>
+				<Option working_dir="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug"/>
+				<Option working_dir="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="StreamAudioIndex">
-				<Option output="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/StreamAudioIndex" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug"/>
+				<Option output="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/StreamAudioIndex" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -54,15 +54,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 StreamAudioIndex"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 StreamAudioIndex"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="StreamAudioIndex/fast">
-				<Option output="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/StreamAudioIndex" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug"/>
+				<Option output="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/StreamAudioIndex" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -77,107 +77,119 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 StreamAudioIndex/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/watson/C++/Template_Branch/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 StreamAudioIndex/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/json.hpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhoIndexManager.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/main.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhoIndexManager.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/AudioInfo.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhonomeIndex.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/AudioInfo.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhonomeIndex.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/IndexManager.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/phonome.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/IndexManager.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/phonome.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/InvertedIndex.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/json.hpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/InvertedIndex.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/main.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/NodeInfo.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/AudioInfo.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/NodeInfo.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/AudioInfo.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/ProgramList.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/IndexManager.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/ProgramList.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/IndexManager.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/Sig.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/InvertedIndex.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/Sig.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/InvertedIndex.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/index.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/NodeInfo.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/index.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/NodeInfo.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/utils.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/ProgramList.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/src/utils.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/ProgramList.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/Cmp.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/Sig.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/IndexString.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/Sig.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/IndexString.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/index.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/IndexTemplate.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/index.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/IndexTemplate.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/utils.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/InvertedIndexMergerThread.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/utils.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/InvertedIndexMergerThreadFre.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/Cmp.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/InvertedIndexMergerThreadSig.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexString.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/InvertedIndexMergerThreadSim.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexString.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/SimpleDTW.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexTemplate.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/SimpleDTW.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/IndexTemplate.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/phonome.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/InvertedIndexMergerThread.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/template/phonome.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/InvertedIndexMergerThreadFre.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/watson/C++/Template_Branch/StreamAudioIndex/CMakeLists.txt">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/InvertedIndexMergerThreadSig.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/InvertedIndexMergerThreadSim.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/SimpleDTW.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/template/SimpleDTW.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

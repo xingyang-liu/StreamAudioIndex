@@ -7,7 +7,7 @@
 
 #include "../src/ProgramList.h"
 #include "../src/Sig.h"
-#include "phonome.h"
+#include "../PhonomeIndex/phonome.h"
 #include "Cmp.h"
 #include "InvertedIndexMergerThreadFre.h"
 #include "InvertedIndexMergerThreadSig.h"
@@ -87,7 +87,7 @@ public:
     void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name);
 
     virtual double computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
-                        const vector<T> &query);
+                        const vector<T> &query) = 0;
     
     
 
@@ -298,7 +298,7 @@ void IndexTemplate<T>::insert_and_remove()//在merger开始之前，buffer中所
     }
     map<int,double>::iterator it_buffer;
     map<int,NodeInfo*>::iterator it_node;
-    map<string,ProgramList*>::iterator it_list_i;
+    typename map<T,ProgramList*>::iterator it_list_i;
     for(it_list_i=TermIndex->begin();it_list_i!=TermIndex->end();it_list_i++)
     {
         for(it_buffer=tmp_buffer.begin();it_buffer!=tmp_buffer.end();it_buffer++)
@@ -447,7 +447,7 @@ void IndexTemplate<T>::addAudioLive(AudioInfo &tmp_info,map<T,double> &TermFreq,
     }else if(tmp_info.final==0)
     {
         for (; it_node != livePointer[tmp_info.id].end();) {
-            string str=it_node->first;
+            T str=it_node->first;
 
             if (it_node->second->flag == -1) {
                 if((*TermIndex).find(it_node->first)==TermIndex->end())
@@ -542,47 +542,6 @@ void IndexTemplate<T>::node_addLive(T term, int id, double tf, map<int, map<T, N
     mutexLive.Unlock();
 }
 
-template <class T>
-double IndexTemplate<T>::computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
-                                   const vector<T> &query)
-{
-    double fre = pow(2, time - getTime());
-    double sig = log(score / 10000 + 1);
-    double sim = 0;
-    for (int i = 0; i < query.size(); i++)
-    {
-        typename map<T, double>::iterator it = TermFreq.find(query[i]);
-        if (it != TermFreq.end())
-        {
-            try
-            {
-                if (tagsSum != 0)
-                {
-                    sim += TermFreq[query[i]] *IdfTable[query[i]];
-                }
-                else
-                {
-                    sim += TermFreq[query[i]] * IdfTable[query[i]];
-                }
-            }
-            catch (...)
-            {
-                map<string, double>::iterator it = IdfTable.find(query[i]);
-                if (it != IdfTable.end())
-                {
-                    continue;
-                }
-                else
-                {
-                    cout << "Something wrong with computeScore()";
-                }
-
-            }
-        }
-    }
-    double ScoreAll = (fre*0.1 + sim * 20 * 0.6 + sig*0.2)*10;
-    return ScoreAll;
-}
 
 template <class T>
 void IndexTemplate<T>::I0_sort()
@@ -1133,7 +1092,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                     if (it_res == Result.end()) {
                                         AudioInfo &info_tmp = (*InfoTable)[id4];
                                         for (int k = 0; k < query.size(); k++) {
-                                            map<string, ProgramList *>::iterator it_str = (*TermIndex).find(
+                                            typename map<T, ProgramList *>::iterator it_str = (*TermIndex).find(
                                                     query[k]);
                                             if (it_str != TermIndex->end()) {
                                                 map<int, NodeInfo *>::iterator it_tmp_node = it_str->second->nodeMap->find(
