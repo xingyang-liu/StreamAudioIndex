@@ -7,7 +7,7 @@
 
 
 #include "InvertedIndex.h"
-#include "../template/IndexTemplate.h"
+#include "../TemplateIndex/IndexTemplate.h"
 
 
 

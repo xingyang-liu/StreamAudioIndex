@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "../template/SimpleDTW.h"
+#include "../src/SimpleDTW.h"
 
 using namespace std;
 

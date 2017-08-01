@@ -5,7 +5,7 @@
 #ifndef HASH_0E_INFO_H
 #define HASH_0E_INFO_H
 
-#include "utils.h"
+#include "../src/utils.h"
 
 using namespace std;
 class AudioInfo {

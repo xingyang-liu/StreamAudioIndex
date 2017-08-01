@@ -5,8 +5,8 @@
 #ifndef HASH_0E_INDEXTEMPLATE_H
 #define HASH_0E_INDEXTEMPLATE_H
 
-#include "../src/ProgramList.h"
-#include "../src/Sig.h"
+#include "../BasicStructure/ProgramList.h"
+#include "Sig.h"
 #include "../PhonomeIndex/phonome.h"
 #include "Cmp.h"
 #include "InvertedIndexMergerThreadFre.h"

@@ -4,8 +4,8 @@
 #define HASH_0E_InvertedIndex_H
 
 
-#include "ProgramList.h"
-#include "../template/IndexTemplate.h"
+#include "../BasicStructure/ProgramList.h"
+#include "../TemplateIndex/IndexTemplate.h"
 
 
 class InvertedIndex: public IndexTemplate<string> {

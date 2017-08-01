@@ -6,7 +6,7 @@
 #ifndef HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 #define HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 
-#include "../src/NodeInfo.h"
+#include "../BasicStructure/NodeInfo.h"
 #include "IndexTemplate.h"
 
 template <class T>

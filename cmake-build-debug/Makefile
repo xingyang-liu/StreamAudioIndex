@@ -123,6 +123,87 @@ StreamAudioIndex/fast:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/build
 .PHONY : StreamAudioIndex/fast
 
+BasicStructure/AudioInfo.o: BasicStructure/AudioInfo.cpp.o
+
+.PHONY : BasicStructure/AudioInfo.o
+
+# target to build an object file
+BasicStructure/AudioInfo.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/AudioInfo.cpp.o
+.PHONY : BasicStructure/AudioInfo.cpp.o
+
+BasicStructure/AudioInfo.i: BasicStructure/AudioInfo.cpp.i
+
+.PHONY : BasicStructure/AudioInfo.i
+
+# target to preprocess a source file
+BasicStructure/AudioInfo.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/AudioInfo.cpp.i
+.PHONY : BasicStructure/AudioInfo.cpp.i
+
+BasicStructure/AudioInfo.s: BasicStructure/AudioInfo.cpp.s
+
+.PHONY : BasicStructure/AudioInfo.s
+
+# target to generate assembly for a file
+BasicStructure/AudioInfo.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/AudioInfo.cpp.s
+.PHONY : BasicStructure/AudioInfo.cpp.s
+
+BasicStructure/NodeInfo.o: BasicStructure/NodeInfo.cpp.o
+
+.PHONY : BasicStructure/NodeInfo.o
+
+# target to build an object file
+BasicStructure/NodeInfo.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/NodeInfo.cpp.o
+.PHONY : BasicStructure/NodeInfo.cpp.o
+
+BasicStructure/NodeInfo.i: BasicStructure/NodeInfo.cpp.i
+
+.PHONY : BasicStructure/NodeInfo.i
+
+# target to preprocess a source file
+BasicStructure/NodeInfo.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/NodeInfo.cpp.i
+.PHONY : BasicStructure/NodeInfo.cpp.i
+
+BasicStructure/NodeInfo.s: BasicStructure/NodeInfo.cpp.s
+
+.PHONY : BasicStructure/NodeInfo.s
+
+# target to generate assembly for a file
+BasicStructure/NodeInfo.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/NodeInfo.cpp.s
+.PHONY : BasicStructure/NodeInfo.cpp.s
+
+BasicStructure/ProgramList.o: BasicStructure/ProgramList.cpp.o
+
+.PHONY : BasicStructure/ProgramList.o
+
+# target to build an object file
+BasicStructure/ProgramList.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/ProgramList.cpp.o
+.PHONY : BasicStructure/ProgramList.cpp.o
+
+BasicStructure/ProgramList.i: BasicStructure/ProgramList.cpp.i
+
+.PHONY : BasicStructure/ProgramList.i
+
+# target to preprocess a source file
+BasicStructure/ProgramList.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/ProgramList.cpp.i
+.PHONY : BasicStructure/ProgramList.cpp.i
+
+BasicStructure/ProgramList.s: BasicStructure/ProgramList.cpp.s
+
+.PHONY : BasicStructure/ProgramList.s
+
+# target to generate assembly for a file
+BasicStructure/ProgramList.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/BasicStructure/ProgramList.cpp.s
+.PHONY : BasicStructure/ProgramList.cpp.s
+
 PhonomeIndex/PhoIndexManager.o: PhonomeIndex/PhoIndexManager.cpp.o
 
 .PHONY : PhonomeIndex/PhoIndexManager.o
@@ -204,6 +285,141 @@ PhonomeIndex/phonome.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/phonome.cpp.s
 .PHONY : PhonomeIndex/phonome.cpp.s
 
+TemplateIndex/IndexString.o: TemplateIndex/IndexString.cpp.o
+
+.PHONY : TemplateIndex/IndexString.o
+
+# target to build an object file
+TemplateIndex/IndexString.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexString.cpp.o
+.PHONY : TemplateIndex/IndexString.cpp.o
+
+TemplateIndex/IndexString.i: TemplateIndex/IndexString.cpp.i
+
+.PHONY : TemplateIndex/IndexString.i
+
+# target to preprocess a source file
+TemplateIndex/IndexString.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexString.cpp.i
+.PHONY : TemplateIndex/IndexString.cpp.i
+
+TemplateIndex/IndexString.s: TemplateIndex/IndexString.cpp.s
+
+.PHONY : TemplateIndex/IndexString.s
+
+# target to generate assembly for a file
+TemplateIndex/IndexString.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexString.cpp.s
+.PHONY : TemplateIndex/IndexString.cpp.s
+
+TemplateIndex/IndexTemplate.o: TemplateIndex/IndexTemplate.cpp.o
+
+.PHONY : TemplateIndex/IndexTemplate.o
+
+# target to build an object file
+TemplateIndex/IndexTemplate.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexTemplate.cpp.o
+.PHONY : TemplateIndex/IndexTemplate.cpp.o
+
+TemplateIndex/IndexTemplate.i: TemplateIndex/IndexTemplate.cpp.i
+
+.PHONY : TemplateIndex/IndexTemplate.i
+
+# target to preprocess a source file
+TemplateIndex/IndexTemplate.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexTemplate.cpp.i
+.PHONY : TemplateIndex/IndexTemplate.cpp.i
+
+TemplateIndex/IndexTemplate.s: TemplateIndex/IndexTemplate.cpp.s
+
+.PHONY : TemplateIndex/IndexTemplate.s
+
+# target to generate assembly for a file
+TemplateIndex/IndexTemplate.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexTemplate.cpp.s
+.PHONY : TemplateIndex/IndexTemplate.cpp.s
+
+TemplateIndex/Sig.o: TemplateIndex/Sig.cpp.o
+
+.PHONY : TemplateIndex/Sig.o
+
+# target to build an object file
+TemplateIndex/Sig.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/Sig.cpp.o
+.PHONY : TemplateIndex/Sig.cpp.o
+
+TemplateIndex/Sig.i: TemplateIndex/Sig.cpp.i
+
+.PHONY : TemplateIndex/Sig.i
+
+# target to preprocess a source file
+TemplateIndex/Sig.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/Sig.cpp.i
+.PHONY : TemplateIndex/Sig.cpp.i
+
+TemplateIndex/Sig.s: TemplateIndex/Sig.cpp.s
+
+.PHONY : TemplateIndex/Sig.s
+
+# target to generate assembly for a file
+TemplateIndex/Sig.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/Sig.cpp.s
+.PHONY : TemplateIndex/Sig.cpp.s
+
+TextIndex/IndexManager.o: TextIndex/IndexManager.cpp.o
+
+.PHONY : TextIndex/IndexManager.o
+
+# target to build an object file
+TextIndex/IndexManager.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TextIndex/IndexManager.cpp.o
+.PHONY : TextIndex/IndexManager.cpp.o
+
+TextIndex/IndexManager.i: TextIndex/IndexManager.cpp.i
+
+.PHONY : TextIndex/IndexManager.i
+
+# target to preprocess a source file
+TextIndex/IndexManager.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TextIndex/IndexManager.cpp.i
+.PHONY : TextIndex/IndexManager.cpp.i
+
+TextIndex/IndexManager.s: TextIndex/IndexManager.cpp.s
+
+.PHONY : TextIndex/IndexManager.s
+
+# target to generate assembly for a file
+TextIndex/IndexManager.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TextIndex/IndexManager.cpp.s
+.PHONY : TextIndex/IndexManager.cpp.s
+
+TextIndex/InvertedIndex.o: TextIndex/InvertedIndex.cpp.o
+
+.PHONY : TextIndex/InvertedIndex.o
+
+# target to build an object file
+TextIndex/InvertedIndex.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TextIndex/InvertedIndex.cpp.o
+.PHONY : TextIndex/InvertedIndex.cpp.o
+
+TextIndex/InvertedIndex.i: TextIndex/InvertedIndex.cpp.i
+
+.PHONY : TextIndex/InvertedIndex.i
+
+# target to preprocess a source file
+TextIndex/InvertedIndex.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TextIndex/InvertedIndex.cpp.i
+.PHONY : TextIndex/InvertedIndex.cpp.i
+
+TextIndex/InvertedIndex.s: TextIndex/InvertedIndex.cpp.s
+
+.PHONY : TextIndex/InvertedIndex.s
+
+# target to generate assembly for a file
+TextIndex/InvertedIndex.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TextIndex/InvertedIndex.cpp.s
+.PHONY : TextIndex/InvertedIndex.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -231,167 +447,32 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/AudioInfo.o: src/AudioInfo.cpp.o
+src/SimpleDTW.o: src/SimpleDTW.cpp.o
 
-.PHONY : src/AudioInfo.o
-
-# target to build an object file
-src/AudioInfo.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/AudioInfo.cpp.o
-.PHONY : src/AudioInfo.cpp.o
-
-src/AudioInfo.i: src/AudioInfo.cpp.i
-
-.PHONY : src/AudioInfo.i
-
-# target to preprocess a source file
-src/AudioInfo.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/AudioInfo.cpp.i
-.PHONY : src/AudioInfo.cpp.i
-
-src/AudioInfo.s: src/AudioInfo.cpp.s
-
-.PHONY : src/AudioInfo.s
-
-# target to generate assembly for a file
-src/AudioInfo.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/AudioInfo.cpp.s
-.PHONY : src/AudioInfo.cpp.s
-
-src/IndexManager.o: src/IndexManager.cpp.o
-
-.PHONY : src/IndexManager.o
+.PHONY : src/SimpleDTW.o
 
 # target to build an object file
-src/IndexManager.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/IndexManager.cpp.o
-.PHONY : src/IndexManager.cpp.o
+src/SimpleDTW.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/SimpleDTW.cpp.o
+.PHONY : src/SimpleDTW.cpp.o
 
-src/IndexManager.i: src/IndexManager.cpp.i
+src/SimpleDTW.i: src/SimpleDTW.cpp.i
 
-.PHONY : src/IndexManager.i
-
-# target to preprocess a source file
-src/IndexManager.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/IndexManager.cpp.i
-.PHONY : src/IndexManager.cpp.i
-
-src/IndexManager.s: src/IndexManager.cpp.s
-
-.PHONY : src/IndexManager.s
-
-# target to generate assembly for a file
-src/IndexManager.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/IndexManager.cpp.s
-.PHONY : src/IndexManager.cpp.s
-
-src/InvertedIndex.o: src/InvertedIndex.cpp.o
-
-.PHONY : src/InvertedIndex.o
-
-# target to build an object file
-src/InvertedIndex.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/InvertedIndex.cpp.o
-.PHONY : src/InvertedIndex.cpp.o
-
-src/InvertedIndex.i: src/InvertedIndex.cpp.i
-
-.PHONY : src/InvertedIndex.i
+.PHONY : src/SimpleDTW.i
 
 # target to preprocess a source file
-src/InvertedIndex.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/InvertedIndex.cpp.i
-.PHONY : src/InvertedIndex.cpp.i
+src/SimpleDTW.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/SimpleDTW.cpp.i
+.PHONY : src/SimpleDTW.cpp.i
 
-src/InvertedIndex.s: src/InvertedIndex.cpp.s
+src/SimpleDTW.s: src/SimpleDTW.cpp.s
 
-.PHONY : src/InvertedIndex.s
-
-# target to generate assembly for a file
-src/InvertedIndex.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/InvertedIndex.cpp.s
-.PHONY : src/InvertedIndex.cpp.s
-
-src/NodeInfo.o: src/NodeInfo.cpp.o
-
-.PHONY : src/NodeInfo.o
-
-# target to build an object file
-src/NodeInfo.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/NodeInfo.cpp.o
-.PHONY : src/NodeInfo.cpp.o
-
-src/NodeInfo.i: src/NodeInfo.cpp.i
-
-.PHONY : src/NodeInfo.i
-
-# target to preprocess a source file
-src/NodeInfo.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/NodeInfo.cpp.i
-.PHONY : src/NodeInfo.cpp.i
-
-src/NodeInfo.s: src/NodeInfo.cpp.s
-
-.PHONY : src/NodeInfo.s
+.PHONY : src/SimpleDTW.s
 
 # target to generate assembly for a file
-src/NodeInfo.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/NodeInfo.cpp.s
-.PHONY : src/NodeInfo.cpp.s
-
-src/ProgramList.o: src/ProgramList.cpp.o
-
-.PHONY : src/ProgramList.o
-
-# target to build an object file
-src/ProgramList.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/ProgramList.cpp.o
-.PHONY : src/ProgramList.cpp.o
-
-src/ProgramList.i: src/ProgramList.cpp.i
-
-.PHONY : src/ProgramList.i
-
-# target to preprocess a source file
-src/ProgramList.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/ProgramList.cpp.i
-.PHONY : src/ProgramList.cpp.i
-
-src/ProgramList.s: src/ProgramList.cpp.s
-
-.PHONY : src/ProgramList.s
-
-# target to generate assembly for a file
-src/ProgramList.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/ProgramList.cpp.s
-.PHONY : src/ProgramList.cpp.s
-
-src/Sig.o: src/Sig.cpp.o
-
-.PHONY : src/Sig.o
-
-# target to build an object file
-src/Sig.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/Sig.cpp.o
-.PHONY : src/Sig.cpp.o
-
-src/Sig.i: src/Sig.cpp.i
-
-.PHONY : src/Sig.i
-
-# target to preprocess a source file
-src/Sig.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/Sig.cpp.i
-.PHONY : src/Sig.cpp.i
-
-src/Sig.s: src/Sig.cpp.s
-
-.PHONY : src/Sig.s
-
-# target to generate assembly for a file
-src/Sig.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/Sig.cpp.s
-.PHONY : src/Sig.cpp.s
+src/SimpleDTW.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/SimpleDTW.cpp.s
+.PHONY : src/SimpleDTW.cpp.s
 
 src/index.o: src/index.cpp.o
 
@@ -447,87 +528,6 @@ src/utils.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/utils.cpp.s
 .PHONY : src/utils.cpp.s
 
-template/IndexString.o: template/IndexString.cpp.o
-
-.PHONY : template/IndexString.o
-
-# target to build an object file
-template/IndexString.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexString.cpp.o
-.PHONY : template/IndexString.cpp.o
-
-template/IndexString.i: template/IndexString.cpp.i
-
-.PHONY : template/IndexString.i
-
-# target to preprocess a source file
-template/IndexString.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexString.cpp.i
-.PHONY : template/IndexString.cpp.i
-
-template/IndexString.s: template/IndexString.cpp.s
-
-.PHONY : template/IndexString.s
-
-# target to generate assembly for a file
-template/IndexString.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexString.cpp.s
-.PHONY : template/IndexString.cpp.s
-
-template/IndexTemplate.o: template/IndexTemplate.cpp.o
-
-.PHONY : template/IndexTemplate.o
-
-# target to build an object file
-template/IndexTemplate.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexTemplate.cpp.o
-.PHONY : template/IndexTemplate.cpp.o
-
-template/IndexTemplate.i: template/IndexTemplate.cpp.i
-
-.PHONY : template/IndexTemplate.i
-
-# target to preprocess a source file
-template/IndexTemplate.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexTemplate.cpp.i
-.PHONY : template/IndexTemplate.cpp.i
-
-template/IndexTemplate.s: template/IndexTemplate.cpp.s
-
-.PHONY : template/IndexTemplate.s
-
-# target to generate assembly for a file
-template/IndexTemplate.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/IndexTemplate.cpp.s
-.PHONY : template/IndexTemplate.cpp.s
-
-template/SimpleDTW.o: template/SimpleDTW.cpp.o
-
-.PHONY : template/SimpleDTW.o
-
-# target to build an object file
-template/SimpleDTW.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/SimpleDTW.cpp.o
-.PHONY : template/SimpleDTW.cpp.o
-
-template/SimpleDTW.i: template/SimpleDTW.cpp.i
-
-.PHONY : template/SimpleDTW.i
-
-# target to preprocess a source file
-template/SimpleDTW.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/SimpleDTW.cpp.i
-.PHONY : template/SimpleDTW.cpp.i
-
-template/SimpleDTW.s: template/SimpleDTW.cpp.s
-
-.PHONY : template/SimpleDTW.s
-
-# target to generate assembly for a file
-template/SimpleDTW.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/template/SimpleDTW.cpp.s
-.PHONY : template/SimpleDTW.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -537,6 +537,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... StreamAudioIndex"
+	@echo "... BasicStructure/AudioInfo.o"
+	@echo "... BasicStructure/AudioInfo.i"
+	@echo "... BasicStructure/AudioInfo.s"
+	@echo "... BasicStructure/NodeInfo.o"
+	@echo "... BasicStructure/NodeInfo.i"
+	@echo "... BasicStructure/NodeInfo.s"
+	@echo "... BasicStructure/ProgramList.o"
+	@echo "... BasicStructure/ProgramList.i"
+	@echo "... BasicStructure/ProgramList.s"
 	@echo "... PhonomeIndex/PhoIndexManager.o"
 	@echo "... PhonomeIndex/PhoIndexManager.i"
 	@echo "... PhonomeIndex/PhoIndexManager.s"
@@ -546,42 +555,33 @@ help:
 	@echo "... PhonomeIndex/phonome.o"
 	@echo "... PhonomeIndex/phonome.i"
 	@echo "... PhonomeIndex/phonome.s"
+	@echo "... TemplateIndex/IndexString.o"
+	@echo "... TemplateIndex/IndexString.i"
+	@echo "... TemplateIndex/IndexString.s"
+	@echo "... TemplateIndex/IndexTemplate.o"
+	@echo "... TemplateIndex/IndexTemplate.i"
+	@echo "... TemplateIndex/IndexTemplate.s"
+	@echo "... TemplateIndex/Sig.o"
+	@echo "... TemplateIndex/Sig.i"
+	@echo "... TemplateIndex/Sig.s"
+	@echo "... TextIndex/IndexManager.o"
+	@echo "... TextIndex/IndexManager.i"
+	@echo "... TextIndex/IndexManager.s"
+	@echo "... TextIndex/InvertedIndex.o"
+	@echo "... TextIndex/InvertedIndex.i"
+	@echo "... TextIndex/InvertedIndex.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... src/AudioInfo.o"
-	@echo "... src/AudioInfo.i"
-	@echo "... src/AudioInfo.s"
-	@echo "... src/IndexManager.o"
-	@echo "... src/IndexManager.i"
-	@echo "... src/IndexManager.s"
-	@echo "... src/InvertedIndex.o"
-	@echo "... src/InvertedIndex.i"
-	@echo "... src/InvertedIndex.s"
-	@echo "... src/NodeInfo.o"
-	@echo "... src/NodeInfo.i"
-	@echo "... src/NodeInfo.s"
-	@echo "... src/ProgramList.o"
-	@echo "... src/ProgramList.i"
-	@echo "... src/ProgramList.s"
-	@echo "... src/Sig.o"
-	@echo "... src/Sig.i"
-	@echo "... src/Sig.s"
+	@echo "... src/SimpleDTW.o"
+	@echo "... src/SimpleDTW.i"
+	@echo "... src/SimpleDTW.s"
 	@echo "... src/index.o"
 	@echo "... src/index.i"
 	@echo "... src/index.s"
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"
-	@echo "... template/IndexString.o"
-	@echo "... template/IndexString.i"
-	@echo "... template/IndexString.s"
-	@echo "... template/IndexTemplate.o"
-	@echo "... template/IndexTemplate.i"
-	@echo "... template/IndexTemplate.s"
-	@echo "... template/SimpleDTW.o"
-	@echo "... template/SimpleDTW.i"
-	@echo "... template/SimpleDTW.s"
 .PHONY : help
 
 

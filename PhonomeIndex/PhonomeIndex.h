@@ -5,7 +5,7 @@
 #ifndef HASH_0E_PHONOMEINDEX_H
 #define HASH_0E_PHONOMEINDEX_H
 
-#include "../template/IndexTemplate.h"
+#include "../TemplateIndex/IndexTemplate.h"
 
 class PhonomeIndex: public IndexTemplate<Phonome> {
 public:
