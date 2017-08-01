@@ -20,8 +20,8 @@ void PhoIndexManager::buildIndex(int audio_sum)
 {
     double begin, end;
     begin = getTime();
-    ifstream info_in("info_live_test.txt");
-    string path = "";
+    ifstream info_in("info_phonome.txt");
+    string path = "/media/billy/Braavos/Billy/info/";
     if (!info_in) exit(7);
 //    string DoubleQuestionMark = "??";
 //    string QuestionMark = "?";
@@ -29,7 +29,7 @@ void PhoIndexManager::buildIndex(int audio_sum)
     string LikeCount_tmp, CommentCount_tmp, PlayCount_tmp, TagsSum_tmp, score_tmp, time_tmp, title_tmp,\
  		id_tmp, TermSum_tmp,FinalFlag_tmp;
 //    Phonome term_tmp;
-    float num_tmp;
+    int num_tmp;
     for (int i = 0; i < audio_sum; i++)
     {
 
@@ -50,6 +50,7 @@ void PhoIndexManager::buildIndex(int audio_sum)
         ssize_t n;
         string filename = path + id_tmp + ".mfcc";
         int fd = open(filename.c_str(), O_RDONLY);
+        if (!fd) continue;
         while ((n=read(fd, (void *)buf, 13*4))>0) {
             Phonome term_tmp = Phonome(buf);
             if ((n = read(fd, &num_tmp, sizeof(num_tmp)))){

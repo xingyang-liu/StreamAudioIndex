@@ -44,7 +44,7 @@ public:
     Phonome() {}
 
     Phonome(float* a) {
-        vector<float> tmp(a, a+13);
+        vector<float> tmp(a, a+12);
         data = tmp;
     }
 

@@ -14,12 +14,13 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-//    IndexUnit = 100;
-//    AudioSum = 999;
+    IndexUnit = 15;
+    AudioSum = 40;
+    PhoIndexManager index(AudioSum);
 //    IndexManager index(AudioSum);
 
-    string path = "/media/billy/Braavos/Billy/phonome/";
-    initialInfo(path);
+//    string path = "/media/billy/Braavos/Billy/phonome/";
+//    initialInfo(path);
 //    test_for_QandA(index,500,1,7000,1);
 
 //    FamilyTestQuery fam(&index,50,2);

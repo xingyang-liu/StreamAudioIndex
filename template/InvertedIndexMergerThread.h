@@ -2,6 +2,7 @@
 // Created by billy on 17-7-24.
 //
 
+
 #ifndef HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 #define HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 
@@ -44,218 +45,450 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     NodeInfo* pointer_j;
     NodeInfo *tmp_node;
     NodeInfo* del_tmp;
+    NodeInfo *val;
 
     map<T,ProgramList*> &tmp_pro=*myself->TermIndex;
     map<T,ProgramList*> &tmp1_pro=*other->TermIndex;
 
-    for(it_list_j=other->TermIndex->begin();it_list_j!=other->TermIndex->end();it_list_j++)
-    {
-        it_list_i=myself->TermIndex->find(it_list_j->first);
+
+
+    for(it_list_i=myself->TermIndex->begin();it_list_i!=myself->TermIndex->end();it_list_i++) {
+
+
+
+
+        it_list_j = other->TermIndex->find(it_list_i->first);
+
+
+        map<int,NodeInfo*> &tmp_hi=*it_list_i->second->nodeMap;
+        ProgramList &tmp_proi=*it_list_i->second;
+
+
+
+//        if(tmp_hj.begin()->second->id==11285443)
+//        {
+//            map<int,NodeInfo*>::iterator it_node_t=tmp_hj.begin();
+//            it_node_t++;
+//            if(it_node_t!=tmp_hj.end()&&it_node_t->second->id==11285442)
+//            {
+//                cout<<endl;
+//            }
+//        }
 
 //        判断pointer_j是不是由于flag可能需要清空
-        pointer_j = get_next(it_list_j->second);
-        if (pointer_j->flag != -1) {
-            while (pointer_j != NULL && pointer_j->flag >= 0) {
-                pointer_j->flag += 1;
-                del_tmp = get_next(pointer_j);
-                if (pointer_j->flag == 3) {
-//                    it_list_j->second->nodeMap->erase(pointer_j->id);
-                    delete pointer_j;
-                }
-                pointer_j = del_tmp;
-            }
-        }
 
-        if(get_next(it_list_i->second)==pointer_j)//判断InvertedIndex中是否原来有项，如果没有，则把Ij中的所有program按id复制过来（即不考虑复制指针）
+        if (it_list_j != other->TermIndex->end())//说明i的这一项j中有
         {
-            if(pointer_j!=NULL) {
-                tmp_node=set_next((*myself->TermIndex)[it_list_j->first], pointer_j);
-                pointer_j = get_next(pointer_j);
-
-                while(pointer_j!=NULL)
-                {
-                    set_next(tmp_node, pointer_j);
-                    tmp_node= pointer_j;
-                    pointer_j = get_next(pointer_j);
-                    while (pointer_j != NULL && pointer_j->flag >= 0) {
-                        pointer_j->flag += 1;
-                        del_tmp = get_next(pointer_j);
-                        if (pointer_j->flag == 3) {
-                            delete pointer_j;
-                        }
-                        pointer_j = del_tmp;
-                    }
-                }
-                set_next(tmp_node, NULL);
-            }
-            else
+            map<int,NodeInfo*> &tmp_hj=*it_list_j->second->nodeMap;
+            ProgramList &tmp_proj=*it_list_j->second;
+            if (get_next(it_list_i->second) == get_next(it_list_j->second))//如果i,j相同，则说明Indexi是Indexj拷贝过来的
             {
-                set_next((*myself->TermIndex)[it_list_j->first],NULL);
-            }
-        } else{//说明myself中可能有，但是没有考虑flag
-            if(pointer_j!=NULL) {//如果二者都有
-                //当InvertedIndex中有项时，考虑Ij是不是有项，如果没有就根据flag理一下InvertedIndex的顺序，
-                // 有的话就先看一下I是不是由于flag需要清空，不要就正式开始归并，要的话就还是判断pointer_i是不是由于flag可能也需要清空
-                pointer_i = get_next(it_list_i->second);
-                if (pointer_i->flag != -1) {
-                    while (pointer_i != NULL && pointer_i->flag >= 0) {
-                        pointer_i->flag += 1;
-                        del_tmp = get_next(pointer_i);
-                        if (pointer_i->flag == 3) {
-                            it_list_i->second->nodeMap->erase(pointer_i->id);
-                            delete pointer_i;
+                val = get_next(it_list_j->second);
+                if (val->flag == -1) {
+                    pointer_j = get_next(it_list_j->second);
+                } else {
+                    pointer_j = get_next(it_list_j->second);
+                    while (pointer_j != NULL && pointer_j->flag >= 0) {
+                        del_tmp = pointer_j;
+                        pointer_j = get_next(pointer_j);
+                        del_tmp->flag += 1;
+                        if (del_tmp->flag == 3) {
+                            it_list_j->second->mutex.Lock();
+                            if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
+                                it_list_j->second->nodeMap->erase(del_tmp->id);
+                                delete del_tmp;
+
+                            }
+
+                            it_list_j->second->mutex.Unlock();
                         }
-                        pointer_i = del_tmp;
                     }
                 }
 
-                if (pointer_i == NULL) {
-                    tmp_node = set_next((*myself->TermIndex)[it_list_j->first], pointer_j);
+                if (pointer_j != NULL) {
+                    tmp_node = set_next(it_list_i->second, pointer_j);
                     pointer_j = get_next(pointer_j);
 
-                    while (pointer_j != NULL) {
-                        set_next(tmp_node, pointer_j);
-                        tmp_node = pointer_j;
+                    while (pointer_j != NULL&& pointer_j->flag >= 0) {
+                        del_tmp = pointer_j;
                         pointer_j = get_next(pointer_j);
-                        while (pointer_j != NULL && pointer_j->flag >= 0) {
-                            pointer_j->flag += 1;
-                            del_tmp = get_next(pointer_j);
-                            if (pointer_j->flag == 3) {
-                                delete pointer_j;
+                        del_tmp->flag += 1;
+                        if (del_tmp->flag == 3) {
+                            it_list_j->second->mutex.Lock();
+                            if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
+                                it_list_j->second->nodeMap->erase(del_tmp->id);
+                                delete del_tmp;
                             }
-                            pointer_j = del_tmp;
+
+                            it_list_j->second->mutex.Unlock();
                         }
+
                     }
                     set_next(tmp_node, NULL);
-                } else //两个list都有项，开始merge
-                {
-                    if (get_value(pointer_i) > get_value(pointer_j)) {
-                        set_next((*myself->TermIndex)[it_list_j->first], pointer_i);
-                        pointer_i = get_next(pointer_i);
-                        while (pointer_i != NULL && pointer_i->flag >= 0) {
-                            pointer_i->flag += 1;
-                            del_tmp = get_next(pointer_i);
-                            if (pointer_i->flag == 3) {
-                                it_list_i->second->nodeMap->erase(pointer_i->id);
-                                delete pointer_i;
-                            }
-                            pointer_i = del_tmp;
+                } else {
+                    set_next(it_list_i->second, NULL);
+                }
+            } else {//反之，说明不是拷贝过来的，但是可能会因为flag的原因去掉一些
+                val = get_next(it_list_j->second);
+                if (val->flag == -1) {
+                    pointer_j = get_next(it_list_j->second);
+                } else {
+                    pointer_j = get_next(it_list_j->second);
+                    while (pointer_j != NULL && pointer_j->flag >= 0) {
+                        del_tmp = pointer_j;
+                        if (pointer_j == get_next(pointer_j)) {
+                            cout << endl;
                         }
-                    } else {
-                        set_next((*myself->TermIndex)[it_list_j->first], pointer_j);
                         pointer_j = get_next(pointer_j);
-                        while (pointer_j != NULL && pointer_j->flag >= 0) {
-                            pointer_j->flag += 1;
-                            del_tmp = get_next(pointer_j);
-                            if (pointer_j->flag == 3) {
-                                delete pointer_j;
+                        del_tmp->flag += 1;
+                        if (del_tmp->flag == 3) {
+
+                            it_list_j->second->mutex.Lock();
+                            if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
+                                it_list_j->second->nodeMap->erase(del_tmp->id);
+                                delete del_tmp;//如果map中没有，说明已经被处理过了
                             }
-                            pointer_j = del_tmp;
+                            it_list_j->second->mutex.Unlock();
+                        }
+                    }
+                }
+
+                if (pointer_j != NULL) {//如果j不是空集
+                    val = get_next(it_list_i->second);
+                    if (val->flag == -1) {
+                        pointer_i = get_next(it_list_i->second);
+                    } else {
+                        pointer_i = get_next(it_list_i->second);
+                        while (pointer_i != NULL && pointer_i->flag >= 0) {
+                            del_tmp = pointer_i;
+//                            if (pointer_i == get_next(pointer_i)) {
+//                                cout << endl;
+//                            }
+                            pointer_i = get_next(pointer_i);
+                            del_tmp->flag += 1;
+                            if (del_tmp->flag == 3) {
+                                it_list_i->second->mutex.Lock();
+                                if (it_list_i->second->nodeMap->find(del_tmp->id) !=it_list_i->second->nodeMap->end()) {
+                                    it_list_i->second->nodeMap->erase(del_tmp->id);
+                                    delete del_tmp;
+                                }
+
+                                it_list_i->second->mutex.Unlock();
+                            }
                         }
                     }
 
-                    tmp_node = get_next((*myself->TermIndex)[it_list_j->first]);
+                    if (pointer_i == NULL) {//如果i因为flag的原因是空集
+                        tmp_node = set_next(it_list_i->second, pointer_j);
+                        pointer_j = get_next(pointer_j);
 
-                    while (pointer_i != NULL && pointer_j != NULL) {
-                        if (get_value(pointer_i) > get_value(pointer_j)) {
-                            tmp_node = set_next(tmp_node, pointer_i);
-                            pointer_i = get_next(pointer_i);
-                            while (pointer_i != NULL && pointer_i->flag >= 0) {
-                                pointer_i->flag += 1;
-                                del_tmp = get_next(pointer_i);
-                                if (pointer_i->flag == 3) {
-                                    it_list_i->second->nodeMap->erase(pointer_i->id);
-                                    delete pointer_i;
+                        while (pointer_j != NULL) {
+                            set_next(tmp_node, pointer_j);
+                            tmp_node = pointer_j;
+//                            if (pointer_j == get_next(pointer_j)) {
+//                                cout << endl;
+//                            }
+                            pointer_j = get_next(pointer_j);
+
+                            while (pointer_j != NULL && pointer_j->flag >= 0) {
+                                del_tmp = pointer_j;
+                                pointer_j = get_next(pointer_j);
+                                del_tmp->flag += 1;
+                                if (del_tmp->flag == 3) {
+                                    it_list_j->second->mutex.Lock();
+                                    if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
+                                        it_list_j->second->nodeMap->erase(del_tmp->id);
+                                        delete del_tmp;
+                                    }
+
+                                    it_list_j->second->mutex.Unlock();
                                 }
-                                pointer_i = del_tmp;
+                            }
+                        }
+                        set_next(tmp_node, NULL);
+                    } else //两个list都有项，开始merge
+                    {
+                        if (get_value(pointer_i) > get_value(pointer_j)) {//选择max
+                            set_next(it_list_i->second, pointer_i);
+
+//                            if (pointer_i == get_next(pointer_i)) {
+//                                cout << endl;
+//                            }
+                            pointer_i = get_next(pointer_i);
+
+                            while (pointer_i != NULL && pointer_i->flag >= 0) {
+                                del_tmp = pointer_i;
+                                pointer_i = get_next(pointer_i);
+                                del_tmp->flag += 1;
+                                if (del_tmp->flag == 3) {
+                                    it_list_i->second->mutex.Lock();
+                                    if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                        it_list_i->second->nodeMap->end()) {
+                                        it_list_i->second->nodeMap->erase(del_tmp->id);
+                                        delete del_tmp;
+                                    }
+
+                                    it_list_i->second->mutex.Unlock();
+                                }
                             }
                         } else {
+                            set_next(it_list_i->second, pointer_j);
+//                            if (pointer_j == get_next(pointer_j)) {
+//                                cout << endl;
+//                            }
+                            pointer_j = get_next(pointer_j);
+                            while (pointer_j != NULL && pointer_j->flag >= 0) {
+
+                                del_tmp = pointer_j;
+                                if (pointer_i == get_next(pointer_i)) {
+                                    cout << endl;
+                                }
+                                pointer_j = get_next(pointer_j);
+                                del_tmp->flag += 1;
+                                if (del_tmp->flag == 3) {
+                                    it_list_j->second->mutex.Lock();
+                                    if (it_list_j->second->nodeMap->find(del_tmp->id) !=
+                                        it_list_j->second->nodeMap->end()) {
+                                        it_list_j->second->nodeMap->erase(del_tmp->id);
+                                        delete del_tmp;
+                                    }
+
+                                    it_list_j->second->mutex.Unlock();
+                                }
+                            }
+                        }
+
+                        tmp_node = get_next(it_list_i->second);
+
+                        while (pointer_i != NULL && pointer_j != NULL) {
+                            if (get_value(pointer_i) > get_value(pointer_j)) {
+                                tmp_node = set_next(tmp_node, pointer_i);
+//                                if (pointer_i == get_next(pointer_i)) {
+//                                    cout << endl;
+//                                }
+                                pointer_i = get_next(pointer_i);
+                                while (pointer_i != NULL && pointer_i->flag >= 0) {
+
+                                    del_tmp = pointer_i;
+                                    pointer_i = get_next(pointer_i);
+                                    del_tmp->flag += 1;
+                                    if (del_tmp->flag == 3) {
+                                        it_list_i->second->mutex.Lock();
+                                        if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                            it_list_i->second->nodeMap->end()) {
+                                            it_list_i->second->nodeMap->erase(del_tmp->id);
+                                            delete del_tmp;
+                                        }
+
+                                        it_list_i->second->mutex.Unlock();
+                                    }
+                                }
+                            } else {
+                                tmp_node = set_next(tmp_node, pointer_j);
+//                                if (pointer_i == get_next(pointer_i)) {
+//                                    cout << endl;
+//                                }
+                                pointer_j = get_next(pointer_j);
+                                while (pointer_j != NULL && pointer_j->flag >= 0) {
+
+                                    del_tmp = pointer_j;
+                                    pointer_j = get_next(pointer_j);
+                                    del_tmp->flag += 1;
+                                    if (del_tmp->flag == 3) {
+                                        it_list_j->second->mutex.Lock();
+
+                                        if (it_list_j->second->nodeMap->find(del_tmp->id) !=
+                                            it_list_j->second->nodeMap->end()) {
+                                            it_list_j->second->nodeMap->erase(del_tmp->id);
+                                            delete del_tmp;
+                                        }
+
+                                        it_list_j->second->mutex.Unlock();
+                                    }
+                                }
+                            }
+                        }
+
+                        while (pointer_i != NULL) {
+                            tmp_node = set_next(tmp_node, pointer_i);
+                            if (pointer_i == get_next(pointer_i)) {
+                                cout << endl;
+                            }
+                            pointer_i = get_next(pointer_i);
+                            while (pointer_i != NULL && pointer_i->flag >= 0) {
+
+                                del_tmp = pointer_i;
+                                pointer_i = get_next(pointer_i);
+                                del_tmp->flag += 1;
+                                if (del_tmp->flag == 3) {
+                                    it_list_i->second->mutex.Lock();
+                                    if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                        it_list_i->second->nodeMap->end()) {
+                                        it_list_i->second->nodeMap->erase(del_tmp->id);
+                                        delete del_tmp;
+                                    }
+
+                                    it_list_i->second->mutex.Unlock();
+                                }
+                            }
+                        }
+
+                        while (pointer_j != NULL) {
                             tmp_node = set_next(tmp_node, pointer_j);
                             pointer_j = get_next(pointer_j);
                             while (pointer_j != NULL && pointer_j->flag >= 0) {
-                                pointer_j->flag += 1;
-                                del_tmp = get_next(pointer_j);
-                                if (pointer_j->flag == 3) {
-                                    delete pointer_j;
+
+                                del_tmp = pointer_j;
+                                pointer_j = get_next(pointer_j);
+                                del_tmp->flag += 1;
+                                if (del_tmp->flag == 3) {
+                                    it_list_j->second->mutex.Lock();
+                                    if (it_list_j->second->nodeMap->find(del_tmp->id) !=
+                                        it_list_j->second->nodeMap->end()) {
+                                        it_list_j->second->nodeMap->erase(del_tmp->id);
+                                        delete del_tmp;
+                                    }
+
+                                    it_list_j->second->mutex.Unlock();
                                 }
-                                pointer_j = del_tmp;
                             }
                         }
+                        set_next(tmp_node, NULL);
                     }
-
-                    while (pointer_i != NULL) {
-                        tmp_node = set_next(tmp_node, pointer_i);
-                        pointer_i = get_next(pointer_i);
+                } else {//如果j是空集，只有myself里面有,那就简单去掉就好
+                    val = get_next(it_list_i->second);
+                    if (val->flag == -1) {
+                        pointer_i = get_next(it_list_i->second);
+                    } else {
+                        pointer_i = get_next(it_list_i->second);
                         while (pointer_i != NULL && pointer_i->flag >= 0) {
-                            pointer_i->flag += 1;
-                            del_tmp = get_next(pointer_i);
-                            if (pointer_i->flag == 3) {
-                                it_list_i->second->nodeMap->erase(pointer_i->id);
-                                delete pointer_i;
-                            }
-                            pointer_i = del_tmp;
-                        }
-                    }
 
-                    while (pointer_j != NULL) {
-                        tmp_node = set_next(tmp_node, pointer_j);
-                        pointer_j = get_next(pointer_j);
-                        while (pointer_j != NULL && pointer_j->flag >= 0) {
-                            pointer_j->flag += 1;
-                            del_tmp = get_next(pointer_j);
-                            if (pointer_j->flag == 3) {
-                                delete pointer_j;
+                            del_tmp = pointer_i;
+                            pointer_i = get_next(pointer_i);
+                            del_tmp->flag += 1;
+                            if (del_tmp->flag == 3) {
+                                it_list_i->second->mutex.Lock();
+                                if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                    it_list_i->second->nodeMap->end()) {
+                                    it_list_i->second->nodeMap->erase(del_tmp->id);
+                                    delete del_tmp;
+                                }
+
+                                it_list_i->second->mutex.Unlock();
                             }
-                            pointer_j = del_tmp;
                         }
                     }
-                    set_next(tmp_node, NULL);
+                    if (pointer_i == NULL) {
+                        set_next(it_list_i->second, NULL);
+                    } else {
+                        tmp_node = set_next(it_list_i->second, pointer_i);
+                        pointer_i = get_next(pointer_i);
+
+                        while (pointer_i != NULL && pointer_i->flag >= 0) {
+
+                            del_tmp = pointer_i;
+                            pointer_i = get_next(pointer_i);
+                            del_tmp->flag += 1;
+                            if (del_tmp->flag == 3) {
+                                it_list_i->second->mutex.Lock();
+                                if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                    it_list_i->second->nodeMap->end()) {
+                                    it_list_i->second->nodeMap->erase(del_tmp->id);
+                                    delete del_tmp;
+                                }
+
+                                it_list_i->second->mutex.Unlock();
+                            }
+                        }
+                        while (pointer_i != NULL) {
+                            tmp_node = set_next(tmp_node, pointer_i);
+                            pointer_i = get_next(pointer_i);
+                            while (pointer_i != NULL && pointer_i->flag >= 0) {
+
+                                del_tmp = pointer_i;
+                                pointer_i = get_next(pointer_i);
+                                del_tmp->flag += 1;
+                                if (del_tmp->flag == 3) {
+                                    it_list_i->second->mutex.Lock();
+                                    if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                        it_list_i->second->nodeMap->end()) {
+                                        it_list_i->second->nodeMap->erase(del_tmp->id);
+                                        delete del_tmp;
+                                    }
+                                    it_list_i->second->mutex.Unlock();
+                                }
+                            }
+                        }
+                        set_next(tmp_node, NULL);
+                    }
                 }
-            } else {//只有myself里面有,那就简单去掉就好
-
+            }
+        }else{//i中这一项，j中没有
+            val = get_next(it_list_i->second);
+            if (val->flag == -1) {
                 pointer_i = get_next(it_list_i->second);
-                if (pointer_i->flag != -1) {
-                    pointer_i = get_next(it_list_i->second);
-                    while (pointer_i != NULL && pointer_i->flag >= 0) {
-                        pointer_i->flag += 1;
-                        del_tmp = get_next(pointer_i);
-                        if (pointer_i->flag == 3) {
-                            it_list_i->second->nodeMap->erase(pointer_i->id);
-                            delete pointer_i;
-                        }
-                        pointer_i = del_tmp;
-                    }
-                }
-                if (pointer_i == NULL) {
-                    set_next((*myself->TermIndex)[it_list_j->first], NULL);
-                } else {
-                    tmp_node = set_next(it_list_i->second, pointer_i);
-                    pointer_i = get_next(pointer_i);
+            } else {
+                pointer_i = get_next(it_list_i->second);
+                while (pointer_i != NULL && pointer_i->flag >= 0) {
 
-                    while (pointer_i != NULL && pointer_i->flag >= 0) {
-                        pointer_i->flag += 1;
-                        del_tmp = get_next(pointer_i);
-                        if (pointer_i->flag == 3) {
-                            it_list_i->second->nodeMap->erase(pointer_i->id);
-                            delete pointer_i;
+                    del_tmp = pointer_i;
+                    pointer_i = get_next(pointer_i);
+                    del_tmp->flag += 1;
+                    if (del_tmp->flag == 3) {
+                        it_list_i->second->mutex.Lock();
+                        if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                            it_list_i->second->nodeMap->end()) {
+                            it_list_i->second->nodeMap->erase(del_tmp->id);
+                            delete del_tmp;
                         }
-                        pointer_i = del_tmp;
+
+                        it_list_i->second->mutex.Unlock();
                     }
-                    while (pointer_i != NULL) {
-                        tmp_node = set_next(tmp_node, pointer_i);
-                        pointer_i = get_next(pointer_i);
-                        while (pointer_i != NULL && pointer_i->flag >= 0) {
-                            pointer_i->flag += 1;
-                            del_tmp = get_next(pointer_i);
-                            if (pointer_i->flag == 3) {
-                                it_list_i->second->nodeMap->erase(pointer_i->id);
-                                delete pointer_i;
-                            }
-                            pointer_i = del_tmp;
-                        }
-                    }
-                    set_next(tmp_node, NULL);
                 }
+            }
+            if (pointer_i == NULL) {
+                set_next(it_list_i->second, NULL);
+            } else {
+                tmp_node = set_next(it_list_i->second, pointer_i);
+                pointer_i = get_next(pointer_i);
+
+                while (pointer_i != NULL && pointer_i->flag >= 0) {
+
+                    del_tmp = pointer_i;
+                    pointer_i = get_next(pointer_i);
+                    del_tmp->flag += 1;
+                    if (del_tmp->flag == 3) {
+                        it_list_i->second->mutex.Lock();
+                        if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                            it_list_i->second->nodeMap->end()) {
+                            it_list_i->second->nodeMap->erase(del_tmp->id);
+                            delete del_tmp;
+                        }
+
+                        it_list_i->second->mutex.Unlock();
+                    }
+                }
+                while (pointer_i != NULL) {
+                    tmp_node = set_next(tmp_node, pointer_i);
+                    pointer_i = get_next(pointer_i);
+                    while (pointer_i != NULL && pointer_i->flag >= 0) {
+
+                        del_tmp = pointer_i;
+                        pointer_i = get_next(pointer_i);
+                        del_tmp->flag += 1;
+                        if (del_tmp->flag == 3) {
+                            it_list_i->second->mutex.Lock();
+                            if (it_list_i->second->nodeMap->find(del_tmp->id) !=
+                                it_list_i->second->nodeMap->end()) {
+                                it_list_i->second->nodeMap->erase(del_tmp->id);
+                                delete del_tmp;
+                            }
+
+                            it_list_i->second->mutex.Unlock();
+                        }
+                    }
+                }
+                set_next(tmp_node, NULL);
             }
         }
     }

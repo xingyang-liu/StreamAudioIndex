@@ -28,7 +28,7 @@ public:
 
     NodeInfo &operator=(const NodeInfo&other);
 
-    ~NodeInfo(){}
+    ~NodeInfo(){next_termFreq=NULL;next_sig=NULL;next_fresh=NULL;flag=-6666;tf=-1;id=0;}
 
 };
 
