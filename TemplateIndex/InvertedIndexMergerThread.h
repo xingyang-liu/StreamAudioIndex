@@ -2,7 +2,6 @@
 // Created by billy on 17-7-24.
 //
 
-
 #ifndef HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 #define HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 
@@ -36,8 +35,8 @@ protected:
 
 template <class T>
 void InvertedIndexMergerThread<T>::excecuteMerge() {
-    typename map<T,ProgramList*>::iterator it_list_i;
-    typename map<T,ProgramList*>::iterator it_list_j;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_i;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_j;
     map<int,NodeInfo*>::iterator it_node_i;
     map<int,NodeInfo*>::iterator it_node_j;
 
@@ -47,8 +46,8 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     NodeInfo* del_tmp;
     NodeInfo *val;
 
-    map<T,ProgramList*> &tmp_pro=*myself->TermIndex;
-    map<T,ProgramList*> &tmp1_pro=*other->TermIndex;
+    dense_hash_map<T,ProgramList*,my_hash<T> > &tmp_pro=*myself->TermIndex;
+    dense_hash_map<T,ProgramList*,my_hash<T> > &tmp1_pro=*other->TermIndex;
 
 
 
@@ -60,7 +59,7 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
         it_list_j = other->TermIndex->find(it_list_i->first);
 
 
-        map<int,NodeInfo*> &tmp_hi=*it_list_i->second->nodeMap;
+        dense_hash_map<int,NodeInfo*> &tmp_hi=*it_list_i->second->nodeMap;
         ProgramList &tmp_proi=*it_list_i->second;
 
 
@@ -79,7 +78,7 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
 
         if (it_list_j != other->TermIndex->end())//说明i的这一项j中有
         {
-            map<int,NodeInfo*> &tmp_hj=*it_list_j->second->nodeMap;
+            dense_hash_map<int,NodeInfo*> &tmp_hj=*it_list_j->second->nodeMap;
             ProgramList &tmp_proj=*it_list_j->second;
             if (get_next(it_list_i->second) == get_next(it_list_j->second))//如果i,j相同，则说明Indexi是Indexj拷贝过来的
             {

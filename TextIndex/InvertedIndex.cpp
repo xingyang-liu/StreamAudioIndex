@@ -28,7 +28,7 @@ double InvertedIndex::computeScore(const double &time, const double &score, map<
                 }
                 catch (...)
                 {
-                    map<string, double>::iterator it = IdfTable.find(query[i]);
+                    dense_hash_map<string,double,my_hash<string> >::iterator it = IdfTable.find(query[i]);
                     if (it != IdfTable.end())
                     {
                         continue;

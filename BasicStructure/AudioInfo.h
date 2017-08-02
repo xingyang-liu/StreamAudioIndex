@@ -12,14 +12,14 @@ class AudioInfo {
 public:
     int id;
     string title;
-    int TagsSum;
+    int TagsSum,Termcount;
     double score, time;
 	int final;
 
     AudioInfo() {}
 
-    AudioInfo(int id, string title,double score, int TagsSum, double time,int finalflag)\
-		:id(id), title(title), score(score), TagsSum(TagsSum), time(time),final(finalflag){}
+    AudioInfo(int id, string title,double score, int TagsSum, double time,int finalflag,int tcount)\
+		:id(id), title(title), score(score), TagsSum(TagsSum), time(time),final(finalflag),Termcount(tcount){}
 
     AudioInfo(const AudioInfo& other);
 

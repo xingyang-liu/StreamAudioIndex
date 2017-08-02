@@ -14,7 +14,7 @@ set(SOURCE_FILES
         TemplateIndex/IndexTemplate.cpp TemplateIndex/IndexTemplate.h TemplateIndex/IndexString.cpp
         TemplateIndex/IndexString.h TemplateIndex/Cmp.h TemplateIndex/InvertedIndexMergerThread.h
         TemplateIndex/InvertedIndexMergerThreadFre.h TemplateIndex/InvertedIndexMergerThreadSig.h
-        TemplateIndex/InvertedIndexMergerThreadSim.h PhonomeIndex/PhonomeIndex.cpp PhonomeIndex/PhonomeIndex.h PhonomeIndex/PhoIndexManager.cpp PhonomeIndex/PhoIndexManager.h)
+        TemplateIndex/InvertedIndexMergerThreadSim.h PhonomeIndex/PhonomeIndex.cpp PhonomeIndex/PhonomeIndex.h PhonomeIndex/PhoIndexManager.cpp PhonomeIndex/PhoIndexManager.h src/Hash.cpp src/Hash.h)
 
 add_executable(StreamAudioIndex ${SOURCE_FILES})
 find_package(Threads REQUIRED)

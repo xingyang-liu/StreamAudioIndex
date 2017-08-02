@@ -14,6 +14,7 @@ AudioInfo::AudioInfo(const AudioInfo& other)
     time = other.time;
     title = other.title;
     final=other.final;
+    Termcount=other.Termcount;
 }
 
 bool AudioInfo::operator==(const AudioInfo &other)
@@ -35,6 +36,7 @@ AudioInfo &AudioInfo::operator=(const AudioInfo&other)//按理说是应该加con
         title = other.title;
         time = other.time;
         final=other.final;
+        Termcount=other.Termcount;
         return *this;
     }
 }
@@ -51,4 +53,5 @@ void AudioInfo::update(AudioInfo& other)
     score = other.score;
     time = other.time;
     final=other.final;
+    Termcount+=other.Termcount;
 }

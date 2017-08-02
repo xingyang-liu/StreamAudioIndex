@@ -7,6 +7,7 @@
 
 
 #include "InvertedIndex.h"
+
 #include "../TemplateIndex/IndexTemplate.h"
 
 
@@ -14,7 +15,7 @@
 class IndexManager
 {
 public:
-	int I0Num;
+	int I0Num,I0TermNum;
     vector<ForMirror<InvertedIndex>*> mirrorList;
 	map<int, InvertedIndex*> Indexes;
     map<int, map<string, NodeInfo *> > livePointer;
@@ -26,12 +27,14 @@ public:
 
 	IndexManager(){
 		I0Num = 0;
+        I0TermNum=0;
 		Indexes[0]=new InvertedIndex;
 	}
 
 	IndexManager(int num)
 	{
 		I0Num = 0;
+        I0TermNum=0;
         Indexes[0]=new InvertedIndex;
 		InitialIdf();
 		cout << "Initialization of idf is okay." << endl;

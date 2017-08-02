@@ -14,23 +14,55 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 15;
-    AudioSum = 40;
-    PhoIndexManager index(AudioSum);
-//    IndexManager index(AudioSum);
+    IndexAudioSumUnit = 10000;
+    AudioSum = 100;
+    IndexTermSumUnit=20*300;//估摸一个audio的term在300上下
+//    PhoIndexManager index(AudioSum);
+    IndexManager index(AudioSum);
 
 //    string path = "/media/billy/Braavos/Billy/phonome/";
 //    initialInfo(path);
 //    test_for_QandA(index,500,1,7000,1);
 
-//    FamilyTestQuery fam(&index,50,2);
+//    FamilyTestQueryAndUpdate fam(&index,100,2);
 //    pthread_t pid;
 //    pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
 //    pthread_join(pid,NULL);
+
+//    FamilyTestQueryAndUpdate fam(&index,500,1);
+//    pthread_t pid;
+//    pthread_create(&pid,NULL,test_for_updateThread,(void*)&fam);
+//    pthread_join(pid,NULL);
+
+
+//    int arr[7]={60000,120000,150000,240000,300000,600000,750000};
+//    for (int i=0;i<7;i++)
+//    {
+//        IndexTermSumUnit=arr[i];
+//        IndexManager index(AudioSum);
+//
+//        FamilyTestQueryAndUpdate fam(&index,2000,1);
+//        pthread_t pid;
+//        pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
+//        pthread_join(pid,NULL);
+//
+//        FamilyTestQueryAndUpdate fam3(&index,2000,1);
+//        pthread_t pid3;
+//        pthread_create(&pid3,NULL,test_for_updateThread,(void*)&fam3);
+//        pthread_join(pid,NULL);
+//
+//        pthread_t pida;
+//        FamilyAdd fama(&index,10000,1);
+//        pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+//        pthread_join(pida,NULL);
+//
+//    }
+
+
 //    test_for_index(10,AudioSum);
 
 //    pthread_t pida;
-//    FamilyAdd fama(&index,3000,1);
+//    FamilyAdd fama(&index,300,1);
 //    pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
 //    pthread_join(pida,NULL);
 //    while (true) {

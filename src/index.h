@@ -54,4 +54,7 @@ public:
 
 void *test_for_queryThread(void *Fam);
 
+void* test_for_updateThread(void*Fam);
+
+
 #endif //HASH_0E_INDEX_H

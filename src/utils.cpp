@@ -4,11 +4,13 @@
 
 #include "utils.h"
 
-int IndexUnit = 20;
+int IndexAudioSumUnit = 20;
 int AudioSum = 999;
 int AnswerNum = 5;
 int IdfNum=0;
-map<string, double> IdfTable;
+int IndexTermSumUnit=0;
+//map<string, double> IdfTable;
+dense_hash_map<string,double,my_hash<string> > IdfTable;
 
 string Itos(int num)
 {

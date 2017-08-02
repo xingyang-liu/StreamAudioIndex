@@ -6,6 +6,7 @@
 #define HASH_0E_INDEXTEMPLATE_H
 
 #include "../BasicStructure/ProgramList.h"
+#include "../src/utils.h"
 #include "Sig.h"
 #include "../PhonomeIndex/phonome.h"
 #include "Cmp.h"
@@ -16,8 +17,9 @@
 template <class T>
 class IndexTemplate {
 public:
-    int AudioCount, level;
-    map<T,ProgramList*> *TermIndex;
+    int AudioCount, level,TermCount;
+//    map<T,ProgramList*> *TermIndex;
+    dense_hash_map<T,ProgramList*,my_hash<T> >*TermIndex;//为了空间
     map<int, AudioInfo> *InfoTable;
     map<T, CMutex> *TermMutex;//only for I0
 //    set<int> RemovedId;
@@ -27,23 +29,28 @@ public:
     priority_queue<Sig> updateBuffer;
     CMutex bufferMutex;//由于I0不需要重新排序，所以它没有这个
 
+
     IndexTemplate()
     {
         AudioCount = 0;
         level = 0;
+        TermCount=0;
         TermIndex = NULL;
         TermMutex=NULL;
         InfoTable = NULL;
     }
 
-    IndexTemplate(int l):level(l){AudioCount=0;}
+    IndexTemplate(int l):level(l){AudioCount=0;TermCount=0;}
 
     IndexTemplate(const IndexTemplate&other)
     {
         AudioCount=other.AudioCount;
         level=other.level;
-        TermIndex = new map<T, ProgramList*>;
-        typename map<T,ProgramList*>::iterator it_list;
+        TermCount=other.TermCount;
+        TermIndex = new dense_hash_map<T,ProgramList*,my_hash<T> >;
+        TermIndex->set_empty_key("");
+        TermIndex->set_deleted_key(" ");
+        typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list;
         ProgramList* tmp;
         for(it_list=other.TermIndex->begin();it_list!=other.TermIndex->end();it_list++)
         {
@@ -56,8 +63,13 @@ public:
 
     bool search(int id)
     {
-        map<int,AudioInfo>::iterator it_tmp=InfoTable->find(id);
-        return it_tmp != InfoTable->end();
+        if(InfoTable==NULL){
+            return false;
+        } else{
+            map<int,AudioInfo>::iterator it_tmp=InfoTable->find(id);
+            return it_tmp != InfoTable->end();
+        }
+
     }
 
     void addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq);
@@ -77,7 +89,7 @@ public:
 
     void output()
     {
-        cout << "I" << level << "_count:" << AudioCount << "\n";
+        cout << "I" << level << "_AudioCount: " << AudioCount <<"\tTermCount: "<<TermCount<< "\n";
     }
 
     int get_count() { return AudioCount; }
@@ -96,8 +108,8 @@ public:
     {
         if(TermIndex!=NULL)
         {
-            map<T,ProgramList*> &other=*TermIndex;
-            typename map<T,ProgramList*>::iterator it_list;
+            dense_hash_map<T,ProgramList*,my_hash<T> > &other=*TermIndex;
+            typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list;
             for (it_list=TermIndex->begin();it_list!=TermIndex->end();it_list++)
             {
                 delete it_list->second;
@@ -117,9 +129,9 @@ public:
     IndexTemplate<T>*me;
     vector<int> id_list;
     int flag;//1为fre，2为sig
-    typename map<T,ProgramList*>::iterator *it_list;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator *it_list;
 
-    FamilyI0Sort(IndexTemplate<T>* m,vector<int> l,int f,typename map<T,ProgramList*>::iterator *mit)\
+    FamilyI0Sort(IndexTemplate<T>* m,vector<int> l,int f,typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator *mit)\
     :me(m),id_list(l),flag(f){it_list=mit;}
 };
 
@@ -130,7 +142,7 @@ void *I0SortThread(void *fam)
     IndexTemplate<T> *myself=Fam.me;
     vector<int> &id_list=Fam.id_list;
     int flag=Fam.flag;
-    typename map<T,ProgramList*>::iterator &it=*Fam.it_list;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator &it=*Fam.it_list;
 
 
 
@@ -297,8 +309,8 @@ void IndexTemplate<T>::insert_and_remove()//在merger开始之前，buffer中所
         updateBuffer.pop();
     }
     map<int,double>::iterator it_buffer;
-    map<int,NodeInfo*>::iterator it_node;
-    typename map<T,ProgramList*>::iterator it_list_i;
+    dense_hash_map<int,NodeInfo*>::iterator it_node;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_i;
     for(it_list_i=TermIndex->begin();it_list_i!=TermIndex->end();it_list_i++)
     {
         for(it_buffer=tmp_buffer.begin();it_buffer!=tmp_buffer.end();it_buffer++)
@@ -352,7 +364,9 @@ template <class T>
 void IndexTemplate<T>::addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq){
     if(TermIndex==NULL)
     {
-        TermIndex =new map<T,ProgramList*>;
+        TermIndex =new dense_hash_map<T,ProgramList*,my_hash<T> >;
+        TermIndex->set_empty_key("");
+        TermIndex->set_deleted_key(" ");
         InfoTable = new map<int, AudioInfo>;
         TermMutex = new map<T,CMutex>;
     }
@@ -361,6 +375,7 @@ void IndexTemplate<T>::addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq){
     (*InfoTable)[tmp_info.id] = tmp_info;
     I0MutexInfo.Unlock();
     AudioCount++;
+    TermCount+=tmp_info.Termcount;
 
     typename map<T, double>::iterator it;
     for (it = TermFreq.begin(); it != TermFreq.end(); it++)
@@ -372,7 +387,7 @@ void IndexTemplate<T>::addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq){
 template <class T>
 void IndexTemplate<T>::node_add(T term, int id, double tf)
 {
-    typename map<T, ProgramList* >::iterator it = (*TermIndex).find(term);
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it = (*TermIndex).find(term);
     if ((it == (*TermIndex).end()))
     {
         (*TermMutex)[term] = CMutex();
@@ -397,7 +412,9 @@ void IndexTemplate<T>::addAudioLive(AudioInfo &tmp_info,map<T,double> &TermFreq,
 {
     if(TermIndex==NULL)
     {
-        TermIndex = new map<T,ProgramList*>;
+        TermIndex = new dense_hash_map<T,ProgramList*,my_hash<T> >;
+        TermIndex->set_empty_key("");
+        TermIndex->set_deleted_key(" ");
         InfoTable = new map<int, AudioInfo>;
         TermMutex = new map<T,CMutex>;
     }
@@ -405,6 +422,7 @@ void IndexTemplate<T>::addAudioLive(AudioInfo &tmp_info,map<T,double> &TermFreq,
     (*InfoTable)[tmp_info.id] = tmp_info;
     I0MutexInfo.Unlock();
     AudioCount++;
+    TermCount+=tmp_info.Termcount;
 
     typename map<T, double>::iterator it;
     for (it = TermFreq.begin(); it != TermFreq.end(); it++)
@@ -483,7 +501,7 @@ void IndexTemplate<T>::addAudioLive(AudioInfo &tmp_info,map<T,double> &TermFreq,
 template <class T>
 void IndexTemplate<T>::node_addLive(T term, int id, double tf, map<int, map<T, NodeInfo*> > &livePointer,int final,CMutex &mutexLive)
 {
-    typename map<T, ProgramList* >::iterator it = (*TermIndex).find(term);
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it = (*TermIndex).find(term);
     NodeInfo *tmp;
     if ((it == (*TermIndex).end()))
     {
@@ -547,10 +565,10 @@ template <class T>
 void IndexTemplate<T>::I0_sort()
 {
     vector<int> id_list;
-    typename map<int,NodeInfo*>::iterator it_id;
+    typename dense_hash_map<int,NodeInfo*>::iterator it_id;
     pthread_t pid1,pid2,pid3;
-    map<T,ProgramList*> &other=*TermIndex;
-    typename map<T,ProgramList*>::iterator it;
+    dense_hash_map<T,ProgramList*,my_hash<T> > &other=*TermIndex;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it;
     for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)
     {
 
@@ -586,7 +604,7 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
     int ret;
     insert_and_remove();
     other.insert_and_remove();
-//    map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
+//    dense_hash_map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
 //    set<int>::iterator it_set;
 //    map<int,AudioInfo> &tmp=(*InfoTable);
     // 在infotable删除旧的节点
@@ -606,13 +624,13 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
     }
 
 
-    typename map<T,ProgramList*>::iterator it_list_i;
-    typename map<T,ProgramList*>::iterator it_list_j;//otherIndex的programlist
-    map<int,NodeInfo*>::iterator it_node_i;
-    map<int,NodeInfo*>::iterator it_node_j;
-    map<int,NodeInfo*> ::iterator it_node_tmp;
-    map<int,NodeInfo*> ::iterator it_node_tmp_j;
-    map<int,NodeInfo*> ::iterator it_node_tmp_i;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_i;
+    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_j;//otherIndex的programlist
+    dense_hash_map<int,NodeInfo*>::iterator it_node_i;
+    dense_hash_map<int,NodeInfo*>::iterator it_node_j;
+    dense_hash_map<int,NodeInfo*> ::iterator it_node_tmp;
+    dense_hash_map<int,NodeInfo*> ::iterator it_node_tmp_j;
+    dense_hash_map<int,NodeInfo*> ::iterator it_node_tmp_i;
 
     //将otherindex的节点复制到Index中
     for(it_list_j=other.TermIndex->begin();it_list_j!=other.TermIndex->end();it_list_j++) {
@@ -628,7 +646,7 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
             it_node_tmp_j!=((*other.TermIndex)[it_list_j->first]->nodeMap)->end();it_node_tmp_j++)
             {
 
-                map<int,NodeInfo*>&thu=*(*TermIndex)[it_list_j->first]->nodeMap;
+                dense_hash_map<int,NodeInfo*>&thu=*(*TermIndex)[it_list_j->first]->nodeMap;
 
                 it_node_tmp_i=(*TermIndex)[it_list_j->first]->nodeMap->find(it_node_tmp_j->second->id);
                 if(it_node_tmp_i==(*TermIndex)[it_list_j->first]->nodeMap->end())
@@ -648,7 +666,7 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
         exit(2);
     }
 
-    pthread_join(pid[0],NULL);
+//    pthread_join(pid[0],NULL);
 
 
     ret=pthread_create(&pid[2],NULL,invertedIndexMergerThreadSig<T>,(void*)&one);
@@ -657,7 +675,7 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
         exit(2);
     }
 
-    pthread_join(pid[2],NULL);
+//    pthread_join(pid[2],NULL);
 
 
     ret=pthread_create(&pid[1],NULL,invertedIndexMergerThreadTermFreq<T>,(void*)&one);
@@ -673,12 +691,21 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
     }
 
     AudioCount=(*InfoTable).size();
+    TermCount+=other.TermCount;
 
     //归并idIndex
 
     for(it_list_j=other.TermIndex->begin();it_list_j!=other.TermIndex->end();it_list_j++) {
         delete it_list_j->second->nodeMap;
         it_list_j->second->nodeMap=NULL;
+    }
+
+    for(it_list_i=TermIndex->begin();it_list_i!=TermIndex->end();it_list_i++) {
+        if(it_list_i->second->nodeMap->size()==0)
+        {
+            delete it_list_i->second;
+            TermIndex->erase(it_list_i);
+        }
     }
 
 }
@@ -693,7 +720,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
     double score = 0;
     map<T,double> TermFreq;
     map<int, double>::iterator it_res;
-    map<int, NodeInfo *>::iterator it_tmp_node;//每个query中每个id获取全部tf时的迭代器
+    dense_hash_map<int,NodeInfo*>::iterator it_tmp_node;//每个query中每个id获取全部tf时的迭代器
     ofstream out_res("InvertedIndex_Result.txt", ofstream::app);
 
     if(level==0)
@@ -701,8 +728,8 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
         for (int i = 0; i < query.size(); i++)
         {
             if(TermIndex==NULL) break;
-            typename map<T, ProgramList*>::iterator it = (*TermIndex).find(query[i]);
-            map<int,NodeInfo*>::iterator it_node;
+            typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it = (*TermIndex).find(query[i]);
+            dense_hash_map<int,NodeInfo*>::iterator it_node;
             if (it != (*TermIndex).end())
             {
                 for(it_node=it->second->nodeMap->begin();it_node!=it->second->nodeMap->end();it_node++)
@@ -715,10 +742,10 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                             AudioInfo &info_tmp = (*InfoTable)[it_node->second->id];
                             for (int k = 0; k < query.size(); k++)
                             {
-                                typename map<T, ProgramList*>::iterator it_str = (*TermIndex).find(query[i]);
+                                typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_str = (*TermIndex).find(query[i]);
                                 if (it_str != TermIndex->end())
                                 {
-                                    map<int,NodeInfo*> &tmp=*it_str->second->nodeMap;
+                                    dense_hash_map<int,NodeInfo*> &tmp=*it_str->second->nodeMap;
                                     NodeInfo *&tmp2=it_node->second;
 
                                     it_tmp_node = it_str->second->nodeMap->find(it_node->second->id);
@@ -780,13 +807,13 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
             {
                 map<int,AudioInfo> &tmp1=*InfoTable;
 
-                typename map<T, ProgramList* >::iterator it = (*TermIndex).find(query[i]);
+                typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it = (*TermIndex).find(query[i]);
                 if (it != (*TermIndex).end())
                 {
                     if(it->second->max_fresh!=NULL)
                     {
                         NodeInfo *searchPointer=(it->second->max_fresh);
-                        map<int,NodeInfo*> &tmp2=*it->second->nodeMap;
+                        dense_hash_map<int,NodeInfo*> &tmp2=*it->second->nodeMap;
 
                         for (; searchPointer!=NULL; searchPointer=searchPointer->next_fresh)
                         {
@@ -799,7 +826,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                     AudioInfo &info_tmp = (*InfoTable)[searchPointer->id];
 
                                     for (int k = 0; k < query.size(); k++) {
-                                        typename map<T, ProgramList *>::iterator it_str = (*TermIndex).find(query[k]);
+                                        typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_str = (*TermIndex).find(query[k]);
                                         if (it_str != TermIndex->end()) {
                                             it_tmp_node = it_str->second->nodeMap->find(searchPointer->id);
                                             if (it_tmp_node != it_str->second->nodeMap->end()) {
@@ -880,7 +907,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                 {
                     for (int j = 0; j < query.size(); j++)
                     {
-                        typename map<T, ProgramList* >::iterator it_exist = (*TermIndex).find(query[j]);
+                        typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_exist = (*TermIndex).find(query[j]);
 
                         if (it_exist != (*TermIndex).end())
                         {
@@ -911,10 +938,10 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                                             for (int k=0;k<query.size();k++)//因为我已经判断Result，然后
                                             {
-                                                typename map<T, ProgramList* >::iterator it_str = (*TermIndex).find(query[k]);
+                                                typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_str = (*TermIndex).find(query[k]);
                                                 if(it_str!=TermIndex->end())
                                                 {
-                                                    map<int,NodeInfo*>::iterator it_tmp_node=it_str->second->nodeMap->find(id1);
+                                                    dense_hash_map<int,NodeInfo*>::iterator it_tmp_node=it_str->second->nodeMap->find(id1);
                                                     if(it_tmp_node!=it_str->second->nodeMap->end())
                                                     {
                                                         TermFreq[query[k]]=it_tmp_node->second->tf;
@@ -977,10 +1004,10 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                                             for (int k=0;k<query.size();k++)
                                             {
-                                                typename map<T, ProgramList* >::iterator it_str = (*TermIndex).find(query[k]);
+                                                typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_str = (*TermIndex).find(query[k]);
                                                 if(it_str!=TermIndex->end())
                                                 {
-                                                    map<int,NodeInfo*>::iterator it_tmp_node=it_str->second->nodeMap->find(id2);
+                                                    dense_hash_map<int,NodeInfo*>::iterator it_tmp_node=it_str->second->nodeMap->find(id2);
                                                     if(it_tmp_node!=it_str->second->nodeMap->end())
                                                     {
                                                         TermFreq[query[k]]=it_tmp_node->second->tf;
@@ -1038,10 +1065,10 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                             AudioInfo &info_tmp = (*InfoTable)[id3];
                                             for (int k=0;k<query.size();k++)
                                             {
-                                                typename map<T, ProgramList* >::iterator it_str = (*TermIndex).find(query[k]);
+                                                typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_str = (*TermIndex).find(query[k]);
                                                 if(it_str!=TermIndex->end())
                                                 {
-                                                    map<int,NodeInfo*>::iterator it_tmp_node=it_str->second->nodeMap->find(id3);
+                                                    dense_hash_map<int,NodeInfo*>::iterator it_tmp_node=it_str->second->nodeMap->find(id3);
                                                     if(it_tmp_node!=it_str->second->nodeMap->end())
                                                     {
                                                         TermFreq[query[k]]=it_tmp_node->second->tf;
@@ -1092,10 +1119,10 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                     if (it_res == Result.end()) {
                                         AudioInfo &info_tmp = (*InfoTable)[id4];
                                         for (int k = 0; k < query.size(); k++) {
-                                            typename map<T, ProgramList *>::iterator it_str = (*TermIndex).find(
+                                            typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_str = (*TermIndex).find(
                                                     query[k]);
                                             if (it_str != TermIndex->end()) {
-                                                map<int, NodeInfo *>::iterator it_tmp_node = it_str->second->nodeMap->find(
+                                                dense_hash_map<int,NodeInfo*>::iterator it_tmp_node = it_str->second->nodeMap->find(
                                                         id4);
                                                 if (it_tmp_node != it_str->second->nodeMap->end()) {
                                                     TermFreq[query[k]] = it_tmp_node->second->tf;

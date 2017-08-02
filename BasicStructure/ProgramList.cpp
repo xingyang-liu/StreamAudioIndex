@@ -11,7 +11,8 @@ ProgramList::ProgramList(const ProgramList&other)
     max_termFreq=other.max_termFreq;
     max_sig=other.max_sig;
     max_fresh=other.max_fresh;
-    nodeMap=new map<int,NodeInfo*>(*other.nodeMap);
+    nodeMap=new dense_hash_map<int,NodeInfo*> (*other.nodeMap);
+//    nodeMap->set_empty_key(-666);
 }
 
 NodeInfo* ProgramList::addNode(double tf,int id)
@@ -20,13 +21,15 @@ NodeInfo* ProgramList::addNode(double tf,int id)
     NodeInfo * tmp;
     if(nodeMap==NULL)
     {
-        nodeMap=new map<int,NodeInfo*>;
+        nodeMap=new dense_hash_map<int,NodeInfo*> ;
+        nodeMap->set_empty_key(-666);
+        nodeMap->set_deleted_key(-111);
         tmp= new NodeInfo(tf,id);
         (*nodeMap)[id]=tmp;
     }
     else
     {
-        map<int,NodeInfo*>::iterator it_node=nodeMap->find(id);
+        dense_hash_map<int,NodeInfo*>::iterator it_node=nodeMap->find(id);
         if(it_node==nodeMap->end())
         {
             tmp= new NodeInfo(tf,id);
@@ -47,7 +50,9 @@ ProgramList* ProgramList::clone()
 {
     ProgramList* newplist = new ProgramList();
     if (this->nodeMap == NULL) return newplist;
-    newplist->nodeMap = new map<int, NodeInfo*>;
+    newplist->nodeMap = new dense_hash_map<int,NodeInfo*> ;
+    newplist->nodeMap->set_empty_key(-666);
+    newplist->nodeMap->set_deleted_key(-111);
     NodeInfo* pFreq = max_termFreq;
     while (pFreq)
     {
@@ -117,7 +122,9 @@ ProgramList &ProgramList::operator=(const ProgramList&other)
     else
     {
         if(nodeMap!=NULL) delete nodeMap;
-        nodeMap=new map<int,NodeInfo*>;
+        nodeMap=new dense_hash_map<int,NodeInfo*> ;
+        nodeMap->set_empty_key(-666);
+        nodeMap->set_deleted_key(-111);
         max_termFreq=other.max_termFreq;
         max_sig=other.max_sig;
         max_fresh=other.max_fresh;
@@ -131,8 +138,8 @@ ProgramList::~ProgramList()
 {
     if(nodeMap!=NULL)
     {
-        map<int,NodeInfo*> &inm=*nodeMap;
-        map<int,NodeInfo*>::iterator it_node;
+        dense_hash_map<int,NodeInfo*> &inm=*nodeMap;
+        dense_hash_map<int,NodeInfo*>::iterator it_node;
         for(it_node=nodeMap->begin();it_node!=nodeMap->end();it_node++)
         {
 //            it_node=nodeMap->erase(it_node);

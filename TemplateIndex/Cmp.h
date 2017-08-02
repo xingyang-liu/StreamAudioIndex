@@ -47,7 +47,7 @@ class CmpForSim: public Cmp<T> {
 public:
     CmpForSim(T str, IndexTemplate<T> *me) : Cmp<T>(str, me) {}
 
-    map<int,NodeInfo*> &tmp=(*(*Cmp<T>::myself->TermIndex)[Cmp<T>::term]->nodeMap);
+    dense_hash_map<int,NodeInfo*> &tmp=(*(*Cmp<T>::myself->TermIndex)[Cmp<T>::term]->nodeMap);
     bool operator()(int a,int b){return (tmp[a]->tf) > tmp[b]->tf;}
 
 };

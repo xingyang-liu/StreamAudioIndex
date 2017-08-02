@@ -23,15 +23,21 @@
 #include <set>
 #include <queue>
 #include <atomic>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include "Hash.h"
 
 
 using namespace std;
 
-extern int IndexUnit;
+extern int IndexAudioSumUnit;
 extern int AudioSum;
 extern int AnswerNum;
 extern int IdfNum;
-extern map<string, double> IdfTable;
+//extern map<string, double> IdfTable;
+extern dense_hash_map<string,double,my_hash<string> > IdfTable;
+extern int IndexTermSumUnit;
 
 string Itos(int num);
 

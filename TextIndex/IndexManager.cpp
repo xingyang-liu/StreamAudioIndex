@@ -6,13 +6,13 @@
 
 //void IndexManager::addAudio(AudioInfo &audio_info)
 //{
-//    if (I0Num < IndexUnit)
+//    if (I0Num < IndexAudioSumUnit)
 //    {
 //        Index0.addAudio(audio_info);
 //        I0Num++;
 //    }
 //
-//    if (I0Num >= IndexUnit)
+//    if (I0Num >= IndexAudioSumUnit)
 //    {
 //        InvertedIndex *Index1_tmp;
 //        Index1_tmp = new InvertedIndex(1, Index0);
@@ -130,9 +130,10 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
         myself->Indexes[0]->addAudio(tmp_info,TagsNum);
     }
     myself->I0Num++;
+    myself->I0TermNum+=tmp_info.Termcount;
 
 
-    if (myself->I0Num >= IndexUnit)
+    if (myself->I0Num >= IndexAudioSumUnit||myself->I0TermNum>=IndexTermSumUnit)
     {
         myself->clearI0.Lock();//复制I0的过程开始了
         myself->Indexes[0]->I0_sort();
@@ -156,6 +157,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 
         myself->Indexes[0]=new InvertedIndex;
         myself->I0Num = 0;
+        myself->I0TermNum=0;
         myself->clearI0.Unlock();
         int l=1;
 
@@ -168,7 +170,7 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
             {
 //                map<int,InvertedIndex*> &tmp=myself->Indexes;
 //                map<string,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
-                map<string,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
+                dense_hash_map<string,ProgramList*,my_hash<string> > &tmp_list=*(myself->Indexes[l]->TermIndex);
                 InvertedIndex *other_tmp=new InvertedIndex(*(myself->Indexes[l]));
                 (*mirrorIndex)[l]=other_tmp;//可能需要加互斥锁
                 (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
@@ -206,10 +208,15 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 
 void IndexManager::InitialIdf()
 {
+    if(IdfTable.size()==0)
+    {
+        IdfTable.set_empty_key("");
+    }
     double begin,end;
     string DoubleQuestionMark = "??";
     string QuestionMark = "?";
     string SpaceKey = " ";
+    string BlankKey="";
     ifstream in("idf.txt");
     if (!in)
         exit(7);
@@ -224,7 +231,7 @@ void IndexManager::InitialIdf()
     {
         getline(in, term_tmp);
         getline(in, idf);
-        if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
+        if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp)&&BlankKey.compare(term_tmp))
         {
             (IdfTable)[term_tmp] = atof(idf.c_str());
             //cout << term_tmp << ' ' << num_tmp << endl;
@@ -238,6 +245,9 @@ void IndexManager::InitialIdf()
 
 void IndexManager::buildIndex(int audio_sum)
 {
+    int who =0;//0代表本进程，-1代表子进程（用不太出来）
+    struct rusage usage;
+
     double begin, end;
     begin = getTime();
     ifstream info_in("info_live_test.txt");
@@ -245,6 +255,7 @@ void IndexManager::buildIndex(int audio_sum)
     string DoubleQuestionMark = "??";
     string QuestionMark = "?";
     string SpaceKey = " ";
+    string BlankKey="";
     string LikeCount_tmp, CommentCount_tmp, PlayCount_tmp, TagsSum_tmp, score_tmp, time_tmp, title_tmp,\
  		term_tmp, id_tmp, num_tmp, TermSum_tmp,FinalFlag_tmp;
     for (int i = 0; i < audio_sum; i++)
@@ -262,26 +273,29 @@ void IndexManager::buildIndex(int audio_sum)
         getline(info_in,FinalFlag_tmp);
         //cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
         int TagsSum = atoi(TagsSum_tmp.c_str());
+        int TermSum=0;
         map<string, double> TagsNum_tmp;
         for (int j = 0; j < atoi(TermSum_tmp.c_str()); j++)
         {
             getline(info_in, term_tmp);
             getline(info_in, num_tmp);
-            if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
+            if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp)&&BlankKey.compare(term_tmp))
             {
                 (TagsNum_tmp)[term_tmp] = atof_1e(num_tmp.c_str());
+                TermSum++;
                 //cout << term_tmp << ' ' << num_tmp << endl;
             }
             else
             {
-                TagsSum -= 2;
+                TagsSum -= 2;//示例性的减2，没有实际意义
+
                 //cout << "delete " << term_tmp << endl;
             }
         }
         char tmp[20];
         strcpy(tmp, id_tmp.c_str());
         AudioInfo tmp_info(char2int(id_tmp.c_str()), title_tmp, atof(score_tmp.c_str()), \
-		  TagsSum, atof(time_tmp.c_str()),atoi(FinalFlag_tmp.c_str()));
+		  TagsSum, atof(time_tmp.c_str()),atoi(FinalFlag_tmp.c_str()),TermSum);
         pthread_t id;
         FamilyAll fam(this,&tmp_info,&TagsNum_tmp);
         pthread_create(&id,NULL,addAudioALLThread,(void*)&fam);
@@ -292,12 +306,18 @@ void IndexManager::buildIndex(int audio_sum)
     end = getTime();
 
     output();
+    cout<<endl;
+    getrusage(who,&usage);
     ofstream writefile("test_of_index.txt",ofstream::app);
-    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<end-begin\
-    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
-    cout << end - begin << "s" << endl;
+    writefile<<"Sum: "<<AudioSum<<" IndexTermUnit: "<<IndexTermSumUnit<<" SumTime: "<<end-begin\
+    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<" MaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    ofstream writefile2("memory_of_index.txt",ofstream::app);
+    writefile2<<"Sum: "<<AudioSum<<" IndexTermUnit: "<<IndexTermSumUnit<<" MaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    writefile2.close();
     writefile.close();
     info_in.close();
+    cout <<"IndexTime: "<<end - begin << "s" <<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    cout<<endl;
 }
 
 string IndexManager::handleQuery(string query_str)

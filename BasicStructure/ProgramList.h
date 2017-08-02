@@ -13,11 +13,14 @@ public:
     NodeInfo *max_fresh;
     NodeInfo *max_sig;
     NodeInfo *max_termFreq;
-    map<int,NodeInfo*> *nodeMap;
+    dense_hash_map<int,NodeInfo*> *nodeMap;
     CMutex mutex;
 
 
-    ProgramList() { max_termFreq=NULL;max_fresh=NULL;max_sig=NULL;nodeMap=NULL;}
+    ProgramList() {
+
+        max_termFreq=NULL;max_fresh=NULL;max_sig=NULL;nodeMap=NULL;
+    }
 
     NodeInfo* addNode(double tf,int id);
 

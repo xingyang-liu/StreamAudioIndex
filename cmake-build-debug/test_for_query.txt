@@ -7,3 +7,22 @@ Sum: 999 Unit: 100 SumTime: 0.0111332 Times: 50 Average: 0.00022266388
 Sum: 1999 Unit: 200 SumTime: 0.0126874 Times: 50 Average: 0.00025374889
 Sum: 1999 Unit: 200 SumTime: 0.457664 Times: 500 Average: 0.0009153285
 Sum: 99 Unit: 10 SumTime: 0.00770783 Times: 50 Average: 0.00015415668
+Sum: 999 Unit: 100 SumTime: 0.0244181 Times: 50 Average: 0.00048836231
+Sum: 999 Unit: 100 SumTime: 0.0193601 Times: 100 Average: 0.00019360065
+
+
+Sum: 200 Unit: 40 SumTime: 0.0165906 Times: 100 Average: 0.00016590595
+Sum: 200 Unit: 40 SumTime: 0.031127 Times: 100 Average: 0.00031126976
+Sum: 200 Unit: 40 SumTime: 0.0269072 Times: 100 Average: 0.00026907206
+Sum: 2000 Unit: 400 SumTime: 0.230948 Times: 1000 Average: 0.00023094797
+Sum: 2000 Unit: 400 SumTime: 0.205695 Times: 1000 Average: 0.00020569468
+Sum: 2000 Unit: 400 SumTime: 0.199234 Times: 1000 Average: 0.00019923377
+Sum: 2000 Unit: 400 SumTime: 0.196205 Times: 1000 Average: 0.0001962049
+Sum: 10000 Unit: 10000 SumTime: 0.493288 Times: 2000 Average: 0.00024664378
+Sum: 10000 Unit: 10000 SumTime: 0.468044 Times: 2000 Average: 0.00023402178
+Sum: 10000 Unit: 10000 SumTime: 0.528641 Times: 2000 Average: 0.00026432049
+Sum: 10000 Unit: 10000 SumTime: 0.501812 Times: 2000 Average: 0.00025090623
+Sum: 10000 Unit: 10000 SumTime: 0.450124 Times: 2000 Average: 0.00022506189
+Sum: 10000 Unit: 10000 SumTime: 0.563519 Times: 2000 Average: 0.00028175974
+Sum: 10000 Unit: 10000 SumTime: 0.490034 Times: 2000 Average: 0.00024501705
+Sum: 10000 Unit: 10000 SumTime: 0.49376 Times: 2000 Average: 0.00024687994
