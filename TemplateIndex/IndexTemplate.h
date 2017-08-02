@@ -681,6 +681,16 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
         it_list_j->second->nodeMap=NULL;
     }
 
+    for(it_list_i=TermIndex->begin();it_list_i!=TermIndex->end();) {
+        if(it_list_i->second->nodeMap->size()==0)
+        {
+            delete it_list_i->second;
+            it_list_i=TermIndex->erase(it_list_i);
+        }else{
+            it_list_i++;
+        }
+    }
+
 }
 
 template <class T>

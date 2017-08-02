@@ -1,8 +1,8 @@
-The system is: Linux - 4.10.0-27-generic - x86_64
+The system is: Linux - 4.10.0-28-generic - x86_64
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
 Compiler: /usr/bin/cc 
 Build flags: 
-Id flags: 
+Id flags:  
 
 The output was:
 0
@@ -10,12 +10,12 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/3.7.2/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/3.8.2/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
 Build flags: 
-Id flags: 
+Id flags:  
 
 The output was:
 0
@@ -23,33 +23,33 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/3.7.2/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/3.8.2/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_dbb21/fast"
-/usr/bin/make -f CMakeFiles/cmTC_dbb21.dir/build.make CMakeFiles/cmTC_dbb21.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_0d1da/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0d1da.dir/build.make CMakeFiles/cmTC_0d1da.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_dbb21.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_dbb21.dir/testCCompiler.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_dbb21
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dbb21.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_dbb21.dir/testCCompiler.c.o  -o cmTC_dbb21 
+Building C object CMakeFiles/cmTC_0d1da.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_0d1da.dir/testCCompiler.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_0d1da
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0d1da.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_0d1da.dir/testCCompiler.c.o  -o cmTC_0d1da 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0334d/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0334d.dir/build.make CMakeFiles/cmTC_0334d.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_32a1c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_32a1c.dir/build.make CMakeFiles/cmTC_32a1c.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o   -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.7/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_0334d
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0334d.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o  -o cmTC_0334d  
+Building C object CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o   -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.8/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_32a1c
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_32a1c.dir/link.txt --verbose=1
+/usr/bin/cc     -v CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o  -o cmTC_32a1c 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -59,8 +59,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0334d' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpDx0qf.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_0334d /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_32a1c' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccKTuwS5.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_32a1c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -68,14 +68,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_0334d/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_0334d.dir/build.make CMakeFiles/cmTC_0334d.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_32a1c/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_32a1c.dir/build.make CMakeFiles/cmTC_32a1c.dir/build]
   ignore line: [make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o   -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.7/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_0334d]
-  ignore line: [/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0334d.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o  -o cmTC_0334d  ]
+  ignore line: [Building C object CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o   -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.8/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_32a1c]
+  ignore line: [/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_32a1c.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o  -o cmTC_32a1c ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -85,13 +85,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0334d' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpDx0qf.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_0334d /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_32a1c' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccKTuwS5.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_32a1c /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccpDx0qf.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccKTuwS5.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -108,7 +108,7 @@ Parsed C implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_0334d] ==> ignore
+    arg [cmTC_32a1c] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -120,7 +120,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_0334d.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_32a1c.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -154,14 +154,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0ae66/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0ae66.dir/build.make CMakeFiles/cmTC_0ae66.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_ba0ae/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ba0ae.dir/build.make CMakeFiles/cmTC_ba0ae.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_0ae66.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_0ae66.dir/feature_tests.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_0ae66
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0ae66.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_0ae66.dir/feature_tests.c.o  -o cmTC_0ae66 
+Building C object CMakeFiles/cmTC_ba0ae.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_ba0ae.dir/feature_tests.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_ba0ae
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba0ae.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_ba0ae.dir/feature_tests.c.o  -o cmTC_ba0ae 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -174,14 +174,14 @@ make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-bui
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_77c64/fast"
-/usr/bin/make -f CMakeFiles/cmTC_77c64.dir/build.make CMakeFiles/cmTC_77c64.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_40539/fast"
+/usr/bin/make -f CMakeFiles/cmTC_40539.dir/build.make CMakeFiles/cmTC_40539.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_77c64.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_77c64.dir/feature_tests.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_77c64
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_77c64.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_77c64.dir/feature_tests.c.o  -o cmTC_77c64 
+Building C object CMakeFiles/cmTC_40539.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_40539.dir/feature_tests.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_40539
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40539.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_40539.dir/feature_tests.c.o  -o cmTC_40539 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -194,14 +194,14 @@ make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-bui
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_03af6/fast"
-/usr/bin/make -f CMakeFiles/cmTC_03af6.dir/build.make CMakeFiles/cmTC_03af6.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_2f0dd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2f0dd.dir/build.make CMakeFiles/cmTC_2f0dd.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_03af6.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_03af6.dir/feature_tests.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.c
-Linking C executable cmTC_03af6
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_03af6.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_03af6.dir/feature_tests.c.o  -o cmTC_03af6 
+Building C object CMakeFiles/cmTC_2f0dd.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_2f0dd.dir/feature_tests.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_2f0dd
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2f0dd.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_2f0dd.dir/feature_tests.c.o  -o cmTC_2f0dd 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -212,28 +212,28 @@ make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-bui
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ca9b9/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ca9b9.dir/build.make CMakeFiles/cmTC_ca9b9.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_7b881/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7b881.dir/build.make CMakeFiles/cmTC_7b881.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_ca9b9.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_ca9b9.dir/testCXXCompiler.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_ca9b9
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ca9b9.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_ca9b9.dir/testCXXCompiler.cxx.o  -o cmTC_ca9b9 
+Building CXX object CMakeFiles/cmTC_7b881.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_7b881.dir/testCXXCompiler.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_7b881
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7b881.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_7b881.dir/testCXXCompiler.cxx.o  -o cmTC_7b881 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_bd400/fast"
-/usr/bin/make -f CMakeFiles/cmTC_bd400.dir/build.make CMakeFiles/cmTC_bd400.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_cadda/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cadda.dir/build.make CMakeFiles/cmTC_cadda.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.7/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_bd400
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd400.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_bd400  
+Building CXX object CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_cadda
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cadda.dir/link.txt --verbose=1
+/usr/bin/c++      -v CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_cadda 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -243,8 +243,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bd400' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccot7bBv.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_bd400 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cadda' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvSohgI.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_cadda /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -252,14 +252,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_bd400/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_bd400.dir/build.make CMakeFiles/cmTC_bd400.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_cadda/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_cadda.dir/build.make CMakeFiles/cmTC_cadda.dir/build]
   ignore line: [make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.7/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_bd400]
-  ignore line: [/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd400.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_bd400  ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.8/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_cadda]
+  ignore line: [/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cadda.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_cadda ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -269,13 +269,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bd400' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccot7bBv.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_bd400 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cadda' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvSohgI.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_cadda /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccot7bBv.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccvSohgI.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -292,7 +292,7 @@ Parsed CXX implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_bd400] ==> ignore
+    arg [cmTC_cadda] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -304,7 +304,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_bd400.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_cadda.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -333,17 +333,90 @@ Parsed CXX implicit link information from above output:
 
 
 
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_79949/fast"
+/usr/bin/make -f CMakeFiles/cmTC_79949.dir/build.make CMakeFiles/cmTC_79949.dir/build
+make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_79949.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_79949.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_79949
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_79949.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_79949.dir/feature_tests.cxx.o  -o cmTC_79949 
+make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_700d4/fast"
-/usr/bin/make -f CMakeFiles/cmTC_700d4.dir/build.make CMakeFiles/cmTC_700d4.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_54655/fast"
+/usr/bin/make -f CMakeFiles/cmTC_54655.dir/build.make CMakeFiles/cmTC_54655.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_700d4.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_700d4.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_700d4
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_700d4.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_700d4.dir/feature_tests.cxx.o  -o cmTC_700d4 
+Building CXX object CMakeFiles/cmTC_54655.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_54655.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_54655
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_54655.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_54655.dir/feature_tests.cxx.o  -o cmTC_54655 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -409,14 +482,14 @@ make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-bui
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_2b129/fast"
-/usr/bin/make -f CMakeFiles/cmTC_2b129.dir/build.make CMakeFiles/cmTC_2b129.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_19098/fast"
+/usr/bin/make -f CMakeFiles/cmTC_19098.dir/build.make CMakeFiles/cmTC_19098.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_2b129.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_2b129.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_2b129
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2b129.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_2b129.dir/feature_tests.cxx.o  -o cmTC_2b129 
+Building CXX object CMakeFiles/cmTC_19098.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_19098.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_19098
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19098.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_19098.dir/feature_tests.cxx.o  -o cmTC_19098 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -482,14 +555,14 @@ make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-bui
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0eb5a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0eb5a.dir/build.make CMakeFiles/cmTC_0eb5a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_cab9d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cab9d.dir/build.make CMakeFiles/cmTC_cab9d.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0eb5a.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_0eb5a.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_0eb5a
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0eb5a.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_0eb5a.dir/feature_tests.cxx.o  -o cmTC_0eb5a 
+Building CXX object CMakeFiles/cmTC_cab9d.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_cab9d.dir/feature_tests.cxx.o -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_cab9d
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cab9d.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_cab9d.dir/feature_tests.cxx.o  -o cmTC_cab9d 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
@@ -553,28 +626,28 @@ make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-bui
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ad8f8/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ad8f8.dir/build.make CMakeFiles/cmTC_ad8f8.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_96ac8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_96ac8.dir/build.make CMakeFiles/cmTC_96ac8.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ad8f8.dir/CheckIncludeFile.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_ad8f8.dir/CheckIncludeFile.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_ad8f8
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad8f8.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_ad8f8.dir/CheckIncludeFile.c.o  -o cmTC_ad8f8 
+Building C object CMakeFiles/cmTC_96ac8.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_96ac8.dir/CheckIncludeFile.c.o   -c /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_96ac8
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_96ac8.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_96ac8.dir/CheckIncludeFile.c.o  -o cmTC_96ac8 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 
 Determining if the function pthread_create exists in the pthread passed with the following output:
 Change Dir: /home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_aed93/fast"
-/usr/bin/make -f CMakeFiles/cmTC_aed93.dir/build.make CMakeFiles/cmTC_aed93.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_50c7e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_50c7e.dir/build.make CMakeFiles/cmTC_50c7e.dir/build
 make[1]: Entering directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_aed93.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_aed93.dir/CheckFunctionExists.c.o   -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.7/Modules/CheckFunctionExists.c
-Linking C executable cmTC_aed93
-/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aed93.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_aed93.dir/CheckFunctionExists.c.o  -o cmTC_aed93 -lpthread 
+Building C object CMakeFiles/cmTC_50c7e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_50c7e.dir/CheckFunctionExists.c.o   -c /home/billy/文档/clion-2017.1.3/bin/cmake/share/cmake-3.8/Modules/CheckFunctionExists.c
+Linking C executable cmTC_50c7e
+/home/billy/文档/clion-2017.1.3/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_50c7e.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_50c7e.dir/CheckFunctionExists.c.o  -o cmTC_50c7e -lpthread 
 make[1]: Leaving directory '/home/billy/CLionProjects/StreamAudioIndex/cmake-build-debug/CMakeFiles/CMakeTmp'
 
 

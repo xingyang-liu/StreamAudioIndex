@@ -240,7 +240,7 @@ void IndexManager::buildIndex(int audio_sum)
 {
     double begin, end;
     begin = getTime();
-    ifstream info_in("info_live_test.txt");
+    ifstream info_in("info.txt");
     if (!info_in) exit(7);
     string DoubleQuestionMark = "??";
     string QuestionMark = "?";

@@ -11,8 +11,8 @@ set(SOURCE_FILES
         TextIndex/InvertedIndex.h BasicStructure/NodeInfo.cpp BasicStructure/NodeInfo.h BasicStructure/ProgramList.cpp BasicStructure/ProgramList.h
         TemplateIndex/Sig.h TemplateIndex/Sig.cpp
         PhonomeIndex/phonome.cpp PhonomeIndex/phonome.h src/SimpleDTW.cpp src/SimpleDTW.h
-        TemplateIndex/IndexTemplate.cpp TemplateIndex/IndexTemplate.h TemplateIndex/IndexString.cpp
-        TemplateIndex/IndexString.h TemplateIndex/Cmp.h TemplateIndex/InvertedIndexMergerThread.h
+        TemplateIndex/IndexTemplate.cpp TemplateIndex/IndexTemplate.h
+        TemplateIndex/Cmp.h TemplateIndex/InvertedIndexMergerThread.h
         TemplateIndex/InvertedIndexMergerThreadFre.h TemplateIndex/InvertedIndexMergerThreadSig.h
         TemplateIndex/InvertedIndexMergerThreadSim.h PhonomeIndex/PhonomeIndex.cpp PhonomeIndex/PhonomeIndex.h PhonomeIndex/PhoIndexManager.cpp PhonomeIndex/PhoIndexManager.h)
 

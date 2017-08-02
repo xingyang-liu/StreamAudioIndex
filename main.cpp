@@ -14,8 +14,8 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 15;
-    AudioSum = 40;
+    IndexUnit = 1;
+    AudioSum = 4;
     PhoIndexManager index(AudioSum);
 //    IndexManager index(AudioSum);
 

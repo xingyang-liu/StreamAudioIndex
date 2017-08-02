@@ -50,12 +50,12 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     map<T,ProgramList*> &tmp_pro=*myself->TermIndex;
     map<T,ProgramList*> &tmp1_pro=*other->TermIndex;
 
-
+    if (myself->level == 3) {
+        cout << "here we come to 3!" << endl;
+    }
 
     for(it_list_i=myself->TermIndex->begin();it_list_i!=myself->TermIndex->end();it_list_i++) {
-
-
-
+        //寻找j中有无i的节点
 
         it_list_j = other->TermIndex->find(it_list_i->first);
 

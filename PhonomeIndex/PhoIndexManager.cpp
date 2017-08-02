@@ -140,8 +140,8 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
 
             if (it_index != myself->Indexes.end())
             {
-//                map<int,InvertedIndex*> &tmp=myself->Indexes;
-//                map<string,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
+                map<int,PhonomeIndex*> &tmp=myself->Indexes;
+                map<Phonome,ProgramList*> &tmp_list1=*(Index_tmp->TermIndex);
                 map<Phonome,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
                 PhonomeIndex *other_tmp=new PhonomeIndex(*(myself->Indexes[l]));
                 (*mirrorIndex)[l]=other_tmp;//可能需要加互斥锁
