@@ -123,12 +123,6 @@
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/Cmp.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/IndexString.cpp">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/IndexString.h">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/IndexTemplate.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>

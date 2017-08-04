@@ -15,11 +15,11 @@ using json = nlohmann::json;
 int main() {
     using namespace std;
     IndexUnit = 1;
-    AudioSum = 4;
+    AudioSum = 10;
     PhoIndexManager index(AudioSum);
 //    IndexManager index(AudioSum);
 
-//    string path = "/media/billy/Braavos/Billy/phonome/";
+//    string path = "/media/billy/New Volume/Billy/phonome/";
 //    initialInfo(path);
 //    test_for_QandA(index,500,1,7000,1);
 

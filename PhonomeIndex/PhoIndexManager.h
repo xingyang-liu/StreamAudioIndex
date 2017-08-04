@@ -10,6 +10,7 @@
 class PhoIndexManager {
 public:
     int I0Num;
+    map<Phonome, double> idfTable;
     vector<ForMirror<PhonomeIndex>*> mirrorList;
     map<int, PhonomeIndex*> Indexes;
     map<int, map<Phonome, NodeInfo *> > livePointer;
@@ -28,7 +29,7 @@ public:
     {
         I0Num = 0;
         Indexes[0]=new PhonomeIndex;
-//        InitialIdf();
+        InitialIdf();
 //        cout << "Initialization of idf is okay." << endl;
         buildIndex(num);
     }
@@ -37,7 +38,7 @@ public:
 
     void buildIndex(int audio_sum);
 
-//    void InitialIdf();
+    void InitialIdf();
 
     void updateScore(int id,int score)
     {
@@ -120,6 +121,12 @@ public:
 };
 
 void *addAudioPhoThread(void *Family);//如果要实现多线程，就必须管控所有add与merger
+
+struct count_node {
+//    int overall = 0;
+    int current = 0;
+    int filesNum = 0;
+};
 
 void initialInfo(string path);
 

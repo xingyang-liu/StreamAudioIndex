@@ -132,8 +132,6 @@ void *I0SortThread(void *fam)
     int flag=Fam.flag;
     typename map<T,ProgramList*>::iterator &it=*Fam.it_list;
 
-
-
     if (flag==1)
     {
         sort(id_list.begin(),id_list.end(),CmpForFre<T>(it->first,myself));

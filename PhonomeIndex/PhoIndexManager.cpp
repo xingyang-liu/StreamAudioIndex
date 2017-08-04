@@ -21,7 +21,7 @@ void PhoIndexManager::buildIndex(int audio_sum)
     double begin, end;
     begin = getTime();
     ifstream info_in("info_phonome.txt");
-    string path = "/media/billy/Braavos/Billy/info/";
+    string path = "/media/billy/New Volume/Billy/info/";
     if (!info_in) exit(7);
 //    string DoubleQuestionMark = "??";
 //    string QuestionMark = "?";
@@ -50,12 +50,23 @@ void PhoIndexManager::buildIndex(int audio_sum)
         ssize_t n;
         string filename = path + id_tmp + ".mfcc";
         int fd = open(filename.c_str(), O_RDONLY);
-        if (!fd) continue;
+        if (fd == 0) continue;
         while ((n=read(fd, (void *)buf, 13*4))>0) {
             Phonome term_tmp = Phonome(buf);
+            map<Phonome, double>::iterator insertor;
+            insertor = TagsNum_tmp.find(term_tmp);
             if ((n = read(fd, &num_tmp, sizeof(num_tmp)))){
-                TagsNum_tmp[term_tmp] = num_tmp;
-                TagsSum += 1;
+                if (insertor != TagsNum_tmp.end()) {
+                    TagsNum_tmp[insertor->first] = num_tmp;
+                    TagsSum += num_tmp;
+//                    cout << "here\n";
+                }
+                else {
+                    idfTable[term_tmp] = log(500);
+                    TagsNum_tmp[term_tmp] = num_tmp;
+                    TagsSum += num_tmp;
+                }
+
             }
                 
         }
@@ -287,6 +298,31 @@ void *searchPhoThread(void *family)
     }
 }
 
+void PhoIndexManager::InitialIdf() {
+    double begin,end;
+    IdfNum=0;
+    double idf;
+    int fd = open("idf.mfcc", O_RDONLY);
+    if (!fd)
+        exit(7);
+    else {
+        begin=getTime();
+        cout << "Begin idf." << endl;
+    }
+    ssize_t n;
+    float buf[13];
+    while ((n=read(fd, (void *)buf, 13*4))>0) {
+        Phonome term_tmp = Phonome(buf);
+        if ((n=read(fd, &idf, sizeof(idf)))){
+            idfTable[term_tmp] = idf;
+        }
+        IdfNum++;
+    }
+    end=getTime();
+    cout<<"Idf is okay."<<endl;
+    cout<<"Time is "<<end-begin<<"s"<<endl;
+}
+
 void initialInfo(string path) {
     ////////////////读取所有文件//////////////////
     vector<string> files;
@@ -304,40 +340,54 @@ void initialInfo(string path) {
     }
     closedir(dir);
     ////////////////寻找相同的phonome//////////////////
+    map<Phonome, count_node> phones;
     vector<string>::iterator file;
     for (file = files.begin(); file != files.end() ; ++file) {
         cout << *file << endl;
         float buf[13];
         ssize_t n;
         string filename = path + *file;
-        map<Phonome, int> phones;
+//        map<Phonome, int> phones;
         int fd = open(filename.c_str(), O_RDONLY);
         while ((n=read(fd, (void *)buf, 13*4))>0) {
             Phonome term_tmp = Phonome(buf);
-            map<Phonome, int>::iterator it = phones.find(term_tmp);
+            map<Phonome, count_node>::iterator it = phones.find(term_tmp);
             if (it == phones.end()) {
-                phones[term_tmp] = 1;
+                phones[term_tmp].current = 1;
 //                cout << "no!\n";
             }
             else {
-                it->second += 1;
+                it->second.current += 1;
 //                if (it->first == term_tmp) cout << "yes!\n";
             }
         }
-//        cout << *file << endl;
+        //////////////////写入文件/////////////////////
         close(fd);
-        filename = "/media/billy/Braavos/Billy/info/";
+        filename = "/media/billy/New Volume/Billy/info/";
         filename += file->c_str();
         ofstream myFile (filename.c_str(), ios::out | ios::binary);
-        map<Phonome, int>::iterator test;
+        map<Phonome, count_node>::iterator test;
         for (test = phones.begin(); test != phones.end(); ++test) {
+            if (test->second.current == 0) continue;
             char phonebuf[13*4];
             test->first.output(phonebuf);
             myFile.write(phonebuf, 13*4);
-            myFile.write((char*)&(test->second), 4);
+            myFile.write((char*)&(test->second.current), 4);
+            test->second.current = 0;
+            test->second.filesNum += 1;
         }
         myFile.close();
 //        break;
     }
-
+    unsigned long filesTotal = files.size();
+    ofstream idfFile ("idf.mfcc", ios::out | ios::binary);
+    map<Phonome, count_node>::iterator test;
+    for (test = phones.begin(); test != phones.end(); ++test) {
+        char phonebuf[13*4];
+        test->first.output(phonebuf);
+        idfFile.write(phonebuf, 13*4);
+        double idf = log10((double)filesTotal/(test->second.filesNum + 1));
+        idfFile.write((char*)&idf, 8);
+    }
+    idfFile.close();
 }
