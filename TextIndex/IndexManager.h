@@ -16,6 +16,7 @@ class IndexManager
 {
 public:
 	int I0Num,I0TermNum;
+	long TotalTermSum;
     vector<ForMirror<InvertedIndex>*> mirrorList;
 	map<int, InvertedIndex*> Indexes;
     map<int, map<string, NodeInfo *> > livePointer;
@@ -28,6 +29,7 @@ public:
 	IndexManager(){
 		I0Num = 0;
         I0TermNum=0;
+		TotalTermSum=0;
 		Indexes[0]=new InvertedIndex;
 	}
 
@@ -35,6 +37,7 @@ public:
 	{
 		I0Num = 0;
         I0TermNum=0;
+		TotalTermSum=0;
         Indexes[0]=new InvertedIndex;
 		InitialIdf();
 		cout << "Initialization of idf is okay." << endl;
@@ -47,29 +50,7 @@ public:
 
 	void InitialIdf();
 
-	void updateScore(int id,int score)
-	{
-		map<int,InvertedIndex*>::iterator it_Index;
-		for(it_Index=Indexes.begin();it_Index!=Indexes.end();it_Index++)
-		{
-			if(it_Index->second->level!=0)
-			{
-				if(it_Index->second->search(id))
-				{
-					it_Index->second->update(id,score);
-				}
-			}
-			else
-			{
-				if(it_Index->second->search(id))
-				{
-					it_Index->second->I0MutexInfo.Lock();
-					(*it_Index->second->InfoTable)[id].score=score;
-					it_Index->second->I0MutexInfo.Unlock();
-				}
-			}
-		}
-	}
+	void updateScore(int id,int score);
 
 	string handleQuery(string query_str);
 
@@ -129,9 +110,5 @@ public:
 };
 
 void *addAudioALLThread(void *Family);//如果要实现多线程，就必须管控所有add与merger
-
-
-
-//vector<pair<int, double> > search(const vector<string> &query, map<int, string> &name);
 
 #endif //HASH_0E_IndexManager_H

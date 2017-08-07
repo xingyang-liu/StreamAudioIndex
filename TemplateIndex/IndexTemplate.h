@@ -10,9 +10,12 @@
 #include "Sig.h"
 #include "../PhonomeIndex/phonome.h"
 #include "Cmp.h"
-#include "InvertedIndexMergerThreadFre.h"
-#include "InvertedIndexMergerThreadSig.h"
-#include "InvertedIndexMergerThreadSim.h"
+#include "../Merge/InvertedIndexMergerThreadFre.h"
+#include "../Merge/InvertedIndexMergerThreadSig.h"
+#include "../Merge/InvertedIndexMergerThreadSim.h"
+#include "../I0Sort/I0SortThreadFre.h"
+#include "../I0Sort/I0SortThreadSig.h"
+#include "../I0Sort/I0SortThreadSim.h"
 
 template <class T>
 class IndexTemplate {
@@ -22,9 +25,7 @@ public:
     dense_hash_map<T,ProgramList*,my_hash<T> >*TermIndex;//为了空间
     map<int, AudioInfo> *InfoTable;
     map<T, CMutex> *TermMutex;//only for I0
-//    set<int> RemovedId;
     CMutex I0MutexInfo;
-//    CMutex mutexRemove;
     CMutex termIndexMutex;//大致就是我进入这里查询的时候，TermIndex不能改变
     priority_queue<Sig> updateBuffer;
     CMutex bufferMutex;//由于I0不需要重新排序，所以它没有这个
@@ -69,7 +70,6 @@ public:
             map<int,AudioInfo>::iterator it_tmp=InfoTable->find(id);
             return it_tmp != InfoTable->end();
         }
-
     }
 
     void addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq);
@@ -99,11 +99,8 @@ public:
     void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name);
 
     virtual double computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
-                        const vector<T> &query) = 0;
-    
-    
+                        const vector<T> &query,const vector<double> &idf_vec) = 0;
 
-//    template <class T>
     ~IndexTemplate()
     {
         if(TermIndex!=NULL)
@@ -126,97 +123,31 @@ template <class T>
 class FamilyI0Sort
 {
 public:
+    ProgramList* list;
     IndexTemplate<T>*me;
-    vector<int> id_list;
-    int flag;//1为fre，2为sig
-    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator *it_list;
 
-    FamilyI0Sort(IndexTemplate<T>* m,vector<int> l,int f,typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator *mit)\
-    :me(m),id_list(l),flag(f){it_list=mit;}
+    FamilyI0Sort(ProgramList* l, IndexTemplate<T>* m): list(l), me(m){}
 };
 
 template <class T>
-void *I0SortThread(void *fam)
+void *Index0SortThreadFre(void *fam)
 {
-    FamilyI0Sort<T> &Fam=*(FamilyI0Sort<T> *)fam;
-    IndexTemplate<T> *myself=Fam.me;
-    vector<int> &id_list=Fam.id_list;
-    int flag=Fam.flag;
-    typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator &it=*Fam.it_list;
+    auto sortList = new I0SortThreadFre<T>(fam);
+    sortList->excecuteSort();
+}
 
+template <class T>
+void *Index0SortThreadSig(void *fam)
+{
+    auto sortList = new I0SortThreadSig<T>(fam);
+    sortList->excecuteSort();
+}
 
-
-    if (flag==1)
-    {
-        sort(id_list.begin(),id_list.end(),CmpForFre<T>(it->first,myself));
-        it->second->max_fresh=(*((it->second)->nodeMap))[id_list[0]];
-        NodeInfo *pointer=it->second->max_fresh;
-        if(id_list.size()>1)
-        {
-            for (int i=1;i<id_list.size();i++)
-            {
-
-                (*pointer).next_fresh=(*(it->second)->nodeMap)[id_list[i]];
-                pointer=(*pointer).next_fresh;
-                if(i==id_list.size()-1)
-                {
-                    (*pointer).next_fresh=NULL;
-                }
-
-            }
-        }
-        else
-        {
-            (*pointer).next_fresh=NULL;
-        }
-    }
-    else if(flag==2)
-    {
-        sort(id_list.begin(),id_list.end(),CmpForSig<T>(it->first,myself));
-        it->second->max_sig=(*(it->second)->nodeMap)[id_list[0]];
-        NodeInfo *pointer=it->second->max_sig;
-        if(id_list.size()>1)
-        {
-            for (int i=1;i<id_list.size();i++)
-            {
-
-                (*pointer).next_sig=(*(it->second)->nodeMap)[id_list[i]];
-                pointer=(*pointer).next_sig;
-                if(i==id_list.size()-1)
-                {
-                    (*pointer).next_sig=NULL;
-                }
-
-            }
-        }
-        else
-        {
-            (*pointer).next_sig=NULL;
-        }
-    }
-    else if(flag==3)
-    {
-        sort(id_list.begin(),id_list.end(),CmpForSim<T>(it->first,myself));
-        it->second->max_termFreq=(*((it->second)->nodeMap))[id_list[0]];
-        NodeInfo *pointer=it->second->max_termFreq;
-        if(id_list.size()>1)
-        {
-            for (int i=1;i<id_list.size();i++)
-            {
-
-                (*pointer).next_termFreq=(*(it->second)->nodeMap)[id_list[i]];
-                pointer=(*pointer).next_termFreq;
-                if(i==id_list.size()-1)
-                {
-                    (*pointer).next_termFreq=NULL;
-                }
-            }
-        }
-        else
-        {
-            (*pointer).next_termFreq=NULL;
-        }
-    }
+template <class T>
+void *Index0SortThreadSim(void *fam)
+{
+    auto sortList = new I0SortThreadSim<T>(fam);
+    sortList->excecuteSort();
 }
 
 template <class T>
@@ -225,7 +156,6 @@ class ForMirror
 public:
     CMutex mutex;
     map<int,T*>* mirrorIndexMap;
-//    bool flag;//为了在外面删除方便
 
     ForMirror(){mirrorIndexMap=NULL;}
 
@@ -333,7 +263,6 @@ void IndexTemplate<T>::insert_and_remove()//在merger开始之前，buffer中所
                     }
 
                     //准备重新放进去
-
                     if(it_buffer->second>=(*InfoTable)[it_list_i->second->max_sig->id].score)
                     {
                         (*(it_list_i->second->nodeMap))[it_buffer->first]->next_sig=it_list_i->second->max_sig;
@@ -341,7 +270,8 @@ void IndexTemplate<T>::insert_and_remove()//在merger开始之前，buffer中所
                     }
                     else{
                         tmp_node=it_list_i->second->max_sig;
-                        while(tmp_node->next_sig!=NULL&&(!((((*InfoTable)[tmp_node->id].score)>=it_buffer->second)&&((*InfoTable)[tmp_node->next_sig->id].score)<it_buffer->second)))
+                        while(tmp_node->next_sig!=NULL&&(!((((*InfoTable)[tmp_node->id].score)>=it_buffer->second)&&\
+                        ((*InfoTable)[tmp_node->next_sig->id].score)<it_buffer->second)))
                         {
                             tmp_node=tmp_node->next_sig;
                         }
@@ -505,7 +435,6 @@ void IndexTemplate<T>::node_addLive(T term, int id, double tf, map<int, map<T, N
     NodeInfo *tmp;
     if ((it == (*TermIndex).end()))
     {
-
         (*TermMutex)[term] = CMutex();
         (*TermMutex)[term].Lock();
         termIndexMutex.Lock();
@@ -548,7 +477,6 @@ void IndexTemplate<T>::node_addLive(T term, int id, double tf, map<int, map<T, N
             livePointer[id][term]=tmp;
             livePointer[id][term]->flag=-2333;
         }
-
     }
     else
     {
@@ -565,32 +493,21 @@ template <class T>
 void IndexTemplate<T>::I0_sort()
 {
     vector<int> id_list;
-    typename dense_hash_map<int,NodeInfo*>::iterator it_id;
     pthread_t pid1,pid2,pid3;
     dense_hash_map<T,ProgramList*,my_hash<T> > &other=*TermIndex;
     typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it;
     for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)
     {
+        FamilyI0Sort<T> Fam1(it->second, this);
+        pthread_create(&pid1,NULL,Index0SortThreadFre<T>,(void*)&Fam1);
+        FamilyI0Sort<T> Fam2(it->second, this);
+        pthread_create(&pid2,NULL,Index0SortThreadSim<T>,(void*)&Fam2);
+        FamilyI0Sort<T> Fam3(it->second, this);
+        pthread_create(&pid3,NULL,Index0SortThreadSig<T>,(void*)&Fam3);
 
-        for(it_id=((it->second)->nodeMap)->begin();it_id!=((it->second)->nodeMap)->end();it_id++)
-        {
-            id_list.push_back(it_id->first);
-        }
-        if(id_list.size()!=0)
-        {
-            FamilyI0Sort<T> Fam1(this,id_list,1,&it);
-            pthread_create(&pid1,NULL,I0SortThread<T>,(void*)&Fam1);
-            FamilyI0Sort<T> Fam2(this,id_list,2,&it);
-            pthread_create(&pid2,NULL,I0SortThread<T>,(void*)&Fam2);
-            FamilyI0Sort<T> Fam3(this,id_list,3,&it);
-            pthread_create(&pid3,NULL,I0SortThread<T>,(void*)&Fam3);
-
-            pthread_join(pid1,NULL);
-            pthread_join(pid2,NULL);
-            pthread_join(pid3,NULL);
-
-            id_list.clear();
-        }
+        pthread_join(pid1,NULL);
+        pthread_join(pid2,NULL);
+        pthread_join(pid3,NULL);
     }
 
 }
@@ -598,20 +515,11 @@ void IndexTemplate<T>::I0_sort()
 template <class T>
 void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在相同id的情况，否则请重载部分运算符//新的归并旧的
 {
-//    int length;
     level++;
     pthread_t pid[3];
     int ret;
     insert_and_remove();
     other.insert_and_remove();
-//    dense_hash_map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
-//    set<int>::iterator it_set;
-//    map<int,AudioInfo> &tmp=(*InfoTable);
-    // 在infotable删除旧的节点
-//    map<T,ProgramList *> &otherTermIndex=(*other.TermIndex);
-//    map<T,ProgramList *> &myTermIndex=(*TermIndex);
-
-
 
     //将merge过来的infotable中的不重复的info放入该infotable中
     map<int,AudioInfo>::iterator it_info;
@@ -622,7 +530,6 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
             (*InfoTable)[it_info->first]=it_info->second;
         }
     }
-
 
     typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_i;
     typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it_list_j;//otherIndex的programlist
@@ -635,19 +542,14 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
     //将otherindex的节点复制到Index中
     for(it_list_j=other.TermIndex->begin();it_list_j!=other.TermIndex->end();it_list_j++) {
         it_list_i = TermIndex->find(it_list_j->first);
-        T str=it_list_j->first;
-
 
         if (it_list_i ==TermIndex->end()) {
             (*TermIndex)[it_list_j->first] = new ProgramList(*it_list_j->second);
         }else{
-
             for (it_node_tmp_j=((*other.TermIndex)[it_list_j->first]->nodeMap)->begin();\
             it_node_tmp_j!=((*other.TermIndex)[it_list_j->first]->nodeMap)->end();it_node_tmp_j++)
             {
-
                 dense_hash_map<int,NodeInfo*>&thu=*(*TermIndex)[it_list_j->first]->nodeMap;
-
                 it_node_tmp_i=(*TermIndex)[it_list_j->first]->nodeMap->find(it_node_tmp_j->second->id);
                 if(it_node_tmp_i==(*TermIndex)[it_list_j->first]->nodeMap->end())
                 {
@@ -657,8 +559,9 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
         }
     }
 
-//    map<int,AudioInfo> &tmp=*InfoTable;
 
+    double begin,end;
+    begin=getTime();
     FamilyMerger<T> one(this,&other);
     ret=pthread_create(&pid[0],NULL,invertedIndexMergerThreadFre<T>,(void*)&one);
     if (ret!=0) {
@@ -666,17 +569,11 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
         exit(2);
     }
 
-//    pthread_join(pid[0],NULL);
-
-
     ret=pthread_create(&pid[2],NULL,invertedIndexMergerThreadSig<T>,(void*)&one);
     if (ret!=0) {
         cout << "Error" << endl;
         exit(2);
     }
-
-//    pthread_join(pid[2],NULL);
-
 
     ret=pthread_create(&pid[1],NULL,invertedIndexMergerThreadTermFreq<T>,(void*)&one);
     if (ret!=0) {
@@ -684,12 +581,12 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
         exit(2);
     }
 
-
     for (int i=0;i<3;i++)
     {
         pthread_join(pid[i],NULL);
     }
-
+    end=getTime();
+    MergeSortTime+=end-begin;
     AudioCount=(*InfoTable).size();
     TermCount+=other.TermCount;
 
@@ -721,7 +618,19 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
     map<T,double> TermFreq;
     map<int, double>::iterator it_res;
     dense_hash_map<int,NodeInfo*>::iterator it_tmp_node;//每个query中每个id获取全部tf时的迭代器
-    ofstream out_res("InvertedIndex_Result.txt", ofstream::app);
+
+    vector<double> idf_vec;
+    dense_hash_map<string,double,my_hash<string> >::iterator it_idf;
+    for (int i=0;i<query.size();i++)
+    {
+        it_idf=IdfTable.find(query[i]);
+        if(it_idf!=IdfTable.end())
+        {
+            idf_vec.push_back(IdfTable[query[i]]);
+        }else{
+            idf_vec.push_back(0);
+        }
+    }
 
     if(level==0)
     {
@@ -747,7 +656,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                 {
                                     dense_hash_map<int,NodeInfo*> &tmp=*it_str->second->nodeMap;
                                     NodeInfo *&tmp2=it_node->second;
-
                                     it_tmp_node = it_str->second->nodeMap->find(it_node->second->id);
                                     if (it_tmp_node != it_str->second->nodeMap->end())
                                     {
@@ -756,7 +664,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                 }
 
                             }
-                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query);
+                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec);
                             TermFreq.clear();
                             Sum += 1;
                             Result[it_node->second->id] = score;
@@ -764,7 +672,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                     }
                 }
             }
-
         }
         vector<pair<int, double> > ResVector(Result.begin(), Result.end());
         sort(ResVector.begin(), ResVector.end(), CompDedcendVal());
@@ -794,7 +701,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                     name[ResVector[i].first] = (*InfoTable)[ResVector[i].first].title;
                 }
             }
-
             MinScore = ResVector[ResVector.size() - 1].second;
             Sum = ResVector.size();
         }
@@ -806,7 +712,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
             for (int i = 0; i < query.size(); i++)
             {
                 map<int,AudioInfo> &tmp1=*InfoTable;
-
                 typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it = (*TermIndex).find(query[i]);
                 if (it != (*TermIndex).end())
                 {
@@ -835,8 +740,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                         }
 
                                     }
-                                    score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                         query);
+                                    score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec);
                                     TermFreq.clear();
                                     Sum += 1;
                                     Result[searchPointer->id] = score;
@@ -899,7 +803,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                     up_sim[query[j]] = 0;
                 }
 
-
                 NodeInfo* tmp_pointer;
                 priority_queue<Sig> copyBuffer(updateBuffer);
 
@@ -949,8 +852,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                                 }
 
                                             }
-                                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                                 query);
+                                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec);
                                             TermFreq.clear();
                                             if (score > MinScore)
                                             {
@@ -973,14 +875,10 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                 }else{
                                     pointer_que.push(NULL);
                                 }
-
-
                             }
-
 
                             if (i < leng)//迟早要删，先写后面的
                             {
-
                                 if(i==0)
                                 {
                                     tmp_pointer=it_exist->second->max_sig;
@@ -1014,8 +912,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                                     }
                                                 }
                                             }
-                                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                                 query);
+                                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec);
                                             TermFreq.clear();
                                             if (score > MinScore)
                                             {
@@ -1038,9 +935,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                 }else {
                                     pointer_que.push(NULL);
                                 }
-
                             }
-
 
                             if (i < leng)
                             {
@@ -1077,10 +972,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                                             }
 
-
-
-                                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                                 query);
+                                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec);
                                             if (score > MinScore)
                                             {
                                                 Result[id3] = score;
@@ -1092,7 +984,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                         {
                                             up_sim[query[j]] = tmp_pointer->tf;
                                         }
-
 
                                     }
                                     if(tmp_pointer->next_termFreq!=NULL)
@@ -1130,9 +1021,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                             }
 
                                         }
-                                        score = computeScore(info_tmp.time, info_tmp.score, TermFreq,
-                                                             info_tmp.TagsSum,
-                                                             query);
+                                        score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec);
                                         TermFreq.clear();
                                         if (score > MinScore) {
                                             Result[id4] = score;
@@ -1147,7 +1036,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                     try//你也可以放到与i的循环同一级，我觉得问题不大
                     {
-                        if (computeScore(up_fre, up_sig, up_sim, 0, query) < MinScore)
+                        if (computeScore(up_fre, up_sig, up_sim, 0, query,idf_vec) < MinScore)
                         {
                             TerFlag = true;
                             break;
@@ -1196,7 +1085,6 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
             }
 
         }
-        out_res << "size" << Sum << endl;
     }
 }
 

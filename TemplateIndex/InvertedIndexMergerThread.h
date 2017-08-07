@@ -46,33 +46,12 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     NodeInfo* del_tmp;
     NodeInfo *val;
 
-    dense_hash_map<T,ProgramList*,my_hash<T> > &tmp_pro=*myself->TermIndex;
-    dense_hash_map<T,ProgramList*,my_hash<T> > &tmp1_pro=*other->TermIndex;
-
-
-
     for(it_list_i=myself->TermIndex->begin();it_list_i!=myself->TermIndex->end();it_list_i++) {
-
-
-
 
         it_list_j = other->TermIndex->find(it_list_i->first);
 
-
         dense_hash_map<int,NodeInfo*> &tmp_hi=*it_list_i->second->nodeMap;
         ProgramList &tmp_proi=*it_list_i->second;
-
-
-
-//        if(tmp_hj.begin()->second->id==11285443)
-//        {
-//            map<int,NodeInfo*>::iterator it_node_t=tmp_hj.begin();
-//            it_node_t++;
-//            if(it_node_t!=tmp_hj.end()&&it_node_t->second->id==11285442)
-//            {
-//                cout<<endl;
-//            }
-//        }
 
 //        判断pointer_j是不是由于flag可能需要清空
 
@@ -96,7 +75,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                             if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
                                 it_list_j->second->nodeMap->erase(del_tmp->id);
                                 delete del_tmp;
-
                             }
 
                             it_list_j->second->mutex.Unlock();
@@ -118,10 +96,8 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                                 it_list_j->second->nodeMap->erase(del_tmp->id);
                                 delete del_tmp;
                             }
-
                             it_list_j->second->mutex.Unlock();
                         }
-
                     }
                     set_next(tmp_node, NULL);
                 } else {
@@ -160,9 +136,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                         pointer_i = get_next(it_list_i->second);
                         while (pointer_i != NULL && pointer_i->flag >= 0) {
                             del_tmp = pointer_i;
-//                            if (pointer_i == get_next(pointer_i)) {
-//                                cout << endl;
-//                            }
                             pointer_i = get_next(pointer_i);
                             del_tmp->flag += 1;
                             if (del_tmp->flag == 3) {
@@ -171,7 +144,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                                     it_list_i->second->nodeMap->erase(del_tmp->id);
                                     delete del_tmp;
                                 }
-
                                 it_list_i->second->mutex.Unlock();
                             }
                         }
@@ -184,9 +156,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                         while (pointer_j != NULL) {
                             set_next(tmp_node, pointer_j);
                             tmp_node = pointer_j;
-//                            if (pointer_j == get_next(pointer_j)) {
-//                                cout << endl;
-//                            }
                             pointer_j = get_next(pointer_j);
 
                             while (pointer_j != NULL && pointer_j->flag >= 0) {
@@ -209,10 +178,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                     {
                         if (get_value(pointer_i) > get_value(pointer_j)) {//选择max
                             set_next(it_list_i->second, pointer_i);
-
-//                            if (pointer_i == get_next(pointer_i)) {
-//                                cout << endl;
-//                            }
                             pointer_i = get_next(pointer_i);
 
                             while (pointer_i != NULL && pointer_i->flag >= 0) {
@@ -232,9 +197,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                             }
                         } else {
                             set_next(it_list_i->second, pointer_j);
-//                            if (pointer_j == get_next(pointer_j)) {
-//                                cout << endl;
-//                            }
                             pointer_j = get_next(pointer_j);
                             while (pointer_j != NULL && pointer_j->flag >= 0) {
 
@@ -262,9 +224,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                         while (pointer_i != NULL && pointer_j != NULL) {
                             if (get_value(pointer_i) > get_value(pointer_j)) {
                                 tmp_node = set_next(tmp_node, pointer_i);
-//                                if (pointer_i == get_next(pointer_i)) {
-//                                    cout << endl;
-//                                }
                                 pointer_i = get_next(pointer_i);
                                 while (pointer_i != NULL && pointer_i->flag >= 0) {
 
@@ -284,9 +243,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                                 }
                             } else {
                                 tmp_node = set_next(tmp_node, pointer_j);
-//                                if (pointer_i == get_next(pointer_i)) {
-//                                    cout << endl;
-//                                }
                                 pointer_j = get_next(pointer_j);
                                 while (pointer_j != NULL && pointer_j->flag >= 0) {
 
@@ -301,7 +257,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                                             it_list_j->second->nodeMap->erase(del_tmp->id);
                                             delete del_tmp;
                                         }
-
                                         it_list_j->second->mutex.Unlock();
                                     }
                                 }
@@ -372,7 +327,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                                     it_list_i->second->nodeMap->erase(del_tmp->id);
                                     delete del_tmp;
                                 }
-
                                 it_list_i->second->mutex.Unlock();
                             }
                         }
@@ -395,7 +349,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                                     it_list_i->second->nodeMap->erase(del_tmp->id);
                                     delete del_tmp;
                                 }
-
                                 it_list_i->second->mutex.Unlock();
                             }
                         }
@@ -429,7 +382,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
             } else {
                 pointer_i = get_next(it_list_i->second);
                 while (pointer_i != NULL && pointer_i->flag >= 0) {
-
                     del_tmp = pointer_i;
                     pointer_i = get_next(pointer_i);
                     del_tmp->flag += 1;
@@ -452,7 +404,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                 pointer_i = get_next(pointer_i);
 
                 while (pointer_i != NULL && pointer_i->flag >= 0) {
-
                     del_tmp = pointer_i;
                     pointer_i = get_next(pointer_i);
                     del_tmp->flag += 1;
@@ -471,7 +422,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                     tmp_node = set_next(tmp_node, pointer_i);
                     pointer_i = get_next(pointer_i);
                     while (pointer_i != NULL && pointer_i->flag >= 0) {
-
                         del_tmp = pointer_i;
                         pointer_i = get_next(pointer_i);
                         del_tmp->flag += 1;

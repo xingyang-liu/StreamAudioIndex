@@ -10,16 +10,12 @@
 template <class T>
 class IndexTemplate;
 
-//class IndexTemplate;
-
 template <class T>
 class Cmp {
 public:
     T term;
     IndexTemplate<T>* myself;
     Cmp(T str,IndexTemplate<T>* me):term(str),myself(me){}
-
-//    Cmp() {}
 
     virtual bool operator()(int a,int b) = 0;
 };
