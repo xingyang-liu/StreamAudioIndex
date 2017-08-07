@@ -46,7 +46,6 @@ void AudioInfo::update(AudioInfo& other)
 {
     if (id!=other.id)
     {
-//        cout<<"Can't update Audio."<<endl;
         exit(3);
     }
     TagsSum = other.TagsSum;

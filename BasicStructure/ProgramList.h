@@ -16,7 +16,6 @@ public:
     dense_hash_map<int,NodeInfo*> *nodeMap;
     CMutex mutex;
 
-
     ProgramList() {
 
         max_termFreq=NULL;max_fresh=NULL;max_sig=NULL;nodeMap=NULL;

@@ -35,9 +35,18 @@ extern int IndexAudioSumUnit;
 extern int AudioSum;
 extern int AnswerNum;
 extern int IdfNum;
-//extern map<string, double> IdfTable;
-extern dense_hash_map<string,double,my_hash<string> > IdfTable;
+extern int MergeTimes;
 extern int IndexTermSumUnit;
+extern double AddAduioTime;
+extern double MergeTime;
+extern double I0SortTime;
+extern double DuplicateTime;
+extern double MergeSortTime;
+extern double weight_fre;
+extern double weight_sig;
+extern double weight_sim;
+extern dense_hash_map<string,double,my_hash<string> > IdfTable;
+
 
 string Itos(int num);
 
@@ -57,22 +66,22 @@ struct CompDedcendVal {
 };
 
 
-class CMutex
-{
+class CMutex {
 public:
-    CMutex()
-    {
+    CMutex() {
         mutex = PTHREAD_MUTEX_INITIALIZER;
     }
-    ~CMutex(){}
-    void Lock()
-    {
+
+    ~CMutex() {}
+
+    void Lock() {
         pthread_mutex_lock(&mutex);
     }
-    void Unlock()
-    {
+
+    void Unlock() {
         pthread_mutex_unlock(&mutex);
     }
+
 private:
     pthread_mutex_t mutex;
 };

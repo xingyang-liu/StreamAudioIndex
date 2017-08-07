@@ -8,15 +8,16 @@
 
 
 #include "../TextIndex/IndexManager.h"
-//#pragma comment(lib,"ws2_32.lib")
 
 using namespace std;
 
 double index_create(int sum);
 
-void test_for_index(int times,int sum);
+void test_for_index(int times,int sum);//由于不知名的内存泄露（valgrind检测没有问题），貌似连续新建会有内存积压，所以还是用python调用执行文件比较方便
 
 void *test_for_queryThread(void *Fam);
+
+void *test_for_querytxtThread(void *Fam);
 
 void* test_for_addThread(void *Fam);
 
@@ -52,9 +53,10 @@ public:
     }
 };
 
-void *test_for_queryThread(void *Fam);
 
 void* test_for_updateThread(void*Fam);
+
+void* test_for_updatetxtThread(void*Fam);
 
 
 #endif //HASH_0E_INDEX_H

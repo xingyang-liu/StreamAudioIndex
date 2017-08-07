@@ -26,6 +26,9 @@ NodeInfo* ProgramList::addNode(double tf,int id)
         nodeMap->set_deleted_key(-111);
         tmp= new NodeInfo(tf,id);
         (*nodeMap)[id]=tmp;
+        max_termFreq = tmp;
+        max_fresh = tmp;
+        max_sig = tmp;
     }
     else
     {
@@ -34,6 +37,12 @@ NodeInfo* ProgramList::addNode(double tf,int id)
         {
             tmp= new NodeInfo(tf,id);
             (*nodeMap)[id]=tmp;
+            tmp->next_termFreq = max_termFreq;
+            tmp->next_fresh = max_fresh;
+            tmp->next_sig = max_sig;
+            max_termFreq = tmp;
+            max_fresh = tmp;
+            max_sig = tmp;
         }
         else
         {
@@ -142,7 +151,6 @@ ProgramList::~ProgramList()
         dense_hash_map<int,NodeInfo*>::iterator it_node;
         for(it_node=nodeMap->begin();it_node!=nodeMap->end();it_node++)
         {
-//            it_node=nodeMap->erase(it_node);
             delete it_node->second;
         }
     }

@@ -18,15 +18,18 @@ void test_for_index(int times,int sum=AudioSum)
     vector<double> time_list;
     double sumTime=0;
 
-    for (int i=0;i<times;i++)
-    {
+    for (int i=0;i<times;i++) {
         time_list.push_back(index_create(sum));
     }
-    for (int i=0;i<times;i++)
-        sumTime+=time_list[i];
+
+    for (int i=0;i<times;i++) {
+		sumTime += time_list[i];
+	}
+
     ofstream writefile("test_of_index.txt",ofstream::app);
     writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<sumTime\
     <<" Times: "<<times<<setprecision(8)<<" Average: "<<sumTime/times<<endl;
+	writefile.close();
 
 }
 
@@ -36,8 +39,9 @@ void* test_for_addThread(void *Fam)
 	IndexManager &Index=(*fam.index);
 	int audio_sum=fam.sum;
 	int sleeptime=fam.sleeptime;
+	long addTermSum=0;
 
-	ifstream info_in("info_live_test2.txt");
+	ifstream info_in("info_live2.txt");
 	if (!info_in) exit(7);
 	string DoubleQuestionMark = "??";
 	string QuestionMark = "?";
@@ -61,7 +65,6 @@ void* test_for_addThread(void *Fam)
 		getline(info_in, time_tmp);
 		getline(info_in, TermSum_tmp);
 		getline(info_in,FinalFlag_tmp);
-		//cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
 		int TagsSum = atoi(TagsSum_tmp.c_str());
 		int TermSum =0;
 		map<string, double> TagsNum_tmp;
@@ -73,13 +76,10 @@ void* test_for_addThread(void *Fam)
 			{
 				(TagsNum_tmp)[term_tmp] = atoi(num_tmp.c_str());
 				TermSum++;
-				//cout << term_tmp << ' ' << num_tmp << endl;
 			}
 			else
 			{
 				TagsSum -= 2;//示例性的减2
-
-				//cout << "delete " << term_tmp << endl;
 			}
 		}
 		char tmp[20];
@@ -92,22 +92,26 @@ void* test_for_addThread(void *Fam)
 		pthread_join(id,NULL);
 		end=getTime();
 		time_list.push_back(end-begin);
+		addTermSum+=TermSum;
 		if((i+1)%100==0)
 		{
 			cout<<"Add Audio Sum: "<<i+1<<endl;
 		}
-
 	}
+
 	double timeSum=0;
 	for (int i=0;i<time_list.size();i++)
 	{
 		timeSum+=time_list[i];
 	}
 
-	cout<<"SumTime: "<<timeSum<<" Sum: "<<audio_sum<<setprecision(8)<<" Average: "<<timeSum/audio_sum<<endl;
+	cout<<"SumTime: "<<timeSum<<"\tAddAudioSum: "<<audio_sum<<"\tAddTermSum: "<<addTermSum<<"\tTotalTermSum: "<<\
+		Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<setprecision(8)<<"\tAudioAverage: "\
+ 		<<timeSum/audio_sum<<"\tTermAverage: "<<timeSum/addTermSum<<endl;
 	ofstream writefile("test_for_add.txt",ofstream::app);
-	writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<timeSum<<" Sum: "<<audio_sum<<setprecision(8)\
- 	<<" Average: "<<timeSum/audio_sum<<endl;
+	writefile<<"SumTime: "<<timeSum<<"\tAddAudioSum: "<<audio_sum<<"\tAddTermSum: "<<addTermSum<<"\tTotalTermSum: "<<\
+		Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<setprecision(8)<<"\tAudioAverage: "\
+ 		<<timeSum/audio_sum<<"\tTermAverage: "<<timeSum/addTermSum<<endl;
 	writefile.close();
 
 }
@@ -165,23 +169,127 @@ void *test_for_queryThread(void *Fam)
 	{
 		timeSum+=time_list[i];
 	}
-	cout<<"SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	cout<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<\
+	"\tSumTime: "<<timeSum<<"\tTimes: "<<times<<setprecision(8)<<"\tAverage: "<<timeSum/times<<endl;
     ofstream writefile("test_for_query.txt",ofstream::app);
-    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+    writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<\
+	"\tSumTime: "<<timeSum<<"\tTimes: "<<times<<setprecision(8)<<"\tAverage: "<<timeSum/times<<endl;
     writefile.close();
+}
+
+
+void *test_for_querytxtThread(void *Fam)
+{
+	FamilyTestQueryAndUpdate fam=*(FamilyTestQueryAndUpdate *)Fam;
+	IndexManager &Index=*(fam.index);
+	int times=fam.times;
+	int sleeptime=fam.sleeptime;
+
+	ifstream file_tmp("query_test.txt");
+	if(!file_tmp) exit(7);
+	vector<string> query_str_list;
+	srand((unsigned)time(NULL));
+	string str;
+	dense_hash_map<string,double,my_hash<string> >::iterator it=IdfTable.begin();
+	cout<<"Initialize List of Query."<<endl;
+	for (int i=0;i<times;i++)
+	{
+		getline(file_tmp,str);
+		query_str_list.push_back(str);
+	}
+
+	cout<<"Begin Test of Query."<<endl;
+	double begin,end;
+	vector<double> time_list;
+	for (int i=0;i<times;i++)
+	{
+		usleep((rand()/(RAND_MAX+1.0)+sleeptime)*20000);
+		begin=getTime();
+		Index.handleQuery(query_str_list[i]);
+		end=getTime();
+		time_list.push_back(end-begin);
+		if((i+1)%50==0)
+		{
+			cout<<"QueryCount: "<<i+1<<endl;
+		}
+	}
+	double timeSum=0;
+	for (int i=0;i<time_list.size();i++)
+	{
+		timeSum+=time_list[i];
+	}
+	cout<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tAnswerNum: "<<AnswerNum<<\
+	"\tSumTime: "<<timeSum<<"\tTimes: "<<times<<setprecision(8)<<"\tAverage: "<<timeSum/times<<endl;
+	ofstream writefile("test_for_query.txt",ofstream::app);
+	writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tAnswerNum: "<<AnswerNum<<\
+	"\tSumTime: "<<timeSum<<"\tTimes: "<<times<<setprecision(8)<<"\tAverage: "<<timeSum/times<<endl;
+	writefile.close();
+}
+
+
+void* test_for_updatetxtThread(void*Fam)
+{
+	FamilyTestQueryAndUpdate fam=*(FamilyTestQueryAndUpdate *)Fam;
+	IndexManager &Index=*(fam.index);
+	int times=fam.times;
+	int sleeptime=fam.sleeptime;
+
+	double begin,end;
+	vector<double> time_list;
+	int count=0;
+	int tmp_num;
+	//生成测试数组
+
+	ifstream file_in("update_test.txt");
+	if(!file_in) exit(7);
+	string id_tmp;
+	string score_tmp;
+	map<int,double> test_update;
+	for (int i=0;i<times;i++)
+	{
+		getline(file_in,id_tmp);
+		getline(file_in,score_tmp);
+		char tmp[20];
+		strcpy(tmp, id_tmp.c_str());
+		test_update[char2int(id_tmp.c_str())]=atof(score_tmp.c_str());
+	}
+
+	cout<<"Begin test of update"<<endl;
+
+	map<int,double>::iterator it_update;
+	for(it_update=test_update.begin();it_update!=test_update.end();it_update++)
+	{
+		begin=getTime();
+		Index.updateScore(it_update->first,it_update->second);
+		end=getTime();
+		time_list.push_back(end-begin);
+	}
+	double timeSum=0;
+	for (int i=0;i<time_list.size();i++)
+	{
+		timeSum+=time_list[i];
+	}
+	cout<<"Sum: "<<AudioSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<timeSum<<"\tUpdateAudioSum: "<<times\
+ 		<<setprecision(8)<<"\tAverageTime: "<<timeSum/times<<endl;
+	ofstream writefile("test_for_update.txt",ofstream::app);
+	writefile<<"Sum: "<<AudioSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<timeSum<<"\tUpdateAudioSum: "<<times\
+ 		<<setprecision(8)<<"\tAverageTime: "<<timeSum/times<<endl;
+	writefile.close();
 }
 
 void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime)
 {
-	FamilyTestQueryAndUpdate famq(&Index,query_times,query_sleeptime);
 	pthread_t pidq,pida;
-	pthread_create(&pidq,NULL,test_for_queryThread,(void *)&famq);
+	FamilyTestQueryAndUpdate famq(&Index,query_times,query_sleeptime);
+	pthread_create(&pidq,NULL,test_for_querytxtThread,(void *)&famq);
 
 	FamilyAdd fama(&Index,add_sum,add_sleeptime);
 	pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+
 	pthread_join(pidq,NULL);
 	pthread_join(pida,NULL);
 }
+
 
 void* test_for_updateThread(void*Fam)
 {
@@ -190,12 +298,11 @@ void* test_for_updateThread(void*Fam)
 	int times=fam.times;
 	int sleeptime=fam.sleeptime;
 
-
-
 	double begin,end;
 	vector<double> time_list;
 	int count=0;
 	int tmp_num;
+
 	//生成测试数组
 	map<int,double> test_update;
 	map<int,InvertedIndex*>::iterator it_index;
@@ -247,8 +354,10 @@ void* test_for_updateThread(void*Fam)
 	{
 		timeSum+=time_list[i];
 	}
-	cout<<"SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	cout<<"Sum: "<<AudioSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<timeSum<<"\tUpdateAudioSum: "<<times\
+ 		<<setprecision(8)<<"\tAverageTime: "<<timeSum/times<<endl;
 	ofstream writefile("test_for_update.txt",ofstream::app);
-	writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	writefile<<"Sum: "<<AudioSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<timeSum<<"\tUpdateAudioSum: "<<times\
+ 		<<setprecision(8)<<"\tAverageTime: "<<timeSum/times<<endl;
 	writefile.close();
 }
