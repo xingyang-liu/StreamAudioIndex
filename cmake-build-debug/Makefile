@@ -231,6 +231,33 @@ PhonomeIndex/PhoIndexManager.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/PhoIndexManager.cpp.s
 .PHONY : PhonomeIndex/PhoIndexManager.cpp.s
 
+PhonomeIndex/Phoneme.o: PhonomeIndex/Phoneme.cpp.o
+
+.PHONY : PhonomeIndex/Phoneme.o
+
+# target to build an object file
+PhonomeIndex/Phoneme.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/Phoneme.cpp.o
+.PHONY : PhonomeIndex/Phoneme.cpp.o
+
+PhonomeIndex/Phoneme.i: PhonomeIndex/Phoneme.cpp.i
+
+.PHONY : PhonomeIndex/Phoneme.i
+
+# target to preprocess a source file
+PhonomeIndex/Phoneme.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/Phoneme.cpp.i
+.PHONY : PhonomeIndex/Phoneme.cpp.i
+
+PhonomeIndex/Phoneme.s: PhonomeIndex/Phoneme.cpp.s
+
+.PHONY : PhonomeIndex/Phoneme.s
+
+# target to generate assembly for a file
+PhonomeIndex/Phoneme.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/Phoneme.cpp.s
+.PHONY : PhonomeIndex/Phoneme.cpp.s
+
 PhonomeIndex/PhonomeIndex.o: PhonomeIndex/PhonomeIndex.cpp.o
 
 .PHONY : PhonomeIndex/PhonomeIndex.o
@@ -258,59 +285,32 @@ PhonomeIndex/PhonomeIndex.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/PhonomeIndex.cpp.s
 .PHONY : PhonomeIndex/PhonomeIndex.cpp.s
 
-PhonomeIndex/phonome.o: PhonomeIndex/phonome.cpp.o
+PhonomeIndex/SimilarPhoneme.o: PhonomeIndex/SimilarPhoneme.cpp.o
 
-.PHONY : PhonomeIndex/phonome.o
-
-# target to build an object file
-PhonomeIndex/phonome.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/phonome.cpp.o
-.PHONY : PhonomeIndex/phonome.cpp.o
-
-PhonomeIndex/phonome.i: PhonomeIndex/phonome.cpp.i
-
-.PHONY : PhonomeIndex/phonome.i
-
-# target to preprocess a source file
-PhonomeIndex/phonome.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/phonome.cpp.i
-.PHONY : PhonomeIndex/phonome.cpp.i
-
-PhonomeIndex/phonome.s: PhonomeIndex/phonome.cpp.s
-
-.PHONY : PhonomeIndex/phonome.s
-
-# target to generate assembly for a file
-PhonomeIndex/phonome.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/phonome.cpp.s
-.PHONY : PhonomeIndex/phonome.cpp.s
-
-TemplateIndex/IndexTemplate.o: TemplateIndex/IndexTemplate.cpp.o
-
-.PHONY : TemplateIndex/IndexTemplate.o
+.PHONY : PhonomeIndex/SimilarPhoneme.o
 
 # target to build an object file
-TemplateIndex/IndexTemplate.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexTemplate.cpp.o
-.PHONY : TemplateIndex/IndexTemplate.cpp.o
+PhonomeIndex/SimilarPhoneme.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/SimilarPhoneme.cpp.o
+.PHONY : PhonomeIndex/SimilarPhoneme.cpp.o
 
-TemplateIndex/IndexTemplate.i: TemplateIndex/IndexTemplate.cpp.i
+PhonomeIndex/SimilarPhoneme.i: PhonomeIndex/SimilarPhoneme.cpp.i
 
-.PHONY : TemplateIndex/IndexTemplate.i
+.PHONY : PhonomeIndex/SimilarPhoneme.i
 
 # target to preprocess a source file
-TemplateIndex/IndexTemplate.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexTemplate.cpp.i
-.PHONY : TemplateIndex/IndexTemplate.cpp.i
+PhonomeIndex/SimilarPhoneme.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/SimilarPhoneme.cpp.i
+.PHONY : PhonomeIndex/SimilarPhoneme.cpp.i
 
-TemplateIndex/IndexTemplate.s: TemplateIndex/IndexTemplate.cpp.s
+PhonomeIndex/SimilarPhoneme.s: PhonomeIndex/SimilarPhoneme.cpp.s
 
-.PHONY : TemplateIndex/IndexTemplate.s
+.PHONY : PhonomeIndex/SimilarPhoneme.s
 
 # target to generate assembly for a file
-TemplateIndex/IndexTemplate.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/TemplateIndex/IndexTemplate.cpp.s
-.PHONY : TemplateIndex/IndexTemplate.cpp.s
+PhonomeIndex/SimilarPhoneme.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/SimilarPhoneme.cpp.s
+.PHONY : PhonomeIndex/SimilarPhoneme.cpp.s
 
 TemplateIndex/Sig.o: TemplateIndex/Sig.cpp.o
 
@@ -522,15 +522,15 @@ help:
 	@echo "... PhonomeIndex/PhoIndexManager.o"
 	@echo "... PhonomeIndex/PhoIndexManager.i"
 	@echo "... PhonomeIndex/PhoIndexManager.s"
+	@echo "... PhonomeIndex/Phoneme.o"
+	@echo "... PhonomeIndex/Phoneme.i"
+	@echo "... PhonomeIndex/Phoneme.s"
 	@echo "... PhonomeIndex/PhonomeIndex.o"
 	@echo "... PhonomeIndex/PhonomeIndex.i"
 	@echo "... PhonomeIndex/PhonomeIndex.s"
-	@echo "... PhonomeIndex/phonome.o"
-	@echo "... PhonomeIndex/phonome.i"
-	@echo "... PhonomeIndex/phonome.s"
-	@echo "... TemplateIndex/IndexTemplate.o"
-	@echo "... TemplateIndex/IndexTemplate.i"
-	@echo "... TemplateIndex/IndexTemplate.s"
+	@echo "... PhonomeIndex/SimilarPhoneme.o"
+	@echo "... PhonomeIndex/SimilarPhoneme.i"
+	@echo "... PhonomeIndex/SimilarPhoneme.s"
 	@echo "... TemplateIndex/Sig.o"
 	@echo "... TemplateIndex/Sig.i"
 	@echo "... TemplateIndex/Sig.s"

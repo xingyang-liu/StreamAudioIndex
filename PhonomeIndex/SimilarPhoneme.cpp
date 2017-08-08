@@ -1,19 +1,18 @@
 //
-// Created by billy on 17-7-18.
+// Created by billy on 17-8-7.
 //
 
-#include "phonome.h"
+#include "SimilarPhoneme.h"
 
-
-Phonome::Phonome(const Phonome &other) {
+SimilarPhoneme::SimilarPhoneme(const SimilarPhoneme &other) {
     data = other.data;
 }
 
-Phonome& Phonome::operator=(const Phonome &other) {
+SimilarPhoneme& SimilarPhoneme::operator=(const SimilarPhoneme &other) {
     data = other.data;
 }
 
-//float Phonome::find_minimum(int &choice, float n_, float n0, float n1) {
+//float SimilarPhoneme::find_minimum(int &choice, float n_, float n0, float n1) {
 //    if (n_ < n0 && n_ < n1) {
 //        choice = -1;
 //        return n_;
@@ -28,28 +27,28 @@ Phonome& Phonome::operator=(const Phonome &other) {
 //    }
 //}
 
-void Phonome::output(char* buf) const {
+void SimilarPhoneme::output(char* buf) const {
     float* tmp = (float*) buf;
     for (int i = 0; i < 13; ++i) {
         tmp[i] = data[i];
     }
 }
 
-void Phonome::output() const{
+void SimilarPhoneme::output() const{
     for (int i = 0; i < 13; ++i) {
         cout << data[i] << " ";
     }
     cout << endl;
 }
 
-bool Phonome::operator==(const Phonome &other) const
+bool SimilarPhoneme::operator==(const SimilarPhoneme &other) const
 {
     float diff = cosine(data, other.data);
 //    cout << "cos: " << diff << ((int)diff >= THRESHDIFF) << endl;
     return diff >= THRESHDIFF;
 }
 
-bool Phonome::operator<(const Phonome &other) const{
+bool SimilarPhoneme::operator<(const SimilarPhoneme &other) const{
     if (*this == other) return false;
     vector<float> standard_data = {1,0,0,0,0,0,0,0,0,0,0,0,0};
     float dif1 = cosine(standard_data, data);
@@ -57,7 +56,7 @@ bool Phonome::operator<(const Phonome &other) const{
     return dif1 < dif2;
 }
 
-bool Phonome::operator<=(const Phonome &other) const{
+bool SimilarPhoneme::operator<=(const SimilarPhoneme &other) const{
     if (*this == other) return true;
     vector<float> standard_data = {1,0,0,0,0,0,0,0,0,0,0,0,0};
     float dif1 = cosine(standard_data, data);
@@ -65,7 +64,7 @@ bool Phonome::operator<=(const Phonome &other) const{
     return dif1 <= dif2;
 }
 
-bool Phonome::operator>(const Phonome &other) const{
+bool SimilarPhoneme::operator>(const SimilarPhoneme &other) const{
     if (*this == other) return false;
     vector<float> standard_data = {1,0,0,0,0,0,0,0,0,0,0,0,0};
     float dif1 = cosine(standard_data, data);
@@ -73,7 +72,7 @@ bool Phonome::operator>(const Phonome &other) const{
     return dif1 > dif2;
 }
 
-bool Phonome::operator>=(const Phonome &other) const{
+bool SimilarPhoneme::operator>=(const SimilarPhoneme &other) const{
     if (*this == other) return true;
     vector<float> standard_data = {1,0,0,0,0,0,0,0,0,0,0,0,0};
     float dif1 = cosine(standard_data, data);

@@ -7,16 +7,16 @@
 
 #include "../TemplateIndex/IndexTemplate.h"
 
-class PhonomeIndex: public IndexTemplate<Phonome> {
+class PhonomeIndex: public IndexTemplate<Phoneme> {
 public:
-    PhonomeIndex(): IndexTemplate<Phonome>() {}
+    PhonomeIndex(): IndexTemplate<Phoneme>() {}
 
-    PhonomeIndex(int l): IndexTemplate<Phonome>(l) {}
+    PhonomeIndex(int l): IndexTemplate<Phoneme>(l) {}
 
-    PhonomeIndex(const PhonomeIndex &other): IndexTemplate<Phonome>(other) {}
+    PhonomeIndex(const PhonomeIndex &other): IndexTemplate<Phoneme>(other) {}
 
-    double computeScore(const double &time, const double &score, map<Phonome, double> &TermFreq, const int &tagsSum,
-                        const vector<Phonome> &query);
+    double computeScore(const double &time, const double &score, map<Phoneme, double> &TermFreq, const int &tagsSum,
+                        const vector<Phoneme> &query);
 
 };
 

@@ -10,11 +10,11 @@ set(SOURCE_FILES
         src/utils.h src/utils.cpp TextIndex/IndexManager.cpp TextIndex/IndexManager.h TextIndex/InvertedIndex.cpp
         TextIndex/InvertedIndex.h BasicStructure/NodeInfo.cpp BasicStructure/NodeInfo.h BasicStructure/ProgramList.cpp BasicStructure/ProgramList.h
         TemplateIndex/Sig.h TemplateIndex/Sig.cpp
-        PhonomeIndex/phonome.cpp PhonomeIndex/phonome.h src/SimpleDTW.cpp src/SimpleDTW.h
-        TemplateIndex/IndexTemplate.cpp TemplateIndex/IndexTemplate.h
-        TemplateIndex/Cmp.h TemplateIndex/InvertedIndexMergerThread.h
-        TemplateIndex/InvertedIndexMergerThreadFre.h TemplateIndex/InvertedIndexMergerThreadSig.h
-        TemplateIndex/InvertedIndexMergerThreadSim.h PhonomeIndex/PhonomeIndex.cpp PhonomeIndex/PhonomeIndex.h PhonomeIndex/PhoIndexManager.cpp PhonomeIndex/PhoIndexManager.h)
+        PhonomeIndex/Phoneme.cpp PhonomeIndex/Phoneme.h src/SimpleDTW.cpp src/SimpleDTW.h
+        TemplateIndex/IndexTemplate.h
+        TemplateIndex/Cmp.h Merge/InvertedIndexMergerThread.h
+        Merge/InvertedIndexMergerThreadFre.h Merge/InvertedIndexMergerThreadSig.h
+        Merge/InvertedIndexMergerThreadSim.h PhonomeIndex/PhonomeIndex.cpp PhonomeIndex/PhonomeIndex.h PhonomeIndex/PhoIndexManager.cpp PhonomeIndex/PhoIndexManager.h Sort/InvertedIndex0SortThread.h Sort/I0SortThreadFre.h Sort/I0SortThreadSig.h Sort/I0SortThreadSim.h PhonomeIndex/SimilarPhoneme.cpp PhonomeIndex/SimilarPhoneme.h)
 
 add_executable(StreamAudioIndex ${SOURCE_FILES})
 find_package(Threads REQUIRED)

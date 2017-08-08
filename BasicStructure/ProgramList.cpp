@@ -23,19 +23,31 @@ NodeInfo* ProgramList::addNode(double tf,int id)
         nodeMap=new map<int,NodeInfo*>;
         tmp= new NodeInfo(tf,id);
         (*nodeMap)[id]=tmp;
+        max_termFreq = tmp;
+        max_fresh = tmp;
+        max_sig = tmp;
     }
     else
     {
+//        if (id == 11223603) {
+//            cout << "I'm here: " << tf << endl;
+//        }
         map<int,NodeInfo*>::iterator it_node=nodeMap->find(id);
         if(it_node==nodeMap->end())
         {
             tmp= new NodeInfo(tf,id);
             (*nodeMap)[id]=tmp;
+            tmp->next_termFreq = max_termFreq;
+            tmp->next_fresh = max_fresh;
+            tmp->next_sig = max_sig;
+            max_termFreq = tmp;
+            max_fresh = tmp;
+            max_sig = tmp;
         }
         else
         {
             tmp=it_node->second;
-            tmp->tf=tf;
+            tmp->tf += tf; ////////////////for test//////////////////////
         }
     }
     mutex.Unlock();

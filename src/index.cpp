@@ -1,5 +1,6 @@
 ﻿
 #include "index.h"
+#include "../PhonomeIndex/PhoIndexManager.h"
 
 using namespace std;
 
@@ -162,6 +163,57 @@ void *test_for_queryThread(void *Fam)
     ofstream writefile("test_for_query.txt",ofstream::app);
     writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
     writefile.close();
+}
+
+void *test_for_queryPhoThread(void *Fam)
+{
+	FamilyTestQueryAndUpdatePho fam=*(FamilyTestQueryAndUpdatePho *)Fam;
+	PhoIndexManager &Index=*(fam.index);
+	int times=fam.times;
+	int sleeptime=fam.sleeptime;
+
+	vector<vector<Phoneme>> query_str_list;
+	srand((unsigned)time(NULL));
+	int length=0;
+	vector<Phoneme> phones;
+	auto it=Index.idfTable.begin();
+	cout<<"Initialize List of Query."<<endl;
+	for (int i=0;i<times;i++)
+	{
+		length=rand()%5+1;
+		for (int j=0;j<length;j++)
+		{
+			it++;
+			if(it==Index.idfTable.end())
+			{
+				it=Index.idfTable.begin();
+			}
+			phones.push_back(it->first);
+		}
+		query_str_list.push_back(phones);
+	}
+
+	cout<<"Begin Test of Query."<<endl;
+	double begin,end;
+	vector<double> time_list;
+	for (int i=0;i<times;i++)
+	{
+		usleep((rand()/(RAND_MAX+1.0)+sleeptime)*20000);
+		begin=getTime();
+		cout << Index.handleQuery(query_str_list[i]);
+		end=getTime();
+		time_list.push_back(end-begin);
+		cout<<"QueryCount: "<<i+1<<endl;
+	}
+	double timeSum=0;
+	for (int i=0;i<time_list.size();i++)
+	{
+		timeSum+=time_list[i];
+	}
+	cout<<"SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	ofstream writefile("test_for_query_phone.txt",ofstream::app);
+	writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<timeSum<<" Times: "<<times<<setprecision(8)<<" Average: "<<timeSum/times<<endl;
+	writefile.close();
 }
 
 void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime)

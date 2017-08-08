@@ -10,10 +10,10 @@
 class PhoIndexManager {
 public:
     int I0Num;
-    map<Phonome, double> idfTable;
+    map<Phoneme, double> idfTable;
     vector<ForMirror<PhonomeIndex>*> mirrorList;
     map<int, PhonomeIndex*> Indexes;
-    map<int, map<Phonome, NodeInfo *> > livePointer;
+    map<int, map<Phoneme, NodeInfo *> > livePointer;
     map<int, CMutex> liveIdMutex;//only for livePointer
     CMutex mutexLive;//删除livePointer中某个id时防止进入,搜索I0时需要申请
     CMutex clearInvertedIndex;//正在给map赋新值，无关I0
@@ -64,7 +64,7 @@ public:
         }
     }
 
-    string handleQuery(vector<Phonome> query_str);
+    string handleQuery(vector<Phoneme> query_str);
 
     ~PhoIndexManager()
     {
@@ -90,11 +90,11 @@ class FamilyPhoQuery
 {
 public:
     PhoIndexManager *me;
-    vector<Phonome> * que;
+    vector<Phoneme> * que;
     map<int, string> * na;
     vector<pair<int, double> > *ResVec;
 
-    FamilyPhoQuery(PhoIndexManager* m,vector<Phonome> * q,map<int, string> * n, vector<pair<int, double> > *R)
+    FamilyPhoQuery(PhoIndexManager* m,vector<Phoneme> * q,map<int, string> * n, vector<pair<int, double> > *R)
     {
         me=m;
         que=q;
@@ -110,9 +110,9 @@ class FamilyPho
 public:
     PhoIndexManager *me;
     AudioInfo *audio;
-    map<Phonome,double> *tags;
+    map<Phoneme,double> *tags;
 
-    FamilyPho(PhoIndexManager*myself,AudioInfo *audio_info,map<Phonome,double> *t)
+    FamilyPho(PhoIndexManager*myself,AudioInfo *audio_info,map<Phoneme,double> *t)
     {
         me=myself;
         audio=audio_info;
@@ -123,7 +123,7 @@ public:
 void *addAudioPhoThread(void *Family);//如果要实现多线程，就必须管控所有add与merger
 
 struct count_node {
-//    int overall = 0;
+    int overall = 0;
     int current = 0;
     int filesNum = 0;
 };

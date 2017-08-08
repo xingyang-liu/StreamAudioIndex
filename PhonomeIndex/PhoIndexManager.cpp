@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include "PhoIndexManager.h"
+#include "SimilarPhoneme.h"
 
 void PhoIndexManager::output()
 {
@@ -28,7 +29,7 @@ void PhoIndexManager::buildIndex(int audio_sum)
 //    string SpaceKey = " ";
     string LikeCount_tmp, CommentCount_tmp, PlayCount_tmp, TagsSum_tmp, score_tmp, time_tmp, title_tmp,\
  		id_tmp, TermSum_tmp,FinalFlag_tmp;
-//    Phonome term_tmp;
+//    Phoneme term_tmp;
     int num_tmp;
     for (int i = 0; i < audio_sum; i++)
     {
@@ -45,15 +46,15 @@ void PhoIndexManager::buildIndex(int audio_sum)
         getline(info_in,FinalFlag_tmp);
         //cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
         int TagsSum = 0;
-        map<Phonome, double> TagsNum_tmp;
+        map<Phoneme, double> TagsNum_tmp;
         float buf[13];
         ssize_t n;
         string filename = path + id_tmp + ".mfcc";
         int fd = open(filename.c_str(), O_RDONLY);
         if (fd == 0) continue;
         while ((n=read(fd, (void *)buf, 13*4))>0) {
-            Phonome term_tmp = Phonome(buf);
-            map<Phonome, double>::iterator insertor;
+            Phoneme term_tmp = Phoneme(buf);
+            map<Phoneme, double>::iterator insertor;
             insertor = TagsNum_tmp.find(term_tmp);
             if ((n = read(fd, &num_tmp, sizeof(num_tmp)))){
                 if (insertor != TagsNum_tmp.end()) {
@@ -97,7 +98,7 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
     FamilyPho *ones=(FamilyPho*) Family;
     AudioInfo &tmp_info=(*ones->audio);
     PhoIndexManager *myself=ones->me;
-    map<Phonome,double> &TagsNum=*(ones->tags);
+    map<Phoneme,double> &TagsNum=*(ones->tags);
     vector<ForMirror<PhonomeIndex>* > &mirrorList=myself->mirrorList;
 
 
@@ -120,6 +121,7 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
     if (myself->I0Num >= IndexUnit)
     {
         myself->clearI0.Lock();//复制I0的过程开始了
+        ProgramList* test = myself->Indexes[0]->TermIndex->begin()->second;
         myself->Indexes[0]->I0_sort();
 
 
@@ -152,8 +154,8 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
             if (it_index != myself->Indexes.end())
             {
                 map<int,PhonomeIndex*> &tmp=myself->Indexes;
-                map<Phonome,ProgramList*> &tmp_list1=*(Index_tmp->TermIndex);
-                map<Phonome,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
+                map<Phoneme,ProgramList*> &tmp_list1=*(Index_tmp->TermIndex);
+                map<Phoneme,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
                 PhonomeIndex *other_tmp=new PhonomeIndex(*(myself->Indexes[l]));
                 (*mirrorIndex)[l]=other_tmp;//可能需要加互斥锁
                 (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
@@ -189,13 +191,12 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
     }
 }
 
-string PhoIndexManager::handleQuery(vector<Phonome> query)
+string PhoIndexManager::handleQuery(vector<Phoneme> query)
 {
 
-    Phonome s;
+    Phoneme s;
 
     double begin, end;
-    string stopwords = "，";
     vector<pair<int, double> > Result;
     map<int, string> name;
 
@@ -246,7 +247,7 @@ void *searchPhoThread(void *family)
 {
     FamilyPhoQuery *fam=(FamilyPhoQuery *)family;
     PhoIndexManager *myself=fam->me;
-    vector<Phonome> &query=*(fam->que);
+    vector<Phoneme> &query=*(fam->que);
     vector<pair<int,double> > &ResVector=*(fam->ResVec);
     map<int,string> &name=*(fam->na);
 
@@ -312,8 +313,8 @@ void PhoIndexManager::InitialIdf() {
     ssize_t n;
     float buf[13];
     while ((n=read(fd, (void *)buf, 13*4))>0) {
-        Phonome term_tmp = Phonome(buf);
-        if ((n=read(fd, &idf, sizeof(idf)))){
+        Phoneme term_tmp = Phoneme(buf);
+        if ((n=read(fd, &idf, sizeof(idf))) > 0){
             idfTable[term_tmp] = idf;
         }
         IdfNum++;
@@ -340,24 +341,26 @@ void initialInfo(string path) {
     }
     closedir(dir);
     ////////////////寻找相同的phonome//////////////////
-    map<Phonome, count_node> phones;
+    map<SimilarPhoneme, count_node> phones;
     vector<string>::iterator file;
     for (file = files.begin(); file != files.end() ; ++file) {
         cout << *file << endl;
         float buf[13];
         ssize_t n;
         string filename = path + *file;
-//        map<Phonome, int> phones;
+//        map<Phoneme, int> phones;
         int fd = open(filename.c_str(), O_RDONLY);
         while ((n=read(fd, (void *)buf, 13*4))>0) {
-            Phonome term_tmp = Phonome(buf);
-            map<Phonome, count_node>::iterator it = phones.find(term_tmp);
+            SimilarPhoneme term_tmp = SimilarPhoneme(buf);
+            map<SimilarPhoneme, count_node>::iterator it = phones.find(term_tmp);
             if (it == phones.end()) {
                 phones[term_tmp].current = 1;
+                phones[term_tmp].overall = 1;
 //                cout << "no!\n";
             }
             else {
                 it->second.current += 1;
+                it->second.overall += 1;
 //                if (it->first == term_tmp) cout << "yes!\n";
             }
         }
@@ -366,7 +369,7 @@ void initialInfo(string path) {
         filename = "/media/billy/New Volume/Billy/info/";
         filename += file->c_str();
         ofstream myFile (filename.c_str(), ios::out | ios::binary);
-        map<Phonome, count_node>::iterator test;
+        map<SimilarPhoneme, count_node>::iterator test;
         for (test = phones.begin(); test != phones.end(); ++test) {
             if (test->second.current == 0) continue;
             char phonebuf[13*4];
@@ -381,13 +384,16 @@ void initialInfo(string path) {
     }
     unsigned long filesTotal = files.size();
     ofstream idfFile ("idf.mfcc", ios::out | ios::binary);
-    map<Phonome, count_node>::iterator test;
+    ofstream out ("result.txt");
+    map<SimilarPhoneme, count_node>::iterator test;
     for (test = phones.begin(); test != phones.end(); ++test) {
         char phonebuf[13*4];
         test->first.output(phonebuf);
         idfFile.write(phonebuf, 13*4);
         double idf = log10((double)filesTotal/(test->second.filesNum + 1));
         idfFile.write((char*)&idf, 8);
+        out << Itos(test->second.filesNum) << " " << Itos(test->second.overall) << endl;
     }
+    out.close();
     idfFile.close();
 }

@@ -3,6 +3,7 @@
 #include "src/index.h"
 #include "PhonomeIndex/PhoIndexManager.h"
 #include "json.hpp"
+#include "faiss/IndexIVFPQ.h"
 
 using json = nlohmann::json;
 
@@ -14,8 +15,8 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 1;
-    AudioSum = 10;
+    IndexUnit = 100;
+    AudioSum = 1000;
     PhoIndexManager index(AudioSum);
 //    IndexManager index(AudioSum);
 
@@ -23,10 +24,10 @@ int main() {
 //    initialInfo(path);
 //    test_for_QandA(index,500,1,7000,1);
 
-//    FamilyTestQuery fam(&index,50,2);
-//    pthread_t pid;
-//    pthread_create(&pid,NULL,test_for_queryThread,(void*)&fam);
-//    pthread_join(pid,NULL);
+    FamilyTestQueryAndUpdatePho fam(&index,50,2);
+    pthread_t pid;
+    pthread_create(&pid,NULL,test_for_queryPhoThread,(void*)&fam);
+    pthread_join(pid,NULL);
 //    test_for_index(10,AudioSum);
 
 //    pthread_t pida;

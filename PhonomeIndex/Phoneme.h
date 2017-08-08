@@ -7,26 +7,14 @@
 
 #include <iostream>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include "../src/SimpleDTW.h"
 
 using namespace std;
 
-class Phonome {
+class Phoneme {
 private:
     vector<float> data;
-
-    static constexpr float THRESHDIFF = 0.98;
-
-    static double euclidean_distance(vector<double> P1, vector<double> P2)
-    {
-        double total = 0.0;
-        for (unsigned int i = 0; i < P1.size(); i++)
-        {
-            total = total + pow((P1[i] - P2[i]), 2);
-        }
-        return sqrt(total);
-    }
 
     static float cosine(vector<float> P1, vector<float> P2)
     {
@@ -41,30 +29,30 @@ private:
 
 //    float find_minimum(int &choice, float n_, float n0, float n1);
 public:
-    Phonome() {}
+    Phoneme() {}
 
-    Phonome(float* a) {
-        vector<float> tmp(a, a+12);
+    Phoneme(float* a) {
+        vector<float> tmp(a, a+13);
         data = tmp;
     }
 
-    Phonome(vector<float> a) {
+    Phoneme(vector<float> a) {
         data = a;
     }
 
-    Phonome(const Phonome &);
+    Phoneme(const Phoneme &);
 
     void output() const;
 
     void output(char* buf) const;
 
-    Phonome &operator=(const Phonome &);
+    Phoneme &operator=(const Phoneme &);
 
-    bool operator==(const Phonome &) const;
-    bool operator<(const Phonome &) const;
-    bool operator>(const Phonome &) const;
-    bool operator<=(const Phonome &) const;
-    bool operator>=(const Phonome &) const;
+    bool operator==(const Phoneme &) const;
+    bool operator<(const Phoneme &) const;
+    bool operator>(const Phoneme &) const;
+    bool operator<=(const Phoneme &) const;
+    bool operator>=(const Phoneme &) const;
 };
 
 

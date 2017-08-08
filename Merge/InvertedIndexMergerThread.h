@@ -7,7 +7,7 @@
 #define HASH_0E_INVERTEDINDEXMERGERTHREAD_H
 
 #include "../BasicStructure/NodeInfo.h"
-#include "IndexTemplate.h"
+#include "../TemplateIndex/IndexTemplate.h"
 
 template <class T>
 class FamilyMerger;
@@ -50,13 +50,15 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
     map<T,ProgramList*> &tmp_pro=*myself->TermIndex;
     map<T,ProgramList*> &tmp1_pro=*other->TermIndex;
 
-    if (myself->level == 3) {
-        cout << "here we come to 3!" << endl;
-    }
+
+//    if (myself->level == 4) {
+//        cout << "here we come to 4!" << endl;
+//    }
 
     for(it_list_i=myself->TermIndex->begin();it_list_i!=myself->TermIndex->end();it_list_i++) {
         //寻找j中有无i的节点
 
+        map<int,NodeInfo*> &tmp1_nodeinfo=*(it_list_i->second->nodeMap);
         it_list_j = other->TermIndex->find(it_list_i->first);
 
 
@@ -208,6 +210,7 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                         set_next(tmp_node, NULL);
                     } else //两个list都有项，开始merge
                     {
+                        map<int,NodeInfo*> &tmp2_nodeinfo=*(it_list_j->second->nodeMap);
                         if (get_value(pointer_i) > get_value(pointer_j)) {//选择max
                             set_next(it_list_i->second, pointer_i);
 
@@ -316,7 +319,6 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                             }
                             pointer_i = get_next(pointer_i);
                             while (pointer_i != NULL && pointer_i->flag >= 0) {
-
                                 del_tmp = pointer_i;
                                 pointer_i = get_next(pointer_i);
                                 del_tmp->flag += 1;

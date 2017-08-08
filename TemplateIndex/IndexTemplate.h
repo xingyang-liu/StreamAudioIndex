@@ -7,11 +7,14 @@
 
 #include "../BasicStructure/ProgramList.h"
 #include "Sig.h"
-#include "../PhonomeIndex/phonome.h"
+#include "../PhonomeIndex/Phoneme.h"
 #include "Cmp.h"
-#include "InvertedIndexMergerThreadFre.h"
-#include "InvertedIndexMergerThreadSig.h"
-#include "InvertedIndexMergerThreadSim.h"
+#include "../Merge/InvertedIndexMergerThreadFre.h"
+#include "../Merge/InvertedIndexMergerThreadSig.h"
+#include "../Merge/InvertedIndexMergerThreadSim.h"
+#include "../Sort/I0SortThreadFre.h"
+#include "../Sort/I0SortThreadSig.h"
+#include "../Sort/I0SortThreadSim.h"
 
 template <class T>
 class IndexTemplate {
@@ -114,95 +117,35 @@ template <class T>
 class FamilyI0Sort
 {
 public:
+    ProgramList* list;
     IndexTemplate<T>*me;
-    vector<int> id_list;
-    int flag;//1为fre，2为sig
-    typename map<T,ProgramList*>::iterator *it_list;
-
-    FamilyI0Sort(IndexTemplate<T>* m,vector<int> l,int f,typename map<T,ProgramList*>::iterator *mit)\
-    :me(m),id_list(l),flag(f){it_list=mit;}
+//    vector<int> id_list;
+//    int flag;//1为fre，2为sig
+//    typename map<T,ProgramList*>::iterator *it_list;
+    FamilyI0Sort(ProgramList* l, IndexTemplate<T>* m): list(l), me(m){}
+//    FamilyI0Sort(IndexTemplate<T>* m,vector<int> l,int f,typename map<T,ProgramList*>::iterator *mit)\
+//    :me(m),id_list(l),flag(f){it_list=mit;}
 };
 
 template <class T>
-void *I0SortThread(void *fam)
+void *Index0SortThreadFre(void *fam)
 {
-    FamilyI0Sort<T> &Fam=*(FamilyI0Sort<T> *)fam;
-    IndexTemplate<T> *myself=Fam.me;
-    vector<int> &id_list=Fam.id_list;
-    int flag=Fam.flag;
-    typename map<T,ProgramList*>::iterator &it=*Fam.it_list;
+    auto sortList = new I0SortThreadFre<T>(fam);
+    sortList->excecuteSort();
+}
 
-    if (flag==1)
-    {
-        sort(id_list.begin(),id_list.end(),CmpForFre<T>(it->first,myself));
-        it->second->max_fresh=(*((it->second)->nodeMap))[id_list[0]];
-        NodeInfo *pointer=it->second->max_fresh;
-        if(id_list.size()>1)
-        {
-            for (int i=1;i<id_list.size();i++)
-            {
+template <class T>
+void *Index0SortThreadSig(void *fam)
+{
+    auto sortList = new I0SortThreadSig<T>(fam);
+    sortList->excecuteSort();
+}
 
-                (*pointer).next_fresh=(*(it->second)->nodeMap)[id_list[i]];
-                pointer=(*pointer).next_fresh;
-                if(i==id_list.size()-1)
-                {
-                    (*pointer).next_fresh=NULL;
-                }
-
-            }
-        }
-        else
-        {
-            (*pointer).next_fresh=NULL;
-        }
-    }
-    else if(flag==2)
-    {
-        sort(id_list.begin(),id_list.end(),CmpForSig<T>(it->first,myself));
-        it->second->max_sig=(*(it->second)->nodeMap)[id_list[0]];
-        NodeInfo *pointer=it->second->max_sig;
-        if(id_list.size()>1)
-        {
-            for (int i=1;i<id_list.size();i++)
-            {
-
-                (*pointer).next_sig=(*(it->second)->nodeMap)[id_list[i]];
-                pointer=(*pointer).next_sig;
-                if(i==id_list.size()-1)
-                {
-                    (*pointer).next_sig=NULL;
-                }
-
-            }
-        }
-        else
-        {
-            (*pointer).next_sig=NULL;
-        }
-    }
-    else if(flag==3)
-    {
-        sort(id_list.begin(),id_list.end(),CmpForSim<T>(it->first,myself));
-        it->second->max_termFreq=(*((it->second)->nodeMap))[id_list[0]];
-        NodeInfo *pointer=it->second->max_termFreq;
-        if(id_list.size()>1)
-        {
-            for (int i=1;i<id_list.size();i++)
-            {
-
-                (*pointer).next_termFreq=(*(it->second)->nodeMap)[id_list[i]];
-                pointer=(*pointer).next_termFreq;
-                if(i==id_list.size()-1)
-                {
-                    (*pointer).next_termFreq=NULL;
-                }
-            }
-        }
-        else
-        {
-            (*pointer).next_termFreq=NULL;
-        }
-    }
+template <class T>
+void *Index0SortThreadSim(void *fam)
+{
+    auto sortList = new I0SortThreadSim<T>(fam);
+    sortList->excecuteSort();
 }
 
 template <class T>
@@ -249,21 +192,21 @@ public:
 template <class T>
 void *invertedIndexMergerThreadFre(void *fam)
 {
-    InvertedIndexMergerThreadFre<T> *tt = new InvertedIndexMergerThreadFre<T>(fam);
+    auto tt = new InvertedIndexMergerThreadFre<T>(fam);
     tt->excecuteMerge();
 }
 
 template <class T>
 void *invertedIndexMergerThreadSig(void *fam)
 {
-    InvertedIndexMergerThreadSig<T> *tt = new InvertedIndexMergerThreadSig<T>(fam);
+    auto tt = new InvertedIndexMergerThreadSig<T>(fam);
     tt->excecuteMerge();
 }
 
 template <class T>
 void *invertedIndexMergerThreadTermFreq(void *fam)
 {
-    InvertedIndexMergerThreadSim<T> *tt = new InvertedIndexMergerThreadSim<T>(fam);
+    auto tt = new InvertedIndexMergerThreadSim<T>(fam);
     tt->excecuteMerge();
 }
 
@@ -371,6 +314,14 @@ template <class T>
 void IndexTemplate<T>::node_add(T term, int id, double tf)
 {
     typename map<T, ProgramList* >::iterator it = (*TermIndex).find(term);
+    static int count = 0;
+    count++;
+//    float a[13] = {-852.138245, 147.000305, 6.73238754, 136.820389, 45.5558205, -56.3611641, -68.4375534, -46.7173233, -3.07027578, -2.05147624, -22.4066162, -30.0924377};
+//    static Phoneme label = Phoneme(a);
+//    Phoneme p = (Phoneme)term;
+//    if (p == label) {
+//        cout << "3781!!" << endl;
+//    }
     if ((it == (*TermIndex).end()))
     {
         (*TermMutex)[term] = CMutex();
@@ -383,9 +334,11 @@ void IndexTemplate<T>::node_add(T term, int id, double tf)
     }
     else
     {
-        (*TermMutex)[term].Lock();
-        (*TermIndex)[term]->addNode(tf,id);
-        (*TermMutex)[term].Unlock();
+        auto lock = (*TermMutex)[term];
+        lock.Lock();
+        auto test = (*TermIndex)[term];
+        test->addNode(tf,id);
+        lock.Unlock();
     }
 }
 
@@ -551,26 +504,18 @@ void IndexTemplate<T>::I0_sort()
     typename map<T,ProgramList*>::iterator it;
     for (it = (*TermIndex).begin(); it != (*TermIndex).end(); it++)
     {
+        FamilyI0Sort<T> Fam1(it->second, this);
+        pthread_create(&pid1,NULL,Index0SortThreadFre<T>,(void*)&Fam1);
+        FamilyI0Sort<T> Fam2(it->second, this);
+        pthread_create(&pid2,NULL,Index0SortThreadSim<T>,(void*)&Fam2);
+        FamilyI0Sort<T> Fam3(it->second, this);
+        pthread_create(&pid3,NULL,Index0SortThreadSig<T>,(void*)&Fam3);
 
-        for(it_id=((it->second)->nodeMap)->begin();it_id!=((it->second)->nodeMap)->end();it_id++)
-        {
-            id_list.push_back(it_id->first);
-        }
-        if(id_list.size()!=0)
-        {
-            FamilyI0Sort<T> Fam1(this,id_list,1,&it);
-            pthread_create(&pid1,NULL,I0SortThread<T>,(void*)&Fam1);
-            FamilyI0Sort<T> Fam2(this,id_list,2,&it);
-            pthread_create(&pid2,NULL,I0SortThread<T>,(void*)&Fam2);
-            FamilyI0Sort<T> Fam3(this,id_list,3,&it);
-            pthread_create(&pid3,NULL,I0SortThread<T>,(void*)&Fam3);
+        pthread_join(pid1,NULL);
+        pthread_join(pid2,NULL);
+        pthread_join(pid3,NULL);
 
-            pthread_join(pid1,NULL);
-            pthread_join(pid2,NULL);
-            pthread_join(pid3,NULL);
-
-            id_list.clear();
-        }
+        id_list.clear();
     }
 
 }
@@ -584,12 +529,12 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
     int ret;
     insert_and_remove();
     other.insert_and_remove();
-//    map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
+    map<int,NodeInfo*> &tmp_nodemap=*((*other.TermIndex).begin()->second->nodeMap);
 //    set<int>::iterator it_set;
 //    map<int,AudioInfo> &tmp=(*InfoTable);
     // 在infotable删除旧的节点
-//    map<T,ProgramList *> &otherTermIndex=(*other.TermIndex);
-//    map<T,ProgramList *> &myTermIndex=(*TermIndex);
+    map<T,ProgramList *> &otherTermIndex=(*other.TermIndex);
+    map<T,ProgramList *> &myTermIndex=(*TermIndex);
 
 
 

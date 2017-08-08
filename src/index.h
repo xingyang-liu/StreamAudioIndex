@@ -8,6 +8,7 @@
 
 
 #include "../TextIndex/IndexManager.h"
+#include "../PhonomeIndex/PhoIndexManager.h"
 //#pragma comment(lib,"ws2_32.lib")
 
 using namespace std;
@@ -17,6 +18,8 @@ double index_create(int sum);
 void test_for_index(int times,int sum);
 
 void *test_for_queryThread(void *Fam);
+
+void *test_for_queryPhoThread(void *Fam);
 
 void* test_for_addThread(void *Fam);
 
@@ -30,6 +33,21 @@ public:
     int sleeptime;
 
     FamilyTestQueryAndUpdate(IndexManager *i,int t,int s)
+    {
+        index=i;
+        times=t;
+        sleeptime=s;
+    }
+};
+
+class FamilyTestQueryAndUpdatePho
+{
+public:
+    PhoIndexManager *index;
+    int times;
+    int sleeptime;
+
+    FamilyTestQueryAndUpdatePho(PhoIndexManager* i,int t,int s)
     {
         index=i;
         times=t;

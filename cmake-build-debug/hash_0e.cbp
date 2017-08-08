@@ -102,10 +102,28 @@
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/BasicStructure/ProgramList.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Merge/InvertedIndexMergerThread.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Merge/InvertedIndexMergerThreadFre.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Merge/InvertedIndexMergerThreadSig.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Merge/InvertedIndexMergerThreadSim.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhoIndexManager.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhoIndexManager.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/Phoneme.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/Phoneme.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhonomeIndex.cpp">
@@ -114,31 +132,28 @@
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhonomeIndex.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/phonome.cpp">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/SimilarPhoneme.cpp">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/phonome.h">
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/SimilarPhoneme.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Sort/I0SortThreadFre.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Sort/I0SortThreadSig.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Sort/I0SortThreadSim.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Sort/InvertedIndex0SortThread.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/Cmp.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/IndexTemplate.cpp">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/IndexTemplate.h">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/InvertedIndexMergerThread.h">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/InvertedIndexMergerThreadFre.h">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/InvertedIndexMergerThreadSig.h">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/InvertedIndexMergerThreadSim.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/Sig.cpp">
