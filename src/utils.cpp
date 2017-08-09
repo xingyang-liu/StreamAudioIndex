@@ -10,6 +10,7 @@ int AnswerNum = 5;
 int IdfNum=0;
 int IndexTermSumUnit=0;
 int MergeTimes=0;
+int live_an=0;
 
 double AddAduioTime=0;//真正用于add的时间
 double MergeTime=0;//真正用于merge的时间（仅含归并排序和预先处理和善后部分，不含复制）
@@ -17,9 +18,9 @@ double I0SortTime=0;//I0merge前的排序
 double DuplicateTime=0;//merge中用于镜像的复制的时间
 double MergeSortTime=0;//merge中用于归并排序的时间
 double weight_fre=0.2;
-double weight_sig=0.6;
-double weight_sim=0.2;
-
+double weight_sig=0.2;
+double weight_sim=0.6;
+multimap<int,double> time_of_index_merge;
 dense_hash_map<string,double,my_hash<string> > IdfTable;
 
 string Itos(int num)

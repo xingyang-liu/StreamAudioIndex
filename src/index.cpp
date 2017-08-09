@@ -93,7 +93,7 @@ void* test_for_addThread(void *Fam)
 		end=getTime();
 		time_list.push_back(end-begin);
 		addTermSum+=TermSum;
-		if((i+1)%100==0)
+		if((i+1)%20==0)
 		{
 			cout<<"Add Audio Sum: "<<i+1<<endl;
 		}
@@ -106,11 +106,11 @@ void* test_for_addThread(void *Fam)
 	}
 
 	cout<<"SumTime: "<<timeSum<<"\tAddAudioSum: "<<audio_sum<<"\tAddTermSum: "<<addTermSum<<"\tTotalTermSum: "<<\
-		Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<setprecision(8)<<"\tAudioAverage: "\
+		Index.TotalTermSum<<"Sum: "<<AudioSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<setprecision(8)<<"\tAudioAverage: "\
  		<<timeSum/audio_sum<<"\tTermAverage: "<<timeSum/addTermSum<<endl;
 	ofstream writefile("test_for_add.txt",ofstream::app);
 	writefile<<"SumTime: "<<timeSum<<"\tAddAudioSum: "<<audio_sum<<"\tAddTermSum: "<<addTermSum<<"\tTotalTermSum: "<<\
-		Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<setprecision(8)<<"\tAudioAverage: "\
+		Index.TotalTermSum<<"Sum: "<<AudioSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<setprecision(8)<<"\tAudioAverage: "\
  		<<timeSum/audio_sum<<"\tTermAverage: "<<timeSum/addTermSum<<endl;
 	writefile.close();
 
@@ -159,7 +159,7 @@ void *test_for_queryThread(void *Fam)
 		Index.handleQuery(query_str_list[i]);
 		end=getTime();
 		time_list.push_back(end-begin);
-		if((i+1)%50==0)
+		if((i+1)%20==0)
 		{
 			cout<<"QueryCount: "<<i+1<<endl;
 		}
@@ -203,7 +203,7 @@ void *test_for_querytxtThread(void *Fam)
 	vector<double> time_list;
 	for (int i=0;i<times;i++)
 	{
-		usleep((rand()/(RAND_MAX+1.0)+sleeptime)*20000);
+		usleep((rand()/(RAND_MAX+1.0)+sleeptime)*2000);
 		begin=getTime();
 		Index.handleQuery(query_str_list[i]);
 		end=getTime();
@@ -218,10 +218,10 @@ void *test_for_querytxtThread(void *Fam)
 	{
 		timeSum+=time_list[i];
 	}
-	cout<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tAnswerNum: "<<AnswerNum<<\
+	cout<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tAnswerNum: "<<AnswerNum<<"\t"<<weight_fre<<" "<<weight_sig<<" "<<weight_sim<<\
 	"\tSumTime: "<<timeSum<<"\tTimes: "<<times<<setprecision(8)<<"\tAverage: "<<timeSum/times<<endl;
 	ofstream writefile("test_for_query.txt",ofstream::app);
-	writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tAnswerNum: "<<AnswerNum<<\
+	writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<Index.TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tAnswerNum: "<<AnswerNum<<"\t"<<weight_fre<<" "<<weight_sig<<" "<<weight_sim<<\
 	"\tSumTime: "<<timeSum<<"\tTimes: "<<times<<setprecision(8)<<"\tAverage: "<<timeSum/times<<endl;
 	writefile.close();
 }

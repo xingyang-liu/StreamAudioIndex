@@ -45,6 +45,11 @@ extern double MergeSortTime;
 extern double weight_fre;
 extern double weight_sig;
 extern double weight_sim;
+
+extern int live_an;
+
+
+extern multimap<int,double> time_of_index_merge;
 extern dense_hash_map<string,double,my_hash<string> > IdfTable;
 
 

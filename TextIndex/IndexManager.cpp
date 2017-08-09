@@ -28,25 +28,28 @@ void *searchThread(void *family)
     int Sum = 0;
 
     //判断Index0是否正在被清空或者修改Info
-    myself->clearI0.Lock();
+    myself->clearInvertedIndex.Lock();//在清理整个InvertedIndex，查询时要求包括镜像在内除所有InvertedIndex（这个map）
+//    myself->clearI0.Lock();
     myself->Indexes[0]->I0MutexInfo.Lock();
     myself->Indexes[0]->search(Result, MinScore, AnswerNum, Sum, query, name);
     myself->Indexes[0]->I0MutexInfo.Unlock();
-    myself->clearI0.Unlock();
+//    myself->clearI0.Unlock();
 
     map<int, InvertedIndex*>::iterator it_index;
-    myself->clearInvertedIndex.Lock();
-    //在清理整个InvertedIndex，查询时要求包括镜像在内除了主线中Index0之外的所有InvertedIndex（这个map）
+
+
     // 都不允许变化，防止出现查询时删除这种现象
     for (it_index = myself->Indexes.begin(); it_index != myself->Indexes.end(); it_index++)
     {
         if(it_index->first==0) continue;
         (*it_index->second).search(Result, MinScore, AnswerNum, Sum, query, name);
     }
+
+//    myself->clearMirror.Lock();
     vector<ForMirror<InvertedIndex>*>::iterator it_tmp_mirror;
     for (it_tmp_mirror = myself->mirrorList.begin(); it_tmp_mirror != myself->mirrorList.end();)
     {
-        (*it_tmp_mirror)->mutex.Lock();//当我进入某个镜像时，不允许该镜像修改（防止出现镜像刚刚被创造出来，就有人去查询
+//        (*it_tmp_mirror)->mutex.Lock();//当我进入某个镜像时，不允许该镜像修改（防止出现镜像刚刚被创造出来，就有人去查询
         map<int,InvertedIndex*>::iterator it_mirror_index;
         for (it_mirror_index=((*it_tmp_mirror)->mirrorIndexMap)->begin();it_mirror_index!=((*it_tmp_mirror)->mirrorIndexMap)->end();it_mirror_index++)
         {
@@ -54,9 +57,19 @@ void *searchThread(void *family)
         }
 
         it_tmp_mirror++;//写在这里的原因是因为防止忘记迭代器删除这个坑
-        (*it_tmp_mirror)->mutex.Unlock();
-
+//        (*it_tmp_mirror)->mutex.Unlock();
     }
+
+
+//    map<int, map<string, NodeInfo *> >::iterator it_live;
+    for(map<int,double>::iterator it=Result.begin();it!=Result.end();it++)
+    {
+        if(myself->livePointer.find(it->first)!=myself->livePointer.end())
+        {
+            live_an++;
+        }
+    };
+//    myself->clearMirror.Unlock();
     myself->clearInvertedIndex.Unlock();
 
     vector<pair<int, double> > tmp(Result.begin(), Result.end());
@@ -96,7 +109,8 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
 
     if (myself->I0Num >= IndexAudioSumUnit||myself->I0TermNum>=IndexTermSumUnit)
     {
-        myself->clearI0.Lock();//复制I0的过程开始了
+        myself->clearInvertedIndex.Lock();
+//        myself->clearI0.Lock();//复制I0的过程开始了
 
         begin=getTime();
         myself->Indexes[0]->I0_sort();
@@ -114,14 +128,18 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
         map<int,InvertedIndex*> *mirrorIndex=new map<int,InvertedIndex*>;//相当于备份参与归并的Index到另一个map中
         ForMirror<InvertedIndex>  *for_mirror=new ForMirror<InvertedIndex> (mirrorIndex);
         mirrorList.push_back(for_mirror);
-        for_mirror->mutex.Lock();
+
+
+
+//        for_mirror->mutex.Lock();
         (*mirrorIndex)[0]=Index_tmp;//镜像置入，新Index0创建，可以add，旧Index0可以开始merge
-        for_mirror->mutex.Unlock();
+//        for_mirror->mutex.Unlock();
         Index_tmp=myself->Indexes[0];
         myself->Indexes[0]=new InvertedIndex;
         myself->I0Num = 0;
         myself->I0TermNum=0;
-        myself->clearI0.Unlock();
+//        myself->clearI0.Unlock();
+        myself->clearInvertedIndex.Unlock();
 
 
         int l=1;
@@ -133,24 +151,32 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
             it_index = myself->Indexes.find(l);//判断是否存在l，如果存在直接合并，level+1
             if (it_index != myself->Indexes.end())
             {
+
                 dense_hash_map<string,ProgramList*,my_hash<string> > &tmp_list=*(myself->Indexes[l]->TermIndex);
                 begin=getTime();
                 InvertedIndex *other_tmp=new InvertedIndex(*(myself->Indexes[l]));
-                for_mirror->mutex.Lock();
+                myself->clearInvertedIndex.Lock();
+//                for_mirror->mutex.Lock();
                 (*mirrorIndex)[l]=other_tmp;
-                for_mirror->mutex.Unlock();
-                myself->clearI0.Unlock();
+//                for_mirror->mutex.Unlock();
+                myself->clearInvertedIndex.Unlock();
+//                myself->clearI0.Unlock();
                 end=getTime();
                 DuplicateTime+=end-begin;
 
                 begin=getTime();
+                myself->clearInvertedIndex.Lock();
                 (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
+
+
                 delete myself->Indexes[l];
                 end=getTime();
+                pair<int,double> p(l,end-begin);
+                time_of_index_merge.insert(p);
                 MergeTime+=end-begin;
                 MergeTimes++;
 
-                myself->clearInvertedIndex.Lock();
+
                 myself->Indexes.erase(l);
                 myself->clearInvertedIndex.Unlock();
 
@@ -162,7 +188,10 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
                 myself->Indexes[l] = Index_tmp;
                 myself->clearInvertedIndex.Unlock();
 
-                myself->clearMirror.Lock();
+
+                myself->clearInvertedIndex.Lock();
+//                myself->clearMirror.Lock();
+//                for_mirror->mutex.Lock();
                 map<int,InvertedIndex*>::iterator it_index;
                 for (it_index=(*mirrorIndex).begin(); it_index != (*mirrorIndex).end(); it_index++)
                 {
@@ -172,8 +201,9 @@ void *addAudioALLThread(void *Family)//如果要实现多线程，就必须管�
                 for_mirror->mirrorIndexMap=NULL;
                 myself->mirrorList.erase(remove(myself->mirrorList.begin(),myself->mirrorList.end(),for_mirror),myself->mirrorList.end());
                 delete for_mirror;
-                myself->clearMirror.Unlock();
+//                myself->clearMirror.Unlock();
 
+                myself->clearInvertedIndex.Unlock();
                 break;
             }
         }

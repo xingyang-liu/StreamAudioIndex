@@ -641,6 +641,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
             dense_hash_map<int,NodeInfo*>::iterator it_node;
             if (it != (*TermIndex).end())
             {
+                it->second->mutex.Lock();
                 for(it_node=it->second->nodeMap->begin();it_node!=it->second->nodeMap->end();it_node++)
                 {
                     map<int, double>::iterator it_res = Result.find(it_node->second->id);
@@ -671,6 +672,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                         }
                     }
                 }
+                it->second->mutex.Unlock();
             }
         }
         vector<pair<int, double> > ResVector(Result.begin(), Result.end());
@@ -715,6 +717,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                 typename dense_hash_map<T,ProgramList*,my_hash<T> >::iterator it = (*TermIndex).find(query[i]);
                 if (it != (*TermIndex).end())
                 {
+                    it->second->mutex.Lock();
                     if(it->second->max_fresh!=NULL)
                     {
                         NodeInfo *searchPointer=(it->second->max_fresh);
@@ -750,6 +753,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                             }
                         }
                     }
+                    it->second->mutex.Unlock();
                 }
             }
 
@@ -814,6 +818,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                         if (it_exist != (*TermIndex).end())
                         {
+                            it_exist->second->mutex.Lock();
                             int leng=it_exist->second->nodeMap->size();//长度不一定了，如果有提前结束的链，就先把null放进去
                             if (i < leng)
                             {
@@ -1031,6 +1036,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                     }
                                 }
                             }
+                            it_exist->second->mutex.Unlock();
                         }
                     }
 
