@@ -285,33 +285,6 @@ PhonomeIndex/PhonomeIndex.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/PhonomeIndex.cpp.s
 .PHONY : PhonomeIndex/PhonomeIndex.cpp.s
 
-PhonomeIndex/SimilarPhoneme.o: PhonomeIndex/SimilarPhoneme.cpp.o
-
-.PHONY : PhonomeIndex/SimilarPhoneme.o
-
-# target to build an object file
-PhonomeIndex/SimilarPhoneme.cpp.o:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/SimilarPhoneme.cpp.o
-.PHONY : PhonomeIndex/SimilarPhoneme.cpp.o
-
-PhonomeIndex/SimilarPhoneme.i: PhonomeIndex/SimilarPhoneme.cpp.i
-
-.PHONY : PhonomeIndex/SimilarPhoneme.i
-
-# target to preprocess a source file
-PhonomeIndex/SimilarPhoneme.cpp.i:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/SimilarPhoneme.cpp.i
-.PHONY : PhonomeIndex/SimilarPhoneme.cpp.i
-
-PhonomeIndex/SimilarPhoneme.s: PhonomeIndex/SimilarPhoneme.cpp.s
-
-.PHONY : PhonomeIndex/SimilarPhoneme.s
-
-# target to generate assembly for a file
-PhonomeIndex/SimilarPhoneme.cpp.s:
-	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/PhonomeIndex/SimilarPhoneme.cpp.s
-.PHONY : PhonomeIndex/SimilarPhoneme.cpp.s
-
 TemplateIndex/Sig.o: TemplateIndex/Sig.cpp.o
 
 .PHONY : TemplateIndex/Sig.o
@@ -419,6 +392,33 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+src/HybridIndexManager.o: src/HybridIndexManager.cpp.o
+
+.PHONY : src/HybridIndexManager.o
+
+# target to build an object file
+src/HybridIndexManager.cpp.o:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/HybridIndexManager.cpp.o
+.PHONY : src/HybridIndexManager.cpp.o
+
+src/HybridIndexManager.i: src/HybridIndexManager.cpp.i
+
+.PHONY : src/HybridIndexManager.i
+
+# target to preprocess a source file
+src/HybridIndexManager.cpp.i:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/HybridIndexManager.cpp.i
+.PHONY : src/HybridIndexManager.cpp.i
+
+src/HybridIndexManager.s: src/HybridIndexManager.cpp.s
+
+.PHONY : src/HybridIndexManager.s
+
+# target to generate assembly for a file
+src/HybridIndexManager.cpp.s:
+	$(MAKE) -f CMakeFiles/StreamAudioIndex.dir/build.make CMakeFiles/StreamAudioIndex.dir/src/HybridIndexManager.cpp.s
+.PHONY : src/HybridIndexManager.cpp.s
 
 src/SimpleDTW.o: src/SimpleDTW.cpp.o
 
@@ -528,9 +528,6 @@ help:
 	@echo "... PhonomeIndex/PhonomeIndex.o"
 	@echo "... PhonomeIndex/PhonomeIndex.i"
 	@echo "... PhonomeIndex/PhonomeIndex.s"
-	@echo "... PhonomeIndex/SimilarPhoneme.o"
-	@echo "... PhonomeIndex/SimilarPhoneme.i"
-	@echo "... PhonomeIndex/SimilarPhoneme.s"
 	@echo "... TemplateIndex/Sig.o"
 	@echo "... TemplateIndex/Sig.i"
 	@echo "... TemplateIndex/Sig.s"
@@ -543,6 +540,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/HybridIndexManager.o"
+	@echo "... src/HybridIndexManager.i"
+	@echo "... src/HybridIndexManager.s"
 	@echo "... src/SimpleDTW.o"
 	@echo "... src/SimpleDTW.i"
 	@echo "... src/SimpleDTW.s"

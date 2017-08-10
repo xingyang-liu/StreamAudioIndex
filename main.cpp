@@ -15,19 +15,19 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 100;
-    AudioSum = 1000;
-    PhoIndexManager index(AudioSum);
+//    IndexUnit = 100;
+//    AudioSum = 1000;
+//    PhoIndexManager index(AudioSum);
 //    IndexManager index(AudioSum);
 
-//    string path = "/media/billy/New Volume/Billy/phonome/";
-//    initialInfo(path);
+    string path = "/media/billy/New Volume/Billy/phonome/";
+    initialInfo(path);
 //    test_for_QandA(index,500,1,7000,1);
-
-    FamilyTestQueryAndUpdatePho fam(&index,50,2);
-    pthread_t pid;
-    pthread_create(&pid,NULL,test_for_queryPhoThread,(void*)&fam);
-    pthread_join(pid,NULL);
+//
+//    FamilyTestQueryAndUpdatePho fam(&index,50,2);
+//    pthread_t pid;
+//    pthread_create(&pid,NULL,test_for_queryPhoThread,(void*)&fam);
+//    pthread_join(pid,NULL);
 //    test_for_index(10,AudioSum);
 
 //    pthread_t pida;

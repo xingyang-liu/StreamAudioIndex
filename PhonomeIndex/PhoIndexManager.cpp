@@ -5,7 +5,6 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include "PhoIndexManager.h"
-#include "SimilarPhoneme.h"
 
 void PhoIndexManager::output()
 {
@@ -62,12 +61,11 @@ void PhoIndexManager::buildIndex(int audio_sum)
                     TagsSum += num_tmp;
 //                    cout << "here\n";
                 }
-                else {
-                    idfTable[term_tmp] = log(500);
-                    TagsNum_tmp[term_tmp] = num_tmp;
-                    TagsSum += num_tmp;
-                }
-
+//                else {
+//                    IdfTablePho[term_tmp] = log(500);
+//                    TagsNum_tmp[term_tmp] = num_tmp;
+//                    TagsSum += num_tmp;
+//                }
             }
                 
         }
@@ -132,8 +130,8 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
         Index_tmp->level+=1;
 //        map<string,ProgramList*> &tmp_list=*(Index_tmp->TermIndex);
 
-        map<int,PhonomeIndex*> *mirrorIndex=new map<int,PhonomeIndex*>;//相当于独立出参与归并的Index到另一个map中
-        ForMirror<PhonomeIndex>  *for_mirror=new ForMirror<PhonomeIndex> (mirrorIndex);
+        auto *mirrorIndex=new map<int,PhonomeIndex*>;//相当于独立出参与归并的Index到另一个map中
+        auto *for_mirror=new ForMirror<PhonomeIndex> (mirrorIndex);
         mirrorList.push_back(for_mirror);
 
         (*mirrorIndex)[0]=Index_tmp;
@@ -191,6 +189,21 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
     }
 }
 
+string PhoIndexManager::handleQuery(vector<SimilarPhoneme> phones) {
+    vector<Phoneme> query;
+
+    for (auto &phone : phones) {
+        auto findPhone = IdfTablePho.find(phone);
+        if (findPhone == IdfTablePho.end())
+            continue;
+        Phoneme tmp = Phoneme(findPhone->first);
+        query.push_back(tmp);
+    }
+    if (query.size() == 0)
+        return NULL;
+    return handleQuery(query);
+}
+
 string PhoIndexManager::handleQuery(vector<Phoneme> query)
 {
 
@@ -204,11 +217,6 @@ string PhoIndexManager::handleQuery(vector<Phoneme> query)
     pthread_t id;
     pthread_create(&id,NULL,searchPhoThread,(void*)&fam);
     pthread_join(id,NULL);
-
-//    Result = Index.search(query, name);
-//    cout << name.size() << endl;
-
-//    out_res << query_str << endl;
 
     string str_back;
     end = getTime();
@@ -313,9 +321,9 @@ void PhoIndexManager::InitialIdf() {
     ssize_t n;
     float buf[13];
     while ((n=read(fd, (void *)buf, 13*4))>0) {
-        Phoneme term_tmp = Phoneme(buf);
+        SimilarPhoneme term_tmp = SimilarPhoneme(buf);
         if ((n=read(fd, &idf, sizeof(idf))) > 0){
-            idfTable[term_tmp] = idf;
+            IdfTablePho[term_tmp] = idf;
         }
         IdfNum++;
     }
@@ -343,8 +351,9 @@ void initialInfo(string path) {
     ////////////////寻找相同的phonome//////////////////
     map<SimilarPhoneme, count_node> phones;
     vector<string>::iterator file;
+    int fcount = 0;
     for (file = files.begin(); file != files.end() ; ++file) {
-        cout << *file << endl;
+        cout << ++fcount << ": " << *file << endl;
         float buf[13];
         ssize_t n;
         string filename = path + *file;

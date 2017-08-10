@@ -30,6 +30,7 @@ public:
     priority_queue<Sig> updateBuffer;
     CMutex bufferMutex;//由于I0不需要重新排序，所以它没有这个
 
+
     IndexTemplate()
     {
         AudioCount = 0;

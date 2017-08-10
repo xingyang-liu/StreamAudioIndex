@@ -226,7 +226,7 @@ void IndexManager::InitialIdf()
         getline(in, idf);
         if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp))
         {
-            (IdfTable)[term_tmp] = atof(idf.c_str());
+            (IdfTableText)[term_tmp] = atof(idf.c_str());
             //cout << term_tmp << ' ' << num_tmp << endl;
         }
         IdfNum++;
@@ -305,14 +305,19 @@ string IndexManager::handleQuery(string query_str)
 
     string s;
 
-    double begin, end;
     string stopwords = "，";
     vector<string> query;
-    vector<pair<int, double> > Result;
-    map<int, string> name;
 //    ofstream out_res("Log.txt", ofstream::app);
 
     SplitString(query_str, query, stopwords);
+
+    return handleQuery(query);
+}
+
+string IndexManager::handleQuery(vector<string> query) {
+    double begin, end;
+    vector<pair<int, double> > Result;
+    map<int, string> name;
 
     FamilyQuery fam(this,&query,&name,&Result);
     pthread_t id;
@@ -351,8 +356,5 @@ string IndexManager::handleQuery(string query_str)
     name.clear();
 //	out_res.close();
 
-//	closesocket(serConn);   //关闭
-//	WSACleanup();           //释放资源的操作
-//	cout << "连接断开" << endl;
     return str_back;
 }

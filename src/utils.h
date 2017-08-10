@@ -23,6 +23,7 @@
 #include <set>
 #include <queue>
 #include <atomic>
+#include "../PhonomeIndex/Phoneme.h"
 
 
 using namespace std;
@@ -31,7 +32,8 @@ extern int IndexUnit;
 extern int AudioSum;
 extern int AnswerNum;
 extern int IdfNum;
-extern map<string, double> IdfTable;
+extern map<string, double> IdfTableText;
+extern map<SimilarPhoneme, double> IdfTablePho;
 
 string Itos(int num);
 

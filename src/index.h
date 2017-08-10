@@ -9,6 +9,7 @@
 
 #include "../TextIndex/IndexManager.h"
 #include "../PhonomeIndex/PhoIndexManager.h"
+#include "utils.h"
 //#pragma comment(lib,"ws2_32.lib")
 
 using namespace std;

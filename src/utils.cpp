@@ -8,7 +8,8 @@ int IndexUnit = 20;
 int AudioSum = 999;
 int AnswerNum = 5;
 int IdfNum=0;
-map<string, double> IdfTable;
+map<string, double> IdfTableText;
+map<SimilarPhoneme, double> IdfTablePho;
 
 string Itos(int num)
 {

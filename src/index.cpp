@@ -1,6 +1,5 @@
 ﻿
 #include "index.h"
-#include "../PhonomeIndex/PhoIndexManager.h"
 
 using namespace std;
 
@@ -120,7 +119,7 @@ void *test_for_queryThread(void *Fam)
 	srand((unsigned)time(NULL));
 	int length=0;
 	string str;
-	map<string,double>::iterator it=IdfTable.begin();
+	map<string,double>::iterator it=IdfTableText.begin();
 	cout<<"Initialize List of Query."<<endl;
 	for (int i=0;i<times;i++)
 	{
@@ -129,9 +128,9 @@ void *test_for_queryThread(void *Fam)
 		for (int j=0;j<length;j++)
 		{
 			it++;
-			if(it==IdfTable.end())
+			if(it==IdfTableText.end())
 			{
-				it=IdfTable.begin();
+				it=IdfTableText.begin();
 			}
 			str+=it->first;
 			if (j<length-1)
@@ -172,11 +171,11 @@ void *test_for_queryPhoThread(void *Fam)
 	int times=fam.times;
 	int sleeptime=fam.sleeptime;
 
-	vector<vector<Phoneme>> query_str_list;
+	vector<vector<SimilarPhoneme>> query_str_list;
 	srand((unsigned)time(NULL));
 	int length=0;
-	vector<Phoneme> phones;
-	auto it=Index.idfTable.begin();
+	vector<SimilarPhoneme> phones;
+	auto it=IdfTablePho.begin();
 	cout<<"Initialize List of Query."<<endl;
 	for (int i=0;i<times;i++)
 	{
@@ -184,9 +183,9 @@ void *test_for_queryPhoThread(void *Fam)
 		for (int j=0;j<length;j++)
 		{
 			it++;
-			if(it==Index.idfTable.end())
+			if(it==IdfTablePho.end())
 			{
-				it=Index.idfTable.begin();
+				it=IdfTablePho.begin();
 			}
 			phones.push_back(it->first);
 		}

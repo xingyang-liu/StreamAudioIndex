@@ -8,28 +8,16 @@
 
 #include "InvertedIndex.h"
 #include "../TemplateIndex/IndexTemplate.h"
+#include "../TemplateIndex/ManagerTemplate.h"
 
 
-
-class IndexManager
+class IndexManager: public ManagerTemplate<string, InvertedIndex>
 {
 public:
-	int I0Num;
-    vector<ForMirror<InvertedIndex>*> mirrorList;
-	map<int, InvertedIndex*> Indexes;
-    map<int, map<string, NodeInfo *> > livePointer;
-    map<int, CMutex> liveIdMutex;//only for livePointer
-    CMutex mutexLive;//删除livePointer中某个id时防止进入,搜索I0时需要申请
-	CMutex clearInvertedIndex;//正在给map赋新值，无关I0
-    CMutex clearI0;//正在给I0赋值
-	CMutex clearMirror;
 
-	IndexManager(){
-		I0Num = 0;
-		Indexes[0]=new InvertedIndex;
-	}
+	IndexManager(): ManagerTemplate() {}
 
-	IndexManager(int num)
+	explicit IndexManager(int num)
 	{
 		I0Num = 0;
         Indexes[0]=new InvertedIndex;
@@ -38,14 +26,13 @@ public:
 		buildIndex(num);
 	}
 
-	void output();
+	void output() override;
 
-	void buildIndex(int audio_sum);
+	void buildIndex(int audio_sum) override;
 
-	void InitialIdf();
+	void InitialIdf() override;
 
-	void updateScore(int id,int score)
-	{
+	void updateScore(int id,int score) override {
 		map<int,InvertedIndex*>::iterator it_Index;
 		for(it_Index=Indexes.begin();it_Index!=Indexes.end();it_Index++)
 		{
@@ -70,6 +57,8 @@ public:
 
 	string handleQuery(string query_str);
 
+	string handleQuery(vector<string> query);
+
     ~IndexManager()
     {
         map<int,InvertedIndex*>::iterator it;
@@ -79,8 +68,7 @@ public:
         }
     }
 
-	void freemem()
-	{
+	void freemem() override {
 		map<int,InvertedIndex*>::iterator it;
 		for (it=Indexes.begin();it!=Indexes.end();it++)
 		{

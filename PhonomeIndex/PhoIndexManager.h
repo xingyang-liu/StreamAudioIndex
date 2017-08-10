@@ -6,27 +6,14 @@
 #define HASH_0E_PHOINDEXMANAGER_H
 
 #include "PhonomeIndex.h"
+#include "../TemplateIndex/ManagerTemplate.h"
 
-class PhoIndexManager {
+class PhoIndexManager: public ManagerTemplate<Phoneme, PhonomeIndex> {
 public:
-    int I0Num;
-    map<Phoneme, double> idfTable;
-    vector<ForMirror<PhonomeIndex>*> mirrorList;
-    map<int, PhonomeIndex*> Indexes;
-    map<int, map<Phoneme, NodeInfo *> > livePointer;
-    map<int, CMutex> liveIdMutex;//only for livePointer
-    CMutex mutexLive;//删除livePointer中某个id时防止进入,搜索I0时需要申请
-    CMutex clearInvertedIndex;//正在给map赋新值，无关I0
-    CMutex clearI0;//正在给I0赋值
-    CMutex clearMirror;
 
-    PhoIndexManager(){
-        I0Num = 0;
-        Indexes[0]=new PhonomeIndex;
-    }
+    PhoIndexManager(): ManagerTemplate() {}
 
-    PhoIndexManager(int num)
-    {
+    explicit PhoIndexManager(int num) {
         I0Num = 0;
         Indexes[0]=new PhonomeIndex;
         InitialIdf();
@@ -34,14 +21,13 @@ public:
         buildIndex(num);
     }
 
-    void output();
+    void output() override;
 
-    void buildIndex(int audio_sum);
+    void buildIndex(int audio_sum) override;
 
-    void InitialIdf();
+    void InitialIdf() override;
 
-    void updateScore(int id,int score)
-    {
+    void updateScore(int id,int score) override {
         map<int,PhonomeIndex*>::iterator it_Index;
         for(it_Index=Indexes.begin();it_Index!=Indexes.end();it_Index++)
         {
@@ -64,7 +50,9 @@ public:
         }
     }
 
-    string handleQuery(vector<Phoneme> query_str);
+    string handleQuery(vector<SimilarPhoneme> phones);
+
+    string handleQuery(vector<Phoneme> query_str) override;
 
     ~PhoIndexManager()
     {
@@ -75,8 +63,7 @@ public:
         }
     }
 
-    void freemem()
-    {
+    void freemem() override {
         map<int,PhonomeIndex*>::iterator it;
         for (it=Indexes.begin();it!=Indexes.end();it++)
         {

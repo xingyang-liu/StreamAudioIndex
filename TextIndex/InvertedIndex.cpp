@@ -19,17 +19,17 @@ double InvertedIndex::computeScore(const double &time, const double &score, map<
                 {
                     if (tagsSum != 0)
                     {
-                        sim += TermFreq[query[i]] * IdfTable[query[i]];
+                        sim += TermFreq[query[i]] * IdfTableText[query[i]];
                     }
                     else
                     {
-                        sim += TermFreq[query[i]] * IdfTable[query[i]];
+                        sim += TermFreq[query[i]] * IdfTableText[query[i]];
                     }
                 }
                 catch (...)
                 {
-                    map<string, double>::iterator it = IdfTable.find(query[i]);
-                    if (it != IdfTable.end())
+                    map<string, double>::iterator it = IdfTableText.find(query[i]);
+                    if (it != IdfTableText.end())
                     {
                         continue;
                     }

@@ -10,25 +10,26 @@ double PhonomeIndex::computeScore(const double &time, const double &score, map<P
         double fre = pow(2, time - getTime());
         double sig = log(score / 10000 + 1);
         double sim = 0;
-        for (int i = 0; i < query.size(); i++)
-        {
-            typename map<Phoneme, double>::iterator it = TermFreq.find(query[i]);
+        for (const auto &i : query) {
+            auto it = TermFreq.find(i);
             if (it != TermFreq.end())
             {
                 try
                 {
                     if (tagsSum != 0)
                     {
-                        sim += TermFreq[query[i]];
+                        sim += TermFreq[i] * IdfTablePho[SimilarPhoneme(i)];
                     }
                     else
                     {
-                        sim += TermFreq[query[i]];
+                        sim += TermFreq[i] * IdfTablePho[SimilarPhoneme(i)];
                     }
                 }
                 catch (...)
                 {
-                    continue;
+                    auto iterr = IdfTablePho.find(SimilarPhoneme(i));
+                    if (iterr != IdfTablePho.end()) continue;
+                    cout << "Something wrong with computeScore()";
                 }
             }
         }

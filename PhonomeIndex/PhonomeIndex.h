@@ -11,12 +11,12 @@ class PhonomeIndex: public IndexTemplate<Phoneme> {
 public:
     PhonomeIndex(): IndexTemplate<Phoneme>() {}
 
-    PhonomeIndex(int l): IndexTemplate<Phoneme>(l) {}
+    explicit PhonomeIndex(int l): IndexTemplate<Phoneme>(l) {}
 
-    PhonomeIndex(const PhonomeIndex &other): IndexTemplate<Phoneme>(other) {}
+    PhonomeIndex(const PhonomeIndex &other) = default;
 
     double computeScore(const double &time, const double &score, map<Phoneme, double> &TermFreq, const int &tagsSum,
-                        const vector<Phoneme> &query);
+                        const vector<Phoneme> &query) override;
 
 };
 

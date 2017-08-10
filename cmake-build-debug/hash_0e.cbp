@@ -132,12 +132,6 @@
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/PhonomeIndex.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/SimilarPhoneme.cpp">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
-		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/PhonomeIndex/SimilarPhoneme.h">
-			<Option target="StreamAudioIndex"/>
-		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/Sort/I0SortThreadFre.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
@@ -154,6 +148,9 @@
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/IndexTemplate.h">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/ManagerTemplate.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/TemplateIndex/Sig.cpp">
@@ -178,6 +175,12 @@
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/main.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/HybridIndexManager.cpp">
+			<Option target="StreamAudioIndex"/>
+		</Unit>
+		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/HybridIndexManager.h">
 			<Option target="StreamAudioIndex"/>
 		</Unit>
 		<Unit filename="/home/billy/CLionProjects/StreamAudioIndex/src/SimpleDTW.cpp">
