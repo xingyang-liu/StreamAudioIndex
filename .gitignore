@@ -12,10 +12,12 @@ test.txt
 .DS_Store
 back/
 cmake-build-debug/
+cmake-build-release/
+faiss/
 demoC++/
 h5/
 
-/cmake-build-release/
-/faiss/
-/info.txt
-/InvertedIndex_Result.txt
+
+
+
+
