@@ -2,20 +2,16 @@
 Ii.txt
 Log.txt
 CMakeLists.txt
+info_live2.txt
+info.txt
+info_phonome2.txt
 
 .DS_Store
 back/
 cmake-build-debug/
 demoC++/
 h5/
-将删除 Text2Speech.pyc
-将删除 TopHeap.pyc
-将删除 cmake-build-release/
-将删除 faiss/
-将删除 mfcc.pyc
-将删除 test.txt
-将删除 test_for_query.txt
-将删除 test_of_index.txt
+
 /cmake-build-release/
 /faiss/
 /info.txt
