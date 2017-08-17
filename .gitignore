@@ -5,7 +5,9 @@ CMakeLists.txt
 idf.txt
 info.txt
 info_live.txt
+info_live2.txt
 info_phonome2.txt
+
 
 
 .DS_Store
