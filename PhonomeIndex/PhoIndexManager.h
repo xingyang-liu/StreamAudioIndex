@@ -80,13 +80,15 @@ public:
     vector<Phoneme> * que;
     map<int, string> * na;
     vector<pair<int, double> > *ResVec;
+    map<int,score_ratio> *sco_ve;
 
-    FamilyPhoQuery(PhoIndexManager* m,vector<Phoneme> * q,map<int, string> * n, vector<pair<int, double> > *R)
+    FamilyPhoQuery(PhoIndexManager* m,vector<Phoneme> * q,map<int, string> * n, vector<pair<int, double> > *R,map<int,score_ratio> *sc)
     {
         me=m;
         que=q;
         na=n;
         ResVec=R;
+        sco_ve=sc;
     }
 };
 

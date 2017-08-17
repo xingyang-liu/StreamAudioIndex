@@ -28,12 +28,29 @@
 
 using namespace std;
 
-extern int IndexUnit;
+extern int IndexAudioSumUnit;
 extern int AudioSum;
 extern int AnswerNum;
 extern int IdfNum;
-extern map<string, double> IdfTableText;
+extern int MergeTimes;
+extern int IndexTermSumUnit;
+extern double AddAduioTime;
+extern double MergeTime;
+extern double I0SortTime;
+extern double DuplicateTime;
+extern double MergeSortTime;
+extern double weight_fre;
+extern double weight_sig;
+extern double weight_sim;
+extern vector<double> score_vec;
+extern int live_an;
+extern int ratio;
+extern multimap<int,double> time_of_index_merge;
+//extern map<string, double> IdfTableText;
 extern map<SimilarPhoneme, double> IdfTablePho;
+
+
+extern bool cout_flag;
 
 string Itos(int num);
 
@@ -74,5 +91,33 @@ private:
 };
 
 double atof_1e(const char s[]);   //将字符串s转换成double型的浮点数(含科学计数法）
+
+class score_ratio
+{
+public:
+    double fre,sig,sim;
+    score_ratio(){fre=0;sig=0;sim=0;}
+    score_ratio(double f,double s,double si):fre(f),sig(s),sim(si){}
+    score_ratio(const score_ratio&other)
+    {
+        fre=other.fre;
+        sig=other.sig;
+        sim=other.sim;
+    }
+
+    score_ratio &operator=(const score_ratio&other)
+    {
+        if(&other==this)
+        {
+            return *this;
+        } else{
+            fre=other.fre;
+            sig=other.sig;
+            sim=other.sim;
+            return *this;
+        }
+    }
+};
+
 
 #endif //HASH_0E_UTILS_H

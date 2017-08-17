@@ -99,6 +99,8 @@ public:
         data = a;
     }
 
+
+
     SimilarPhoneme(const SimilarPhoneme &);
 
     SimilarPhoneme(const Phoneme &);

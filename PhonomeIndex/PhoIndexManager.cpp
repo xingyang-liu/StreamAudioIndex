@@ -54,6 +54,7 @@ void PhoIndexManager::buildIndex(int audio_sum)
 //            cout << "No such files!" << endl;
             continue;
         }
+        int TermSum=0;//为了统计term的数量，方便提前停止
         while ((n=read(fd, (void *)buf, 13*4))>0) {
             Phoneme term_tmp = Phoneme(buf);
             map<Phoneme, double>::iterator insertor;
@@ -70,12 +71,13 @@ void PhoIndexManager::buildIndex(int audio_sum)
                     TagsSum += num_tmp;
                 }
             }
+            TermSum++;
                 
         }
 //        char tmp[20];
 //        strcpy(tmp, id_tmp.c_str());
         AudioInfo tmp_info(char2int(id_tmp.c_str()), title_tmp, atof(score_tmp.c_str()), \
-		  TagsSum, atof(time_tmp.c_str()), atoi(FinalFlag_tmp.c_str()));
+		  TagsSum, atof(time_tmp.c_str()), atoi(FinalFlag_tmp.c_str()),TermSum);
         pthread_t id;
         FamilyPho fam(this,&tmp_info,&TagsNum_tmp);
         pthread_create(&id,NULL,addAudioPhoThread,(void*)&fam);
@@ -87,7 +89,7 @@ void PhoIndexManager::buildIndex(int audio_sum)
 
 //    output();
     ofstream writefile("test_of_index.txt",ofstream::app);
-    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexUnit<<" SumTime: "<<end-begin\
+    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<end-begin\
     <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
 //    cout << end - begin << "s" << endl;
     writefile.close();
@@ -102,7 +104,8 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
     map<Phoneme,double> &TagsNum=*(ones->tags);
     vector<ForMirror<PhonomeIndex>* > &mirrorList=myself->mirrorList;
 
-
+    double begin,end;
+    begin=getTime();
     if (tmp_info.final>=0)
     {
         myself->liveIdMutex[tmp_info.id].Lock();
@@ -116,41 +119,56 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
     {
         myself->Indexes[0]->addAudio(tmp_info,TagsNum);
     }
+    end=getTime();
+    AddAduioTime+=end-begin;
     myself->I0Num++;
+    myself->I0TermNum+=tmp_info.Termcount;
+    myself->TotalTermSum+=tmp_info.Termcount;
 
 
-    if (myself->I0Num >= IndexUnit)
+    if (myself->I0Num >= IndexAudioSumUnit||myself->I0TermNum>=IndexTermSumUnit)
     {
-        myself->clearI0.Lock();//复制I0的过程开始了
-        ProgramList* test = myself->Indexes[0]->TermIndex->begin()->second;
+//        myself->clearI0.Lock();//复制I0的过程开始了
+//        ProgramList* test = myself->Indexes[0]->TermIndex->begin()->second;
+        myself->clearInvertedIndex.Lock();
+        begin=getTime();
         myself->Indexes[0]->I0_sort();
+        end=getTime();
+        I0SortTime+=end-begin;
 
-
+        begin=getTime();
         PhonomeIndex *Index_tmp;
         (myself->liveIdMutex)[tmp_info.id].Lock();
+        myself->Indexes[0]->level++;
         Index_tmp=new PhonomeIndex(*myself->Indexes[0]);
         (myself->liveIdMutex)[tmp_info.id].Unlock();
-        Index_tmp->level+=1;
+//        Index_tmp->level+=1;
 //        map<string,ProgramList*> &tmp_list=*(Index_tmp->TermIndex);
 
         auto *mirrorIndex=new map<int,PhonomeIndex*>;//相当于独立出参与归并的Index到另一个map中
         auto *for_mirror=new ForMirror<PhonomeIndex> (mirrorIndex);
         mirrorList.push_back(for_mirror);
 
+
         (*mirrorIndex)[0]=Index_tmp;
 //        InvertedIndex &other=(*(*mirrorIndex)[0]);
         Index_tmp=myself->Indexes[0];
-        Index_tmp->level+=1;
+
 
         myself->Indexes[0]=new PhonomeIndex;
         myself->I0Num = 0;
-        myself->clearI0.Unlock();
+        myself->I0TermNum=0;
+//        myself->clearI0.Unlock();
+//        myself->clearI0.Unlock();
+        myself->clearInvertedIndex.Unlock();
+
         int l=1;
+        end=getTime();
+        DuplicateTime+=end-begin;
 
         map<int, PhonomeIndex*>::iterator it_index;
         while (1) {
             it_index = myself->Indexes.find(l);
-
 
             if (it_index != myself->Indexes.end())
             {
@@ -158,23 +176,66 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
                 map<Phoneme,ProgramList*> &tmp_list1=*(Index_tmp->TermIndex);
                 map<Phoneme,ProgramList*> &tmp_list=*(myself->Indexes[l]->TermIndex);
                 PhonomeIndex *other_tmp=new PhonomeIndex(*(myself->Indexes[l]));
-                (*mirrorIndex)[l]=other_tmp;//可能需要加互斥锁
-                (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
-                delete myself->Indexes[l];
-
                 myself->clearInvertedIndex.Lock();
-                myself->Indexes.erase(l);
+                (*mirrorIndex)[l]=other_tmp;//可能需要加互斥锁
                 myself->clearInvertedIndex.Unlock();
+                end=getTime();
+                DuplicateTime+=end-begin;
 
-                l += 1;
+                if(myself->Indexes[l]->MergeCount+Index_tmp->MergeCount>ratio-1)
+                {
+                    begin=getTime();
+                    myself->clearInvertedIndex.Lock();
+                    Index_tmp->level++;
+                    Index_tmp->MergeCount=1;
+                    (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
+                    delete myself->Indexes[l];
+                    end=getTime();
+                    pair<int,double> p(l,end-begin);
+                    time_of_index_merge.insert(p);
+                    MergeTime+=end-begin;
+                    MergeTimes++;
+                    myself->Indexes.erase(l);
+                    myself->clearInvertedIndex.Unlock();
+                    l += 1;
+                }
+                else
+                {
+                    begin=getTime();
+                    myself->clearInvertedIndex.Lock();
+                    Index_tmp->MergeCount+=myself->Indexes[l]->MergeCount;
+                    (*Index_tmp).MergerIndex(*(myself->Indexes[l]));
+                    delete myself->Indexes[l];
+                    end=getTime();
+                    pair<int,double> p(l,end-begin);
+                    time_of_index_merge.insert(p);
+                    MergeTime+=end-begin;
+                    MergeTimes++;
+                    (myself->Indexes)[l]=Index_tmp;
+                    map<int,PhonomeIndex*>::iterator it_index;
+                    for (it_index=(*mirrorIndex).begin(); it_index != (*mirrorIndex).end(); it_index++)
+                    {
+                        delete it_index->second;
+                    }
+                    delete mirrorIndex;
+                    for_mirror->mirrorIndexMap=NULL;
+                    myself->mirrorList.erase(remove(myself->mirrorList.begin(),myself->mirrorList.end(),for_mirror),myself->mirrorList.end());
+                    delete for_mirror;
+                    myself->clearInvertedIndex.Unlock();
+                    break;
+                }
             }
             else
             {
                 myself->clearInvertedIndex.Lock();
                 myself->Indexes[l] = Index_tmp;
+                Index_tmp->MergeCount=1;
                 myself->clearInvertedIndex.Unlock();
 
-                myself->clearMirror.Lock();
+
+                myself->clearInvertedIndex.Lock();
+//                myself->clearMirror.Lock();
+//                for_mirror->mutex.Lock();
                 map<int,PhonomeIndex*>::iterator it_index;
                 for (it_index=(*mirrorIndex).begin(); it_index != (*mirrorIndex).end(); it_index++)
                 {
@@ -184,8 +245,9 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
                 for_mirror->mirrorIndexMap=NULL;
                 myself->mirrorList.erase(remove(myself->mirrorList.begin(),myself->mirrorList.end(),for_mirror),myself->mirrorList.end());
                 delete for_mirror;
-                myself->clearMirror.Unlock();
+//                myself->clearMirror.Unlock();
 
+                myself->clearInvertedIndex.Unlock();
                 break;
             }
         }
@@ -194,6 +256,7 @@ void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管�
 
 string PhoIndexManager::handleQuery(vector<SimilarPhoneme> phones) {
     vector<Phoneme> query;
+
 
     for (auto &phone : phones) {
         auto findPhone = IdfTablePho.find(phone);
@@ -223,8 +286,9 @@ string PhoIndexManager::handleQuery(vector<Phoneme> query)
     double begin, end;
     vector<pair<int, double> > Result;
     map<int, string> name;
+    map<int,score_ratio> sco_vec;
 
-    FamilyPhoQuery fam(this,&query,&name,&Result);
+    FamilyPhoQuery fam(this,&query,&name,&Result,&sco_vec);
     pthread_t id;
     pthread_create(&id,NULL,searchPhoThread,(void*)&fam);
     pthread_join(id,NULL);
@@ -242,9 +306,8 @@ string PhoIndexManager::handleQuery(vector<Phoneme> query)
         for (int i = 0; i < Result.size(); i++)
         {
             str_back += "id： " + Itos(Result[i].first) + "\n"+"title： " + name[Result[i].first] +
-                        "\nlink：http://www.ximalaya.com/sound/" + Itos(Result[i].first) + "\nscore: " + Dtos(Result[i].second) + "\n\n";
-//            cout << Result[i].first << "-" << name[Result[i].first] << "\:" << Result[i].second << "\n";
-//            out_res << Result[i].first << "-" << name[Result[i].first] << ":" << Result[i].second << "\n";
+                        "\nlink：http://www.ximalaya.com/sound/" + Itos(Result[i].first) + "\nscore:\t" + Dtos(Result[i].second) +"\tfre:\t"+\
+                        Dtos(sco_vec[Result[i].first].fre)+"\tsig:\t"+Dtos(sco_vec[Result[i].first].sig)+"\tsim:\t"+Dtos(sco_vec[Result[i].first].sim)+ "\n\n";
         }
     }
     str_back += "Time: "+ Dtos(end - begin) +"\n";
@@ -263,53 +326,65 @@ void *searchPhoThread(void *family)
     vector<Phoneme> &query=*(fam->que);
     vector<pair<int,double> > &ResVector=*(fam->ResVec);
     map<int,string> &name=*(fam->na);
+    map<int,score_ratio> &sco_vec=*(fam->sco_ve);
 
 
     map<int, double> Result;
     double MinScore = 0;
     int Sum = 0;
-    try
-    {
-        myself->clearI0.Lock();
-        myself->Indexes[0]->I0MutexInfo.Lock();
-        myself->Indexes[0]->search(Result, MinScore, AnswerNum, Sum, query, name);
-        myself->Indexes[0]->I0MutexInfo.Unlock();
-        myself->clearI0.Unlock();
 
-        map<int, PhonomeIndex*>::iterator it_index;
-        myself->clearInvertedIndex.Lock();//在清理整个PhonomeIndex//这里包括镜像在内所有PhonomeIndex都不允许变化
-        for (it_index = myself->Indexes.begin(); it_index != myself->Indexes.end(); it_index++)
+    vector<double> idf_vec;
+    map<SimilarPhoneme, double>::iterator it_idf;
+    for (const auto &i : query)
+    {
+        it_idf=IdfTablePho.find(SimilarPhoneme(i));
+        if(it_idf!=IdfTablePho.end())
         {
-            if(it_index->first==0) continue;
-            (*it_index->second).search(Result, MinScore, AnswerNum, Sum, query, name);
+            idf_vec.push_back(IdfTablePho[SimilarPhoneme(i)]);
+        }else{
+            idf_vec.push_back(0);
+        }
+    }
+
+
+    myself->clearInvertedIndex.Lock();
+//    myself->clearI0.Lock();
+    myself->Indexes[0]->I0MutexInfo.Lock();
+    myself->Indexes[0]->search(Result, MinScore, AnswerNum, Sum, query, name,sco_vec,idf_vec);
+    myself->Indexes[0]->I0MutexInfo.Unlock();
+//    myself->clearI0.Unlock();
+
+    map<int, PhonomeIndex*>::iterator it_index;
+    //这里包括镜像在内所有PhonomeIndex都不允许变化
+    for (it_index = myself->Indexes.begin(); it_index != myself->Indexes.end(); it_index++)
+    {
+        if(it_index->first==0) continue;
+        (*it_index->second).search(Result, MinScore, AnswerNum, Sum, query, name,sco_vec,idf_vec);
+    }
+
+    vector<ForMirror<PhonomeIndex>*>::iterator it_tmp_mirror;
+    for (it_tmp_mirror = myself->mirrorList.begin(); it_tmp_mirror != myself->mirrorList.end(); )
+    {
+//        (*it_tmp_mirror)->mutex.Lock();//当我进入某个镜像时，不允许该镜像修改
+
+        map<int,PhonomeIndex*>::iterator it_mirror_index;
+        for (it_mirror_index=((*it_tmp_mirror)->mirrorIndexMap)->begin();it_mirror_index!=((*it_tmp_mirror)->mirrorIndexMap)->end();it_mirror_index++)
+        {
+            (it_mirror_index->second)->search(Result, MinScore, AnswerNum, Sum, query, name,sco_vec,idf_vec);
         }
 
-        vector<ForMirror<PhonomeIndex>*>::iterator it_tmp_mirror;
-        for (it_tmp_mirror = myself->mirrorList.begin(); it_tmp_mirror != myself->mirrorList.end(); )
-        {
-            (*it_tmp_mirror)->mutex.Lock();//当我进入某个镜像时，不允许该镜像修改
+        it_tmp_mirror++;
 
-            map<int,PhonomeIndex*>::iterator it_mirror_index;
-            for (it_mirror_index=((*it_tmp_mirror)->mirrorIndexMap)->begin();it_mirror_index!=((*it_tmp_mirror)->mirrorIndexMap)->end();it_mirror_index++)
-            {
-                (it_mirror_index->second)->search(Result, MinScore, AnswerNum, Sum, query, name);
-            }
+//        (*it_tmp_mirror)->mutex.Unlock();
 
-            it_tmp_mirror++;
-
-            (*it_tmp_mirror)->mutex.Unlock();
-
-        }
-        myself->clearInvertedIndex.Unlock();
-
-        vector<pair<int, double> > tmp(Result.begin(), Result.end());
-        ResVector=tmp;
-        sort(ResVector.begin(), ResVector.end(), CompDedcendVal());
     }
-    catch (...)
-    {
-//        cout << "Search has somthing wrong." << endl;
-    }
+    myself->clearInvertedIndex.Unlock();
+
+    vector<pair<int, double> > tmp(Result.begin(), Result.end());
+    ResVector=tmp;
+    sort(ResVector.begin(), ResVector.end(), CompDedcendVal());
+
+
 }
 
 void PhoIndexManager::InitialIdf() {

@@ -4,12 +4,28 @@
 
 #include "utils.h"
 
-int IndexUnit = 20;
+int IndexAudioSumUnit = 20;
 int AudioSum = 999;
-int AnswerNum = 10;
+int AnswerNum = 5;
 int IdfNum=0;
-map<string, double> IdfTableText;
-map<SimilarPhoneme, double> IdfTablePho;
+int IndexTermSumUnit=0;
+int MergeTimes=0;
+int live_an=0;
+int ratio=0;
+
+double AddAduioTime=0;//真正用于add的时间
+double MergeTime=0;//真正用于merge的时间（仅含归并排序和预先处理和善后部分，不含复制）
+double I0SortTime=0;//I0merge前的排序
+double DuplicateTime=0;//merge中用于镜像的复制的时间
+double MergeSortTime=0;//merge中用于归并排序的时间
+double weight_fre=0.2;
+double weight_sig=0.2;
+double weight_sim=0.6;
+vector<double> score_vec;
+multimap<int,double> time_of_index_merge;
+extern map<SimilarPhoneme, double> IdfTablePho;
+
+bool cout_flag= false;
 
 string Itos(int num)
 {

@@ -15,18 +15,22 @@ using namespace std;
 template <class T, class TIndex>
 class ManagerTemplate {
 public:
-    int I0Num;
+    int I0Num,I0TermNum;
+    long TotalTermSum;
     vector<ForMirror<TIndex>*> mirrorList;
     map<int, TIndex*> Indexes;
     map<int, map<T, NodeInfo *> > livePointer;
     map<int, CMutex> liveIdMutex;//only for livePointer
     CMutex mutexLive;//删除livePointer中某个id时防止进入,搜索I0时需要申请
     CMutex clearInvertedIndex;//正在给map赋新值，无关I0
-    CMutex clearI0;//正在给I0赋值
-    CMutex clearMirror;
+    map<T, double> IdfTable;
+//    CMutex clearI0;//正在给I0赋值
+//    CMutex clearMirror;
 
     ManagerTemplate() {
         I0Num = 0;
+        I0TermNum=0;
+        TotalTermSum=0;
         Indexes[0]=new TIndex;
     }
 

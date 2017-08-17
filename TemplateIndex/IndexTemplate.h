@@ -19,7 +19,7 @@
 template <class T>
 class IndexTemplate {
 public:
-    int AudioCount, level;
+    int AudioCount, level,TermCount,MergeCount;
     map<T,ProgramList*> *TermIndex;
     map<int, AudioInfo> *InfoTable;
     map<T, CMutex> *TermMutex;//only for I0
@@ -35,17 +35,21 @@ public:
     {
         AudioCount = 0;
         level = 0;
+        TermCount=0;
+        MergeCount=1;
         TermIndex = NULL;
         TermMutex=NULL;
         InfoTable = NULL;
     }
 
-    IndexTemplate(int l):level(l){AudioCount=0;}
+    IndexTemplate(int l):level(l){AudioCount=0;MergeCount=1;}
 
     IndexTemplate(const IndexTemplate&other)
     {
         AudioCount=other.AudioCount;
         level=other.level;
+        TermCount=other.TermCount;
+        MergeCount=other.MergeCount;
         TermIndex = new map<T, ProgramList*>;
         typename map<T,ProgramList*>::iterator it_list;
         ProgramList* tmp;
@@ -60,8 +64,12 @@ public:
 
     bool search(int id)
     {
-        map<int,AudioInfo>::iterator it_tmp=InfoTable->find(id);
-        return it_tmp != InfoTable->end();
+        if(InfoTable==NULL){
+            return false;
+        } else{
+            map<int,AudioInfo>::iterator it_tmp=InfoTable->find(id);
+            return it_tmp != InfoTable->end();
+        }
     }
 
     void addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq);
@@ -81,21 +89,23 @@ public:
 
     void output()
     {
-        cout << "I" << level << "_count:" << AudioCount << "\n";
+        cout << "I" << level << "_AudioCount: " << AudioCount <<"\tTermCount: "<<TermCount<< "\n";
     }
 
     int get_count() { return AudioCount; }
 
     void MergerIndex(IndexTemplate &other);//并未考虑存在相同id的情况，否则请重载部分运算符//新的归并旧的
 
-    void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name);
+    void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name,map<int,score_ratio> &sco_vec,vector<double> &idf_vec);
 
     virtual double computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
                         const vector<T> &query) = 0;
-    
-    
+    virtual double computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
+                                const vector<T> &query,const vector<double> &idf_vec,map<int,score_ratio> &sco_vec,int id) = 0;
 
-//    template <class T>
+
+
+    //    template <class T>
     ~IndexTemplate()
     {
         if(TermIndex!=NULL)
@@ -639,7 +649,7 @@ void IndexTemplate<T>::MergerIndex(IndexTemplate<T> &other)//并未考虑存在�
 }
 
 template <class T>
-void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name)
+void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name,map<int,score_ratio> &sco_vec,vector<double> &idf_vec)
 {
     double up_fre = 0;
     double up_sig = 0;
@@ -649,7 +659,9 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
     map<T,double> TermFreq;
     map<int, double>::iterator it_res;
     map<int, NodeInfo *>::iterator it_tmp_node;//每个query中每个id获取全部tf时的迭代器
-    ofstream out_res("InvertedIndex_Result.txt", ofstream::app);
+//    ofstream out_res("InvertedIndex_Result.txt", ofstream::app);
+
+
 
     if(level==0)
     {
@@ -660,6 +672,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
             map<int,NodeInfo*>::iterator it_node;
             if (it != (*TermIndex).end())
             {
+                it->second->mutex.Lock();
                 for(it_node=it->second->nodeMap->begin();it_node!=it->second->nodeMap->end();it_node++)
                 {
                     map<int, double>::iterator it_res = Result.find(it_node->second->id);
@@ -684,13 +697,14 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                 }
 
                             }
-                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query);
+                            score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec,sco_vec,it_node->second->id);
                             TermFreq.clear();
                             Sum += 1;
                             Result[it_node->second->id] = score;
                         }
                     }
                 }
+                it->second->mutex.Unlock();
             }
 
         }
@@ -763,8 +777,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                         }
 
                                     }
-                                    score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                         query);
+                                    score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum, query,idf_vec,sco_vec,searchPointer->id);
                                     TermFreq.clear();
                                     Sum += 1;
                                     Result[searchPointer->id] = score;
@@ -878,7 +891,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                                             }
                                             score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                                 query);
+                                                                 query,idf_vec,sco_vec,id1);
                                             TermFreq.clear();
                                             if (score > MinScore)
                                             {
@@ -943,7 +956,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                                 }
                                             }
                                             score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                                 query);
+                                                                 query,idf_vec,sco_vec,id2);
                                             TermFreq.clear();
                                             if (score > MinScore)
                                             {
@@ -1008,7 +1021,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
 
                                             score = computeScore(info_tmp.time, info_tmp.score, TermFreq, info_tmp.TagsSum,
-                                                                 query);
+                                                                 query,idf_vec,sco_vec,id3);
                                             if (score > MinScore)
                                             {
                                                 Result[id3] = score;
@@ -1060,7 +1073,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
                                         }
                                         score = computeScore(info_tmp.time, info_tmp.score, TermFreq,
                                                              info_tmp.TagsSum,
-                                                             query);
+                                                             query,idf_vec,sco_vec,id4);
                                         TermFreq.clear();
                                         if (score > MinScore) {
                                             Result[id4] = score;
@@ -1124,7 +1137,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
             }
 
         }
-        out_res << "size" << Sum << endl;
+//        out_res << "size" << Sum << endl;
     }
 }
 

@@ -17,8 +17,10 @@ using json = nlohmann::json;
 
 int main() {
     using namespace std;
-    IndexUnit = 2;
+    IndexAudioSumUnit = 2;
+    ratio=2;
     AudioSum = 10;
+    cout_flag=true;//辅助输出开关
 
     PhoIndexManager index(AudioSum);
 //    IndexManager index(AudioSum);

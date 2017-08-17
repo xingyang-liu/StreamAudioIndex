@@ -10,22 +10,22 @@
 using namespace std;
 class AudioInfo {
 public:
-    int id;
-    string title;
-    int TagsSum;
-    double score, time;
+	int id;
+	string title;
+	int TagsSum,Termcount;
+	double score, time;
 	int final;
 
-    AudioInfo() {}
+	AudioInfo() {}
 
-    AudioInfo(int id, string title,double score, int TagsSum, double time,int finalflag)\
-		:id(id), title(title), score(score), TagsSum(TagsSum), time(time),final(finalflag){}
+	AudioInfo(int id, string title,double score, int TagsSum, double time,int finalflag,int tcount)\
+		:id(id), title(title), score(score), TagsSum(TagsSum), time(time),final(finalflag),Termcount(tcount){}
 
-    AudioInfo(const AudioInfo& other);
+	AudioInfo(const AudioInfo& other);
 
-    bool operator==(const AudioInfo &other);
+	bool operator==(const AudioInfo &other);
 
-    AudioInfo &operator=(const AudioInfo&other);//按理说是应该加const，但是要写几个函数提取成员
+	AudioInfo &operator=(const AudioInfo&other);//按理说是应该加const，但是要写几个函数提取成员
 
 	void update(AudioInfo& other);
 };
