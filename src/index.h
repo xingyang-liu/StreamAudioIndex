@@ -2,28 +2,75 @@
 // Created by 兴阳 刘 on 2017/7/11.
 //
 
-#ifndef SAMPLE_CONNECTOR_INDEX_H
-#define SAMPLE_CONNECTOR_INDEX_H
+#ifndef HASH_0E_INDEX_H
+#define HASH_0E_INDEX_H
 
 
+
+#include "../TextIndex/IndexManager.h"
+#include "../PhonomeIndex/PhoIndexManager.h"
 #include "utils.h"
-#include "AudioInfo.h"
-#include "Sig.h"
-#include "TermFreq.h"
-#include "Fre.h"
-#include "I0.h"
-#include "Ii.h"
-#include "IndexAll.h"
-#pragma comment(lib,"ws2_32.lib")
+//#pragma comment(lib,"ws2_32.lib")
 
 using namespace std;
 
-void InitialIdf();
+double index_create(int sum);
 
-void ini(IndexAll &Index);
+void test_for_index(int times,int sum);
 
-string handleQuery(IndexAll &Index, string query_str);
+void *test_for_queryThread(void *Fam);
 
-void preprocess(IndexAll &Index);
+void *test_for_queryPhoThread(void *Fam);
 
-#endif //SAMPLE_CONNECTOR_INDEX_H
+void* test_for_addThread(void *Fam);
+
+void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime);
+
+class FamilyTestQueryAndUpdate
+{
+public:
+    IndexManager *index;
+    int times;
+    int sleeptime;
+
+    FamilyTestQueryAndUpdate(IndexManager *i,int t,int s)
+    {
+        index=i;
+        times=t;
+        sleeptime=s;
+    }
+};
+
+class FamilyTestQueryAndUpdatePho
+{
+public:
+    PhoIndexManager *index;
+    int times;
+    int sleeptime;
+
+    FamilyTestQueryAndUpdatePho(PhoIndexManager* i,int t,int s)
+    {
+        index=i;
+        times=t;
+        sleeptime=s;
+    }
+};
+
+class FamilyAdd
+{
+public:
+    IndexManager *index;
+    int sum;
+    int sleeptime;
+
+    FamilyAdd(IndexManager *i,int s,int sleep)
+    {
+        index=i;
+        sum=s;
+        sleeptime=sleep;
+    }
+};
+
+void *test_for_queryThread(void *Fam);
+
+#endif //HASH_0E_INDEX_H

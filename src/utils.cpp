@@ -4,10 +4,12 @@
 
 #include "utils.h"
 
-int IndexUnit = 500;
-int AudioSum = 7999;
-int AnswerNum = 5;
-map<string, double> IdfTable;
+int IndexUnit = 20;
+int AudioSum = 999;
+int AnswerNum = 10;
+int IdfNum=0;
+map<string, double> IdfTableText;
+map<SimilarPhoneme, double> IdfTablePho;
 
 string Itos(int num)
 {
@@ -62,47 +64,62 @@ double getTime()
     return ts.tv_sec + ts.tv_usec / 1000000.0;
 }
 
+double atof_1e(const char s[])   //将字符串s转换成double型的浮点数(含科学计数法）
+{
+    int i;
+    int sign;
+    int flag;
+    int expn;
+    double val;
+    double power;
+
+    sign = 1;
+    flag = 0;
+    power = 1.0;
+    expn = 0;
+    for(i = 0; isspace(s[i]); ++i)
+        ;
+    if(s[i] == '-')
+        sign = -1;
+    if(s[i] == '+' || s[i] == '-')
+        ++i;
+    for(val = 0.0; isdigit(s[i]); ++i)
+        val = val * 10.0 + (s[i] - '0');
+    if(s[i] == '.')
+        ++i;
+    for(; isdigit(s[i]); ++i)
+    {
+        val = val * 10.0 + (s[i] - '0');
+        //power = power * 10.0;
+        ++flag;
+    }
+    if(s[i] == 'e' || s[i] == 'E')  //如果写成s[i++] == 'e' || s[i++] == 'E'，if(s[i] == '-')
+        //则当输入的字符串带有E时，不能正确得到结果，这是因为在一
+        //个语句中使用两次自增操作，引起歧义
+        if(s[++i] == '-')
+        {
+            ++i;
+            for(; isdigit(s[i]); ++i)
+                expn = expn * 10 + (s[i] - '0');
+            expn = expn + flag;
+            power = pow(10, expn);
+            return sign * val / power;
+        }
+        else
+        {
+            for(; isdigit(s[i]); ++i)
+                expn = expn * 10 + (s[i] - '0');
+            expn = expn - flag;
+            power = pow(10, expn);
+            return sign * val * power;
+        }
+
+    power = pow(10, flag);
+    return sign * val / power;
+
+}
+
 //};
 
 
-double computeScore(const double &time, const double &score, map<string, int> &tagsNum, const int &tagsSum,
-                    const vector<string> &query)
-{
-    double fre = pow(2, time - getTime());
-    double sig = log(score / 10000 + 1);
-    double sim = 0;
-    for (int i = 0; i < query.size(); i++)
-    {
-        map<string, int>::iterator it = tagsNum.find(query[i]);
-        if (it != tagsNum.end())
-        {
-            try
-            {
-                if (tagsSum != 0)
-                {
-                    sim += tagsNum[query[i]] / tagsSum*IdfTable[query[i]];
-                }
-                else
-                {
-                    sim += tagsNum[query[i]] * IdfTable[query[i]];
-                }
-            }
-            catch (...)
-            {
-                map<string, double>::iterator it = IdfTable.find(query[i]);
-                if (it != IdfTable.end())
-                {
-                    continue;
-                }
-                else
-                {
-                    cout << "Something wrong with computeScore()";
-                }
-
-            }
-        }
-    }
-    double ScoreAll = (fre*0.1 + sim * 20 * 0.6 + sig*0.2)*10;
-    return ScoreAll;
-}
 

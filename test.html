@@ -13,16 +13,18 @@
 		<textarea id="text-input"></textarea>
 		<button id="submit-btn">submit</button>
 		<textarea id="text-output"></textarea>
+		<textarea id="phone-output"></textarea>
 		<!-- <p id="text-output"></p> -->
 		<!-- <textarea id="text"></textarea> -->
 	<script>
 		let input_elem = document.querySelector('#text-input');
 		let output_elem = document.querySelector('#text-output');
 		let submit_btn = document.querySelector('#submit-btn');
+		let output_pho = document.querySelector('#phone-output')
 		// let test = document.querySelector('#text');
 		submit_btn.addEventListener('click', (evt) => {
 			// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
-			let req = fetch('http://172.25.102.36:8080/', {
+			let req = fetch('http://172.26.186.84:8080/', {
 				method: 'POST', 
 				body: input_elem.value
 			}).then((reply) => {
@@ -33,6 +35,7 @@
 				let obj = JSON.parse(json_str);
 				// document.getElementById("text-output").innerHTML= obj.content;
 				output_elem.value = obj.content;
+				output_pho.value = obj.phone;
 				// test = obj.link
 				console.log(obj);
 			});
