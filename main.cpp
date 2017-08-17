@@ -18,6 +18,7 @@ using json = nlohmann::json;
 int main() {
     using namespace std;
     IndexAudioSumUnit = 2;
+    IndexTermSumUnit=400*2;
     ratio=2;
     AudioSum = 10;
     cout_flag=true;//辅助输出开关
@@ -47,7 +48,7 @@ int main() {
     pthread_t pid;
     pthread_create(&pid,NULL,test_for_queryPhoThread,(void*)&fam);
     pthread_join(pid,NULL);
-    test_for_index(10,AudioSum);
+//    test_for_index(10,AudioSum);
 
 //    pthread_t pida;
 //    FamilyAdd fama(&index,3000,1);

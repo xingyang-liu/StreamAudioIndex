@@ -20,6 +20,8 @@ public:
 	explicit IndexManager(int num)
 	{
 		I0Num = 0;
+		I0TermNum=0;
+		TotalTermSum=0;
         Indexes[0]=new InvertedIndex;
 		InitialIdf();
 //		cout << "Initialization of idf is okay." << endl;
@@ -57,7 +59,7 @@ public:
 
 	string handleQuery(string query_str);
 
-	string handleQuery(vector<string> query);
+	string handleQuery(vector<string> query) override;
 
     ~IndexManager()
     {

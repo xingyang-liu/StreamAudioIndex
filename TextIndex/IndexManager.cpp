@@ -4,51 +4,23 @@
 
 #include "IndexManager.h"
 
-//void IndexManager::addAudio(AudioInfo &audio_info)
-//{
-//    if (I0Num < IndexAudioSumUnit)
-//    {
-//        Index0.addAudio(audio_info);
-//        I0Num++;
-//    }
-//
-//    if (I0Num >= IndexAudioSumUnit)
-//    {
-//        InvertedIndex *Index1_tmp;
-//        Index1_tmp = new InvertedIndex(1, Index0);
-//        //(*Index1_tmp).test();
-//        int l = 1;
-//        while (1)
-//        {
-//            map<int, InvertedIndex*>::iterator it_index = Indexes.find(l);
-//            if (it_index != Indexes.end())
-//            {
-//                (*Index1_tmp).MergerIndex(*(Indexes[l]));
-//                delete Indexes[l-1];
-//                l += 1;
-//                Indexes.erase(l - 1);
-//            }
-//            else
-//            {
-//                Indexes[l] = Index1_tmp;
-//
-//                break;
-//
-//            }
-//        }
-//        Index0.clear();
-//        I0Num = 0;
-//    }
-//}
 
 void IndexManager::output()
 {
-
+    ofstream writefile("Components_of_Indexes_String.txt",ofstream::app);
     map<int, InvertedIndex*>::iterator it_index;
+    writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<endl;
     for (it_index = Indexes.begin(); it_index != Indexes.end(); it_index++)
     {
-        (*it_index->second).output();
+        if(cout_flag)
+        {
+            cout << "I" << it_index->second->level << "_AudioCount: " << it_index->second->AudioCount <<"\tTermCount: "\
+            <<it_index->second->TermCount<<"\tMergeCount: "<<it_index->second->MergeCount<< "\n";
+        }
+        writefile<< "I" << it_index->second->level << "_AudioCount: " << it_index->second->AudioCount <<"\tTermCount: "\
+            <<it_index->second->TermCount<<"\tMergeCount: "<<it_index->second->MergeCount<< "\n";
     }
+    writefile.close();
 }
 
 void *searchThread(void *family)
@@ -303,7 +275,10 @@ void IndexManager::InitialIdf()
         exit(7);
     else {
         begin=getTime();
-//        cout << "Begin idf." << endl;
+        if(cout_flag)
+        {
+            cout << "Begin idf." << endl;
+        }
     }
     IdfNum=0;
     string term_tmp;
@@ -315,18 +290,25 @@ void IndexManager::InitialIdf()
         if (QuestionMark.compare(term_tmp) && DoubleQuestionMark.compare(term_tmp) && SpaceKey.compare(term_tmp)&&BlankKey.compare(term_tmp))
         {
             (IdfTable)[term_tmp] = atof(idf.c_str());
+            IdfNum++;
             //cout << term_tmp << ' ' << num_tmp << endl;
         }
-        IdfNum++;
     }
     end=getTime();
-//    cout<<"Idf is okay."<<endl;
-//    cout<<"Time is "<<end-begin<<"s"<<endl;
+    if(cout_flag)
+    {
+        cout<<"Idf is okay."<<endl;
+        cout<<"Time is "<<end-begin<<"s"<<endl;
+        cout<<"IdfNum is "<<IdfNum<<endl;
+    }
 }
 
 
 void IndexManager::buildIndex(int audio_sum)
 {
+    int who =0;//0代表本进程，-1代表子进程（用不太出来），一定要bash跑，不然这玩意测的是虚拟机的内存
+    struct rusage usage;
+    int TagsSum,TermSum;
     double begin, end;
     begin = getTime();
     ifstream info_in("info_live2.txt");
@@ -351,8 +333,8 @@ void IndexManager::buildIndex(int audio_sum)
         getline(info_in, TermSum_tmp);
         getline(info_in,FinalFlag_tmp);
         //cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
-        int TagsSum = atoi(TagsSum_tmp.c_str());
-        int TermSum=0;
+        TagsSum = atoi(TagsSum_tmp.c_str());
+        TermSum=0;
         map<string, double> TagsNum_tmp;
         for (int j = 0; j < atoi(TermSum_tmp.c_str()); j++)
         {
@@ -383,13 +365,25 @@ void IndexManager::buildIndex(int audio_sum)
     }
     end = getTime();
 
-//    output();
     ofstream writefile("test_of_index.txt",ofstream::app);
-    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<end-begin\
-    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
-//    cout << end - begin << "s" << endl;
+    writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<end-begin\
+    <<setprecision(8)<<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    ofstream writefile2("memory_of_index.txt",ofstream::app);
+    writefile2<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    writefile2.close();
     writefile.close();
     info_in.close();
+
+    if(cout_flag)
+    {
+        output();
+        cout<<endl;
+        getrusage(who,&usage);
+        cout<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<end-begin\
+            <<setprecision(8)<<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+        cout<<endl;
+    }
+
 }
 
 string IndexManager::handleQuery(string query_str)

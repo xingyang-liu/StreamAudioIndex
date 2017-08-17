@@ -8,16 +8,27 @@
 
 void PhoIndexManager::output()
 {
-
+    ofstream writefile("Components_of_Indexes_Phonome.txt",ofstream::app);
     map<int, PhonomeIndex*>::iterator it_index;
+    writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<endl;
     for (it_index = Indexes.begin(); it_index != Indexes.end(); it_index++)
     {
-        (*it_index->second).output();
+        if(cout_flag)
+        {
+            cout << "I" << it_index->second->level << "_AudioCount: " << it_index->second->AudioCount <<"\tTermCount: "\
+            <<it_index->second->TermCount<<"\tMergeCount: "<<it_index->second->MergeCount<< "\n";
+        }
+        writefile<< "I" << it_index->second->level << "_AudioCount: " << it_index->second->AudioCount <<"\tTermCount: "\
+            <<it_index->second->TermCount<<"\tMergeCount: "<<it_index->second->MergeCount<< "\n";
     }
+    writefile.close();
 }
 
 void PhoIndexManager::buildIndex(int audio_sum)
 {
+    int who =0;//0代表本进程，-1代表子进程（用不太出来），一定要bash跑，不然这玩意测的是虚拟机的内存
+    struct rusage usage;
+    int TagsSum,TermSum;
     double begin, end;
     begin = getTime();
     ifstream info_in("info_phonome2.txt");
@@ -44,7 +55,8 @@ void PhoIndexManager::buildIndex(int audio_sum)
         getline(info_in, TermSum_tmp);
         getline(info_in,FinalFlag_tmp);
         //cout << id_tmp << title_tmp << LikeCount_tmp << CommentCount_tmp << PlayCount_tmp << score_tmp << TagsSum_tmp << time_tmp << endl;
-        int TagsSum = 0;
+        TagsSum = 0;
+        TermSum=0;//为了统计term的数量，方便提前停止
         map<Phoneme, double> TagsNum_tmp;
         float buf[13];
         ssize_t n;
@@ -54,7 +66,6 @@ void PhoIndexManager::buildIndex(int audio_sum)
 //            cout << "No such files!" << endl;
             continue;
         }
-        int TermSum=0;//为了统计term的数量，方便提前停止
         while ((n=read(fd, (void *)buf, 13*4))>0) {
             Phoneme term_tmp = Phoneme(buf);
             map<Phoneme, double>::iterator insertor;
@@ -87,13 +98,25 @@ void PhoIndexManager::buildIndex(int audio_sum)
     }
     end = getTime();
 
-//    output();
+
     ofstream writefile("test_of_index.txt",ofstream::app);
-    writefile<<"Sum: "<<AudioSum<<" Unit: "<<IndexAudioSumUnit<<" SumTime: "<<end-begin\
-    <<" Times: "<<1<<setprecision(8)<<" Average: "<<end-begin<<endl;
-//    cout << end - begin << "s" << endl;
+    writefile<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<end-begin\
+    <<setprecision(8)<<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    ofstream writefile2("memory_of_index.txt",ofstream::app);
+    writefile2<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+    writefile2.close();
     writefile.close();
     info_in.close();
+    if(cout_flag)
+    {
+        output();
+        cout<<endl;
+        getrusage(who,&usage);
+        cout<<"Sum: "<<AudioSum<<"\tTotalTermSum: "<<TotalTermSum<<"\tIndexTermUnit: "<<IndexTermSumUnit<<"\tSumTime: "<<end-begin\
+        <<setprecision(8)<<"\tMaxResidentMemory(MB): "<<usage.ru_maxrss/1024<<endl;
+        cout<<endl;
+    }
+
 }
 
 void *addAudioPhoThread(void *Family)//如果要实现多线程，就必须管控所有add与merger
@@ -396,7 +419,10 @@ void PhoIndexManager::InitialIdf() {
         exit(7);
     else {
         begin=getTime();
-//        cout << "Begin idf." << endl;
+        if(cout_flag)
+        {
+            cout << "Begin idf." << endl;
+        }
     }
     ssize_t n;
     float buf[13];
@@ -408,6 +434,12 @@ void PhoIndexManager::InitialIdf() {
         IdfNum++;
     }
     end=getTime();
+    if(cout_flag)
+    {
+        cout<<"Idf is okay."<<endl;
+        cout<<"Time is "<<end-begin<<"s"<<endl;
+        cout<<"IdfNum is "<<IdfNum<<endl;
+    }
 //    cout<<"Idf is okay."<<endl;
 //    cout<<"Time is "<<end-begin<<"s"<<endl;
 }

@@ -23,6 +23,9 @@
 #include <set>
 #include <queue>
 #include <atomic>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include "../PhonomeIndex/Phoneme.h"
 
 

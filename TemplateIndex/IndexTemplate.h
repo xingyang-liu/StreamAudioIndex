@@ -42,7 +42,7 @@ public:
         InfoTable = NULL;
     }
 
-    IndexTemplate(int l):level(l){AudioCount=0;MergeCount=1;}
+    IndexTemplate(int l):level(l){AudioCount=0;TermCount=0;MergeCount=1;}
 
     IndexTemplate(const IndexTemplate&other)
     {
@@ -98,8 +98,7 @@ public:
 
     void search(map<int, double> &Result, double &MinScore, int &AnsNum, int &Sum, const vector<T> query, map<int, string> &name,map<int,score_ratio> &sco_vec,vector<double> &idf_vec);
 
-    virtual double computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
-                        const vector<T> &query) = 0;
+
     virtual double computeScore(const double &time, const double &score, map<T, double> &TermFreq, const int &tagsSum,
                                 const vector<T> &query,const vector<double> &idf_vec,map<int,score_ratio> &sco_vec,int id) = 0;
 
@@ -313,6 +312,7 @@ void IndexTemplate<T>::addAudio(AudioInfo &tmp_info,map<T,double> &TermFreq){
     (*InfoTable)[tmp_info.id] = tmp_info;
     I0MutexInfo.Unlock();
     AudioCount++;
+    TermCount+=tmp_info.Termcount;
 
     typename map<T, double>::iterator it;
     for (it = TermFreq.begin(); it != TermFreq.end(); it++)
@@ -367,6 +367,7 @@ void IndexTemplate<T>::addAudioLive(AudioInfo &tmp_info,map<T,double> &TermFreq,
     (*InfoTable)[tmp_info.id] = tmp_info;
     I0MutexInfo.Unlock();
     AudioCount++;
+    TermCount+=tmp_info.Termcount;
 
     typename map<T, double>::iterator it;
     for (it = TermFreq.begin(); it != TermFreq.end(); it++)
@@ -1088,7 +1089,7 @@ void IndexTemplate<T>::search(map<int, double> &Result, double &MinScore, int &A
 
                     try//你也可以放到与i的循环同一级，我觉得问题不大
                     {
-                        if (computeScore(up_fre, up_sig, up_sim, 0, query) < MinScore)
+                        if (computeScore(up_fre, up_sig, up_sim, 0, query,idf_vec,sco_vec,0) < MinScore)
                         {
                             TerFlag = true;
                             break;

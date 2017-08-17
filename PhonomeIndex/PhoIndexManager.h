@@ -15,6 +15,8 @@ public:
 
     explicit PhoIndexManager(int num) {
         I0Num = 0;
+        I0TermNum=0;
+        TotalTermSum=0;
         Indexes[0]=new PhonomeIndex;
         InitialIdf();
 //        cout << "Initialization of idf is okay." << endl;

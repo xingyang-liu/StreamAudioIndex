@@ -219,17 +219,17 @@ void *test_for_queryPhoThread(void *Fam)
 	writefile.close();
 }
 
-void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime)
-{
-	FamilyTestQueryAndUpdate famq(&Index,query_times,query_sleeptime);
-	pthread_t pidq,pida;
-	pthread_create(&pidq,NULL,test_for_queryThread,(void *)&famq);
-
-	FamilyAdd fama(&Index,add_sum,add_sleeptime);
-	pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
-	pthread_join(pidq,NULL);
-	pthread_join(pida,NULL);
-}
+//void test_for_QandA(IndexManager &Index,int query_times,int query_sleeptime,int add_sum,int add_sleeptime)
+//{
+//	FamilyTestQueryAndUpdate famq(&Index,query_times,query_sleeptime);
+//	pthread_t pidq,pida;
+//	pthread_create(&pidq,NULL,test_for_queryThread,(void *)&famq);
+//
+//	FamilyAdd fama(&Index,add_sum,add_sleeptime);
+//	pthread_create(&pida,NULL,test_for_addThread,(void*)&fama);
+//	pthread_join(pidq,NULL);
+//	pthread_join(pida,NULL);
+//}
 
 void* test_for_updateThread(void*Fam)
 {

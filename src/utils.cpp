@@ -23,7 +23,7 @@ double weight_sig=0.2;
 double weight_sim=0.6;
 vector<double> score_vec;
 multimap<int,double> time_of_index_merge;
-extern map<SimilarPhoneme, double> IdfTablePho;
+map<SimilarPhoneme, double> IdfTablePho;
 
 bool cout_flag= false;
 
