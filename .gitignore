@@ -5,6 +5,9 @@ CMakeLists.txt
 info_live2.txt
 info.txt
 info_phonome2.txt
+test_for_query.txt
+test_of_index.txt
+test.txt
 
 .DS_Store
 back/
