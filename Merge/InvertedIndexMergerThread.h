@@ -110,19 +110,22 @@ void InvertedIndexMergerThread<T>::excecuteMerge() {
                 if (pointer_j != NULL) {
                     tmp_node = set_next(it_list_i->second, pointer_j);
                     pointer_j = get_next(pointer_j);
-
-                    while (pointer_j != NULL&& pointer_j->flag >= 0) {
-                        del_tmp = pointer_j;
+                    while (pointer_j != NULL) {
+                        tmp_node=set_next(tmp_node, pointer_j);
                         pointer_j = get_next(pointer_j);
-                        del_tmp->flag += 1;
-                        if (del_tmp->flag == 3) {
-                            it_list_j->second->mutex.Lock();
-                            if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
-                                it_list_j->second->nodeMap->erase(del_tmp->id);
-                                delete del_tmp;
-                            }
+                        while (pointer_j != NULL&& pointer_j->flag >= 0) {
+                            del_tmp = pointer_j;
+                            pointer_j = get_next(pointer_j);
+                            del_tmp->flag += 1;
+                            if (del_tmp->flag == 3) {
+                                it_list_j->second->mutex.Lock();
+                                if (it_list_j->second->nodeMap->find(del_tmp->id) != it_list_j->second->nodeMap->end()) {
+                                    it_list_j->second->nodeMap->erase(del_tmp->id);
+                                    delete del_tmp;
+                                }
 
-                            it_list_j->second->mutex.Unlock();
+                                it_list_j->second->mutex.Unlock();
+                            }
                         }
 
                     }
