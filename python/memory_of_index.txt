@@ -1,0 +1,4 @@
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	MaxResidentMemory(MB): 195
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	MaxResidentMemory(MB): 195
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	MaxResidentMemory(MB): 196
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	MaxResidentMemory(MB): 195

@@ -1,0 +1,4 @@
+AddAudioTime: 0.0595107	I0SortTime: 0.845528	DuplicateTime: 0.0461283	MergeTime: 0.0515943	MergeSortTime: 0.0126543	MergeTimes: 6
+AddAudioTime: 0.0581508	I0SortTime: 0.840635	DuplicateTime: 0.0489712	MergeTime: 0.0508771	MergeSortTime: 0.0122011	MergeTimes: 6
+AddAudioTime: 0.0622318	I0SortTime: 0.94594	DuplicateTime: 0.0533109	MergeTime: 0.057766	MergeSortTime: 0.016237	MergeTimes: 6
+AddAudioTime: 0.0615969	I0SortTime: 0.952429	DuplicateTime: 0.0537429	MergeTime: 0.0593472	MergeSortTime: 0.0130401	MergeTimes: 6

@@ -1,0 +1,16 @@
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000
+I0_AudioCount: 0	TermCount: 0	MergeCount: 1
+I1_AudioCount: 20	TermCount: 11930	MergeCount: 1
+I5_AudioCount: 80	TermCount: 82477	MergeCount: 1
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000
+I0_AudioCount: 0	TermCount: 0	MergeCount: 1
+I1_AudioCount: 20	TermCount: 11930	MergeCount: 1
+I5_AudioCount: 80	TermCount: 82477	MergeCount: 1
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000
+I0_AudioCount: 0	TermCount: 0	MergeCount: 1
+I1_AudioCount: 20	TermCount: 11930	MergeCount: 1
+I5_AudioCount: 80	TermCount: 82477	MergeCount: 1
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000
+I0_AudioCount: 0	TermCount: 0	MergeCount: 1
+I1_AudioCount: 20	TermCount: 11930	MergeCount: 1
+I5_AudioCount: 80	TermCount: 82477	MergeCount: 1

@@ -1,0 +1,8 @@
+Sum: 100	TotalTermSum:4122	IndexTermUnit: 8000000 SumTime: 0.0191901 Times: 1 Average: 0.019190073
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	SumTime: 1.12761	MaxResidentMemory(MB): 195
+Sum: 100	TotalTermSum:4122	IndexTermUnit: 8000000 SumTime: 0.018919 Times: 1 Average: 0.018918991
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	SumTime: 1.11196	MaxResidentMemory(MB): 195
+Sum: 100	TotalTermSum:4122	IndexTermUnit: 8000000 SumTime: 0.0231109 Times: 1 Average: 0.023110867
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	SumTime: 1.26067	MaxResidentMemory(MB): 196
+Sum: 100	TotalTermSum:4122	IndexTermUnit: 8000000 SumTime: 0.020649 Times: 1 Average: 0.020648956
+Sum: 100	TotalTermSum: 94407	IndexTermUnit: 8000000	SumTime: 1.26494	MaxResidentMemory(MB): 195
