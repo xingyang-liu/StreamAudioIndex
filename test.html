@@ -1,42 +1,166 @@
-<!doctype html>
-<html>
-	<head>
-<style>
-	textarea {
-		display: block;
-		min-width: 320px;
-		min-height: 180px;
-	}
-</style>
+<!DOCTYPE html>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		
+	  	<title>XMLY-DEMO</title>
+	  	<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+  		<script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+  		<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  		<link rel="stylesheet" href="jqueryui/style.css">
+	  	<style>
+	  	#red, #green, #blue, #purple {
+	    	float: auto;
+	    	clear: left;
+	    	width: 400px;
+	    	margin: 15px;
+	  	}
+	  	#red .ui-slider-range { background: #ef2929; }
+	  	#red .ui-slider-handle { border-color: #ef2929; }
+	  	#green .ui-slider-range { background: #8ae234; }
+	  	#green .ui-slider-handle { border-color: #8ae234; }
+	  	#blue .ui-slider-range { background: #729fcf; }
+	  	#blue .ui-slider-handle { border-color: #729fcf; }
+	  	#purple .ui-slider-range { background: #9400D3; }
+	  	#purple .ui-slider-handle { border-color: #9400D3; }
+	  	</style>
+
+	  	<script>
+	  	function hexFromRGB(r, g, b) {
+	    	var hex = [
+		      r.toString( 16 ),
+		      g.toString( 16 ),
+		      b.toString( 16 )
+		    ];
+	    	$.each( hex, function( nr, val ) {
+	      		if ( val.length === 1 ) {
+	        		hex[ nr ] = "0" + val;
+	      		}
+	    	});
+	    	return hex.join( "" ).toUpperCase();
+  		}
+  		$(function() {
+		    $( "#red" ).slider({
+		      orientation: "horizontal",
+		      range: "min",
+		      max: 100,
+		      value: 127,
+		      slide: function( event, ui ) {
+        		$( "#amount_red" ).val(ui.value);
+      			}
+		    });
+			$( "#green" ).slider({
+		      orientation: "horizontal",
+		      range: "min",
+		      max: 100,
+		      value: 127,
+		      slide: function( event, ui ) {
+        		$( "#amount_green" ).val(ui.value);
+      			}
+		    });
+			$( "#blue" ).slider({
+		      orientation: "horizontal",
+		      range: "min",
+		      max: 100,
+		      value: 127,
+		      slide: function( event, ui ) {
+        		$( "#amount_blue" ).val(ui.value);
+      			}
+		    });
+
+		    $( "#purple" ).slider({
+		      orientation: "horizontal",
+		      range: "min",
+		      max: 50,
+		      step: 5,
+		      value: 127,
+		      slide: function( event, ui ) {
+        		$( "#amount_purple" ).val(ui.value);
+      			}
+		    });
+
+		    $( "#red" ).slider( "value", 20 );
+		    $( "#green" ).slider( "value", 20 );
+		    $( "#blue" ).slider( "value", 60 );
+		    $( "#amount_red" ).val( $( "#red" ).slider( "value"));
+		    $( "#amount_green" ).val( $( "#green" ).slider( "value"));
+		    $( "#amount_blue" ).val( $( "#blue" ).slider( "value"));
+
+			$("#purple").slider("value",10);
+			$("#amount_purple").val( $( "#purple" ).slider( "value"));
+
+
+		 });
+	  	</script>
+
 	</head>
 	<body>
-		<textarea id="text-input"></textarea>
-		<button id="submit-btn">submit</button>
-		<textarea id="text-output"></textarea>
+		<div align="center">
+			<textarea id="text-input" style="display: block;min-width: 800px;min-height: 50px;"></textarea>
+
+			<form name="form1" method="post">
+	        	Enhance:
+	        	<input type="radio" name="Question1" id="Enhan_Radio" value="yes">Y
+	        	<input type="radio" name="Question1" id="Enhan_Radio" value="no">N
+	        </form>
+
+	        <div id="purple"></div>
+	        <p>
+		  		<label for="amount_red">The Num of Answer:</label>
+		  		<input type="text" id="amount_purple" style="border:0; color:#f6931f; font-weight:bold;">
+			</p>
+		
+			<div id="red"></div>
+			<p>
+		  		<label for="amount_red">Weight of Freshness:</label>
+		  		<input type="text" id="amount_red" style="border:0; color:#f6931f; font-weight:bold;">
+			</p>
+			
+			<div id="green"></div>
+			<p>
+		  		<label for="amount_green">Weight of Significance:</label>
+		  		<input type="text" id="amount_green" style="border:0; color:#f6931f; font-weight:bold;">
+			</p>
+			<div id="blue"></div>
+			<p>
+		  		<label for="amount_blue">Weight of Similarity:</label>
+		  		<input type="text" id="amount_blue" style="border:0; color:#f6931f; font-weight:bold;">
+			</p>
+			<button id="submit-btn">submit</button>
+			<!--<textarea id="text-output" style="display: block;min-width: 800px;min-height: 600px;"></textarea>-->
+			<div id="myDiv"><h2>搜索结果显示区</h2></div>
+		</div>
+
+		
+		
 		<!-- <p id="text-output"></p> -->
 		<!-- <textarea id="text"></textarea> -->
 	<script>
 		let input_elem = document.querySelector('#text-input');
-		let output_elem = document.querySelector('#text-output');
+//		let output_elem = document.querySelector('#text-output');
 		let submit_btn = document.querySelector('#submit-btn');
 		// let test = document.querySelector('#text');
 		submit_btn.addEventListener('click', (evt) => {
 			// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
-			let req = fetch('http://172.25.102.36:8080/', {
+			obj = {"Query":input_elem.value,"Enhance":document.getElementById("Enhan_Radio").checked,"weight_fre":$( "#red" ).slider( "value" ),"weight_sig":$( "#green" ).slider( "value" ),"weight_sim":$( "#blue" ).slider( "value"),"answer_num":$( "#purple" ).slider( "value")};
+			js=JSON.stringify(obj);
+			let req = fetch('http://172.26.186.107:8080/', {	
 				method: 'POST', 
-				body: input_elem.value
+				// JSON.document
+				body: js
 			}).then((reply) => {
 				// https://developer.mozilla.org/en-US/docs/Web/API/Response#Methods
 				return reply.text();
 			}).then((json_str) => {
 				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
 				let obj = JSON.parse(json_str);
-				// document.getElementById("text-output").innerHTML= obj.content;
-				output_elem.value = obj.content;
+				document.getElementById("myDiv").innerHTML= obj.content;
+//				output_elem.value = obj.content;
 				// test = obj.link
 				console.log(obj);
 			});
 		});
 	</script>
-	</body>
-</html>
+	
+
+</body></html>
