@@ -11,7 +11,7 @@ StreamIndex is an open-source stream data index project. It will help you to imp
 **Install Python Dependency** 
 
 ```shell
-sudo pip install scipy, numpy
+sudo pip install scipy numpy
 ```
 **Install Essentia**
 
