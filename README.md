@@ -24,7 +24,7 @@ sudo apt-get install build-essential libyaml-dev libfftw3-dev libavcodec-dev lib
 sudo apt-get install python-numpy-dev python-numpy python-yaml
 sudo apt-get install autoconf
 ```
-The version of cmake should be 3.7 or higher.
+The version of cmake should be 3.5 or higher.
 
 Then users can compile Essentia.
 
