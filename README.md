@@ -22,6 +22,7 @@ In order to process the audio, we need to install [Essentia](http://essentia.upf
 ```shell
 sudo apt-get install build-essential libyaml-dev libfftw3-dev libavcodec-dev libavformat-dev libavutil-dev libavresample-dev python-dev libsamplerate0-dev libtag1-dev
 sudo apt-get install python-numpy-dev python-numpy python-yaml
+sudo apt-get install autoconf
 ```
 
 Then users can compile Essentia.
@@ -55,12 +56,16 @@ make
 For sake of using snapshot, [SSDB for C++](https://github.com/ideawu/ssdb) is fundamental.
 
 ```shell
-wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zipunzip mastercd ssdb-mastermakesudo make install
+wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zip
+unzip master
+cd ssdb-master
+make
+sudo make install
 ```
 Before running the index, we should run the server in advance.
 
 ```shell
-./ssdb-server ssdb.conf
+./ssdb-server ssdb.conf &
 ```
 
 ### Building
@@ -75,6 +80,7 @@ Then we create a directory to build the project.
 
 ```shell
 mkdir build/
+cd build
 cmake ..
 make
 ```
