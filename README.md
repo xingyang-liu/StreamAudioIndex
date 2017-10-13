@@ -80,6 +80,7 @@ Then we create a directory to build the project.
 
 ```shell
 mkdir build/
+cd build
 cmake ..
 make
 ```
