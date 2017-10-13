@@ -35,9 +35,33 @@ cd essentia-master/
 ```
 **Install C++ Dependency**
 
-1. Download cpp-btree and install it from [Google-CppBtree](https://code.google.com/archive/p/cpp-btree/)
-2. In order to run string demo, you may have to install [CppJieba](https://github.com/yanyiwu/cppjieba)
-3. For sake of using snapshot, [SSDB for C++](https://github.com/ideawu/ssdb) is fundamental.
+Download cpp-btree and install it from [Google-CppBtree](https://code.google.com/archive/p/cpp-btree/)
+
+```shell
+cd cpp-btree-1.0.1/
+cmake . -Dbuild_tests=ON
+```
+
+In order to run string demo, you may have to install [CppJieba](https://github.com/yanyiwu/cppjieba)
+
+```shell
+git clone --depth=10 --branch=master git://github.com/yanyiwu/cppjieba.git
+cd cppjieba
+mkdir build
+cd build
+cmake ..
+make
+```
+For sake of using snapshot, [SSDB for C++](https://github.com/ideawu/ssdb) is fundamental.
+
+```shell
+wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zipunzip mastercd ssdb-mastermakesudo make install
+```
+Before running the index, we should run the server in advance.
+
+```shell
+./ssdb-server ssdb.conf
+```
 
 ### Building
 
