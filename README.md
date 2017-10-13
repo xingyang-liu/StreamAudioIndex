@@ -65,7 +65,7 @@ sudo make install
 Before running the index, we should run the server in advance.
 
 ```shell
-./ssdb-server ssdb.conf
+./ssdb-server ssdb.conf &
 ```
 
 ### Building
