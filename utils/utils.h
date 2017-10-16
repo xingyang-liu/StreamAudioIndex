@@ -26,10 +26,10 @@
 #include <fcntl.h>
 #include "../cpp-btree-1.0.1/btree_map.h"
 #include "../BasicStructure/IdfCode.h"
-#include "/home/billy/Download/cppjieba/include/cppjieba/Jieba.hpp"
-#include "rapidjson/document.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include "../cppjieba/include/cppjieba/Jieba.hpp"
+//#include "rapidjson/document.h"
+//#include "rapidjson/writer.h"
+//#include "rapidjson/stringbuffer.h"
 
 
 using namespace std;
