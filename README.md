@@ -11,6 +11,7 @@ StreamIndex is an open-source stream data index project. It will help you to imp
 **Install Python Dependency** 
 
 ```shell
+sudo apt-get install python3-dev
 sudo pip install scipy numpy
 ```
 **Install Essentia**
@@ -23,6 +24,9 @@ In order to process the audio, we need to install [Essentia](http://essentia.upf
 sudo apt-get install build-essential libyaml-dev libfftw3-dev libavcodec-dev libavformat-dev libavutil-dev libavresample-dev python-dev libsamplerate0-dev libtag1-dev
 sudo apt-get install python-numpy-dev python-numpy python-yaml
 sudo apt-get install autoconf
+sudo apt-get install libgflags-dev
+sudo apt-get install libgtest-dev
+sudo apt-get install rapidjson-dev
 ```
 The version of cmake should be 3.5 or higher.
 
@@ -54,6 +58,8 @@ cd build
 cmake ..
 make
 ```
+CppJieba requires some files in limonp [limonp](https://github.com/yanyiwu/limonp). You need to download the limonp, and put the files in ```limonp/include/limonp/``` under ```cppjieba/include/limonp/```.
+
 For sake of using snapshot, [SSDB for C++](https://github.com/ideawu/ssdb) is fundamental.
 
 ```shell
