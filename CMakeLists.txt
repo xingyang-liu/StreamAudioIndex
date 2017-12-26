@@ -3,6 +3,9 @@ project(StreamAudioIndex)
 
 set(CMAKE_CXX_STANDARD 11)
 
+include_directories(/usr/include/python3.5/)
+find_package(Threads REQUIRED)
+
 set(SOURCE_FILES
         BasicStructure/AudioInfo.cpp
         BasicStructure/AudioInfo.h
@@ -15,17 +18,17 @@ set(SOURCE_FILES
         BasicStructure/ProgramList.cpp
         BasicStructure/ProgramList.h
         cpp-btree-1.0.1/btree.h
-        cpp-btree-1.0.1/btree_bench.cc
+#        cpp-btree-1.0.1/btree_bench.cc
         cpp-btree-1.0.1/btree_container.h
         cpp-btree-1.0.1/btree_map.h
         cpp-btree-1.0.1/btree_set.h
-        cpp-btree-1.0.1/btree_test.cc
+#        cpp-btree-1.0.1/btree_test.cc
         cpp-btree-1.0.1/btree_test.h
-        cpp-btree-1.0.1/btree_test_flags.cc
+#        cpp-btree-1.0.1/btree_test_flags.cc
         cpp-btree-1.0.1/safe_btree.h
         cpp-btree-1.0.1/safe_btree_map.h
         cpp-btree-1.0.1/safe_btree_set.h
-        cpp-btree-1.0.1/safe_btree_test.cc
+#        cpp-btree-1.0.1/safe_btree_test.cc
         HybridIndex/HybridIndexManager.cpp
         HybridIndex/HybridIndexManager.h
         I0Sort/I0SortThreadFre.h
@@ -59,3 +62,4 @@ set(SOURCE_FILES
         main.cpp)
 
 add_executable(StreamAudioIndex ${SOURCE_FILES})
+target_link_libraries(StreamAudioIndex python3.5m pthread)
