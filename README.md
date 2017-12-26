@@ -30,6 +30,11 @@ sudo apt-get install rapidjson-dev
 ```
 The version of cmake should be 3.5 or higher.
 
+Make sure the libraries such as python are avaialbe.
+```shell
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/
+```
+
 Then users can compile Essentia.
 
 ```shell
