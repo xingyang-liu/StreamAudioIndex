@@ -13,6 +13,7 @@ StreamIndex is an open-source stream data index project. It will help you to imp
 ```shell
 sudo apt-get install python3-dev
 sudo pip install scipy numpy
+sudo pip install baidu-aip
 ```
 **Install Essentia**
 
@@ -42,7 +43,7 @@ git clone https://github.com/MTG/essentia.git
 cd essentia-master/
 ./waf configure --mode=release --build-static --with-python --with-cpptests --with-examples --with-vamp
 ./waf
-./waf install
+sudo ./waf install
 ```
 **Install C++ Dependency**
 
